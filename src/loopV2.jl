@@ -1,5 +1,6 @@
 """
-Epi(k,m)
+    Epi(k,m)
+
 compute ``\\sqrt (x^2+m)``
 """
 function Epi(q, m2)
