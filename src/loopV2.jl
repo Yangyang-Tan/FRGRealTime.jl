@@ -25,7 +25,9 @@ end
 @doc raw"""
     star1funpm(qp, qm, ps, m, T)
 
-compute $\mathcal{F}_{1}^{\prime}\left(q_{+}, q_{-}, p, \bar{m}_{\pi, k}^{2}\right)$
+compute $\frac{1}{\pi}\mathcal{F}_{1}^{\prime}\left(q_{+}, q_{-}, p, \bar{m}_{\pi, k}^{2}\right)$
+
+Compared with $\mathcal{F}$, the $\mathcal{F'}$ has subtracted vacuum contributions. it will be used in $\mathrm{Im} I_2$
 """
 function star1funpm(qp, qm, ps, m, T)
     (2 * π)^-2 *
@@ -36,6 +38,11 @@ function star1funpm(qp, qm, ps, m, T)
 end
 
 
+@doc raw"""
+    star2fun(qp, qm, ps, k, m, T)
+
+compute $\frac{1}{\pi}\mathcal{F}_{2}\left(q_{+}, q_{-}, k, p, \bar{m}_{\pi, k}^{2}\right)$
+"""
 function star2fun(qp, qm, ps, k, m, T)
     (2 * π)^-2 *
     (4 * ps)^-1 *
@@ -48,7 +55,11 @@ function star2fun(qp, qm, ps, k, m, T)
 end
 
 
+@doc raw"""
+    star2funpm(qp, qm, ps, k, m, T)
 
+compute $\frac{1}{\pi}\mathcal{F}^{\prime}_{2}\left(q_{+}, q_{-}, k, p, \bar{m}_{\pi, k}^{2}\right)$
+"""
 function star2funpm(qp, qm, ps, k, m, T)
     (
         (k - qm) * (k + qm) * (-1 + coth(Epi(k, m) / (2 * T))) +
@@ -60,7 +71,11 @@ function star2funpm(qp, qm, ps, k, m, T)
 end
 
 
+@doc raw"""
+    star3fun(qp, ps, k, m, T)
 
+compute $\frac{1}{\pi}\mathcal{F}_{3}\left(q_{+},k, p, \bar{m}_{\pi, k}^{2}\right)$
+"""
 function star3fun(qp, ps, k, m, T)
     (2 * π)^-2 *
     (4 * Epi(k, m))^-1 *
@@ -69,10 +84,18 @@ function star3fun(qp, ps, k, m, T)
     (1 - (qp^2 + ps^2 - k^2) / (2 * qp * ps))
 end
 
+
+@doc raw"""
+    star3funpm(qp, ps, k, m, T)
+
+compute $\frac{1}{\pi}\mathcal{F}^{\prime}_{3}\left(q_{+}, k, p, \bar{m}_{\pi, k}^{2}\right)$
+"""
 function star3funpm(qp, ps, k, m, T)
     ((k + ps - qp) * (k - ps + qp) * (-1 + coth(Epi(qp, m) / (2 * T)))) /
     (32 * pi^2 * ps * Epi(k, m))
 end
+
+
 
 function loopfunpmfix(p0, ps, k, m, T)
     if m >= 0
