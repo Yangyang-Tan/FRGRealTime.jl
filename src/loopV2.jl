@@ -22,7 +22,11 @@ function star1fun(qp, qm, ps, m, T)
     )
 end
 
+@doc raw"""
+    star1funpm(qp, qm, ps, m, T)
 
+compute $\mathcal{F}_{1}^{\prime}\left(q_{+}, q_{-}, p, \bar{m}_{\pi, k}^{2}\right)$
+"""
 function star1funpm(qp, qm, ps, m, T)
     (2 * π)^-2 *
     (4 * ps)^-1 *
