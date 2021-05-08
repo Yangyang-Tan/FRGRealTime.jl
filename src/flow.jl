@@ -16,7 +16,7 @@ function flowpp(p0, ps, k, m, T,δ=0.02)
         elseif 2 * Epi(k, m) < p0 < Epi(k + ps, m) + Epi(k, m)
             return ppfun(p0, ps, k, Epi(k, m), T)
         elseif 2 * Epi(k - δ, m) <= p0 <= 2 * Epi(k, m)
-            return -peak(p0, ps, m, T)
+            return -peak(p0, ps, m, T,δ)
         elseif p0 < 2 * Epi(k - δ, m)
             return 0.0
         end
@@ -32,47 +32,6 @@ function flowpp(p0, ps, k, m, T,δ=0.02)
         end
     end
 end
-function ppfun(p0, ps, k, Ek, T)
-    (
-        k * (
-            (
-                2 *
-                (
-                    p0^2 * (sqrt(k^2 - 2 * Ek * p0 + p0^2) - 2 * ps) +
-                    2 * Ek * p0 * ps +
-                    ps *
-                    (2 * Ek^2 - 2 * k^2 + sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps)
-                ) *
-                coth(Ek / (2 * T))
-            ) / sqrt(k^2 + p0 * (-2 * Ek + p0)) -
-            (
-                2 *
-                (
-                    p0^2 * (sqrt(k^2 - 2 * Ek * p0 + p0^2) - 2 * ps) +
-                    2 * Ek * p0 * ps +
-                    ps *
-                    (2 * Ek^2 - 2 * k^2 + sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps)
-                ) *
-                coth((Ek - p0) / (2 * T))
-            ) / sqrt(k^2 + p0 * (-2 * Ek + p0)) -
-            (
-                16 *
-                Ek *
-                exp((2 * Ek + p0) / T) *
-                (
-                    2 * Ek * T * cosh(p0 / (2 * T)) -
-                    2 * Ek * T * cosh((-2 * Ek + p0) / (2 * T)) +
-                    (
-                        -2 * Ek * p0 + p0^2 -
-                        2 * sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps + ps^2
-                    ) * sinh((2 * Ek - p0) / (2 * T))
-                ) *
-                sinh(p0 / (2 * T))
-            ) / (T * (-1 + exp(Ek / T))^2 * (exp(Ek / T) - exp(p0 / T))^2)
-        )
-    ) / (64 * Ek^3 * pi^2 * ps)
-end
-
 
 @doc raw"""
     flowpm(p0, ps, k, m, T)
@@ -96,6 +55,118 @@ function flowpm(p0, ps, k, m, T)
         end
     end
 end
+
+
+
+function flowpp_intcostheqs(p0, ps, qsmax, k, m, T)
+    if p0 <= 2 * Epi(k, m)
+        return 0.0
+    elseif p0 > 2 * Epi(k, m)
+        Ek2 = sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0))
+        Ek = sqrt(k^2 + m)
+        if ps >= k + Ek2 + qsmax
+            return 0.0
+        elseif k + Ek2 <= ps < k + Ek2 + qsmax
+            return ppfuncostheps1(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 + k - qsmax <= ps < k + Ek2
+            return ppfuncostheps2(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 <= ps < Ek2 + k - qsmax
+            return ppfuncostheps3(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 - k + qsmax <= ps < Ek2
+            return ppfuncostheps4(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 - k <= ps < Ek2 - k + qsmax && qsmax <= ps
+            return ppfuncostheps5(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 - k <= ps < qsmax && ps >= -Ek2 + k + qsmax
+            return ppfuncostheps6(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 - k <= ps < qsmax && ps < -Ek2 + k + qsmax
+            return ppfuncostheps7(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 - k - qsmax < ps < Ek2 - k &&
+               ps <= (Ek2 - k) / 2 &&
+               Ek2 - k + ps <= qsmax
+            return ppfuncostheps8(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 - k - qsmax < ps < Ek2 - k &&
+               ps <= (Ek2 - k) / 2 &&
+               Ek2 - k + ps > qsmax
+            return ppfuncostheps9(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 - k - qsmax < ps < Ek2 - k &&
+               ps > (Ek2 - k) / 2 &&
+               Ek2 - k + ps <= qsmax
+            return ppfuncostheps10(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif Ek2 - k - qsmax < ps < Ek2 - k &&
+               ps > (Ek2 - k) / 2 &&
+               Ek2 - k + ps > qsmax
+            return ppfuncostheps11(p0, ps, qsmax, k, Ek, Ek2, T)
+        elseif ps <= Ek2 - k - qsmax
+            return 0.0
+        end
+    end
+end
+
+function flowpm_intcostheqs(p0, ps, qsmax, k, m, T)
+    Ek1 = sqrt(k^2 + p0 * (2 * sqrt(k^2 + m) + p0))
+    Ek = sqrt(k^2 + m)
+    # println(ps-qsmax,",",Ek1 - k)
+    if ps > Ek1 + k + qsmax
+        return 0.0
+    elseif Ek1 + k < ps < Ek1 + k + qsmax
+        #check
+        return pmfuncostheps6(p0, ps, qsmax, k, Ek, Ek1, T)
+    elseif Ek1 + k - qsmax < ps < Ek1 + k
+        return pmfuncostheps8(p0, ps, qsmax, k, Ek, Ek1, T)
+    elseif Ek1 < ps < Ek1 + k - qsmax
+        return pmfuncostheps7(p0, ps, qsmax, k, Ek, Ek1, T)
+    elseif Ek1 - k + qsmax <= ps < Ek1
+        return pmfuncostheps9(p0, ps, qsmax, k, Ek, Ek1, T)
+    elseif Ek1 - k <= ps < Ek1 - k + qsmax
+        if p0 >= -sqrt(k^2 + m) + sqrt(m + (k + qsmax)^2)
+            return pmfuncostheps10(p0, ps, qsmax, k, Ek, Ek1, T)
+        elseif p0 < -sqrt(k^2 + m) + sqrt(m + (k + qsmax)^2)
+            if ps <= qsmax / 2
+                return pmfuncostheps11(p0, ps, qsmax, k, Ek, Ek1, T)
+            elseif qsmax >= ps > qsmax / 2 && qsmax - ps >= Ek1 - k
+                return pmfuncostheps11(p0, ps, qsmax, k, Ek, Ek1, T)
+            elseif qsmax >= ps > qsmax / 2 && qsmax - ps < Ek1 - k
+                return pmfuncostheps12(p0, ps, qsmax, k, Ek, Ek1, T)
+            elseif ps > qsmax
+                return pmfuncostheps12(p0, ps, qsmax, k, Ek, Ek1, T)
+                # elseif ps > qsmax &&ps-qsmax > Ek1 - k
+                #     println("su2")
+                #     return pmfuncostheps13(p0, ps, qsmax, k, Ek, Ek1, T)
+            end
+        end
+    elseif ps < Ek1 - k
+        if ps <= -k + Ek1 - qsmax
+            return 0.0
+        elseif ps > -k + Ek1 - qsmax && ps >= qsmax
+            return pmfuncostheps14(p0, ps, qsmax, k, Ek, Ek1, T)
+        elseif ps > -k + Ek1 - qsmax &&
+               ps < qsmax &&
+               ps <= (Ek1 - k) / 2 &&
+               Ek1 - k + ps <= qsmax
+            return pmfuncostheps15(p0, ps, qsmax, k, Ek, Ek1, T)
+        elseif ps > -k + Ek1 - qsmax &&
+               ps < qsmax &&
+               ps <= (Ek1 - k) / 2 &&
+               Ek1 - k + ps > qsmax
+            return pmfuncostheps16(p0, ps, qsmax, k, Ek, Ek1, T)
+        elseif ps > -k + Ek1 - qsmax &&
+               ps < qsmax &&
+               ps > (Ek1 - k) / 2 &&
+               Ek1 - k + ps <= qsmax
+            return pmfuncostheps17(p0, ps, qsmax, k, Ek, Ek1, T)
+        elseif ps > -k + Ek1 - qsmax &&
+               ps < qsmax &&
+               ps > (Ek1 - k) / 2 &&
+               Ek1 - k + ps > qsmax
+            return pmfuncostheps18(p0, ps, qsmax, k, Ek, Ek1, T)
+        end
+    end
+end
+
+
+
+
+
 
 
 
@@ -391,117 +462,6 @@ function pmfunps(p0, psmax, k, m, T)
 end
 
 
-function pmfun_zerofix(p0, p, k, m, T,a)
-    (
-        k *
-        (2 * k - p) *
-        csch(Epi(k, m) / (2 * T))^2 *
-        (
-            2 * (2 * k - p) * (4 * k + p) * T +
-            (2 * k - p) * (4 * k + p) * coth(Epi(k, m) / (2 * T)) * Epi(k, m) -
-            24 * T * Epi(k, m)^2
-        ) *
-        (-1 + tanh(10^a * p0))
-    ) / (768 * pi^2 * T^2 * Epi(k, m)^4)
-end
-
-function pmfunps_zerofix(p0, psmax, k, m, T,a)
-    (
-        k *
-        psmax^3 *
-        (1 + coth(Epi(k, m) / (2 * T))) *
-        (
-            2 * (32 * k^3 - 18 * k^2 * psmax + psmax^3) * T +
-            (32 * k^3 - 18 * k^2 * psmax + psmax^3) *
-            coth(Epi(k, m) / (2 * T)) *
-            Epi(k, m) +
-            12 * (-8 * k + 3 * psmax) * T * Epi(k, m)^2
-        ) *
-        (-1 + tanh(10^a * p0))
-    ) / (2304 * pi^2 * T^2 * Epi(k, m)^4 * (-1 + exp(Epi(k, m) / T)))
-end
-
-
-function pmfun(p0, ps, k, Ek, T)
-    (
-        4 *
-        Ek^2 *
-        k *
-        ((1 - exp(Ek / T))^(-1) + (-1 + exp((Ek + p0) / T))^(-1)) +
-        (
-            k *
-            csch(Ek / (2 * T))^2 *
-            csch((Ek + p0) / (2 * T))^2 *
-            sinh(p0 / (2 * T)) *
-            (
-                (
-                    -(p0^2 * (sqrt(k^2 + 2 * Ek * p0 + p0^2) - 2 * ps)) +
-                    2 * Ek * p0 * ps -
-                    ps *
-                    (2 * Ek^2 - 2 * k^2 + sqrt(k^2 + 2 * Ek * p0 + p0^2) * ps)
-                ) *
-                T *
-                cosh(p0 / (2 * T)) +
-                (
-                    p0^2 * (sqrt(k^2 + 2 * Ek * p0 + p0^2) - 2 * ps) -
-                    2 * Ek * p0 * ps +
-                    ps *
-                    (2 * Ek^2 - 2 * k^2 + sqrt(k^2 + 2 * Ek * p0 + p0^2) * ps)
-                ) *
-                T *
-                cosh((2 * Ek + p0) / (2 * T)) +
-                Ek *
-                (
-                    2 * Ek * p0 * sqrt(k^2 + p0 * (2 * Ek + p0)) +
-                    p0^2 * sqrt(k^2 + p0 * (2 * Ek + p0)) - 4 * Ek * p0 * ps -
-                    2 * (k^2 + p0^2) * ps +
-                    sqrt(k^2 + p0 * (2 * Ek + p0)) * ps^2
-                ) *
-                sinh((2 * Ek + p0) / (2 * T))
-            )
-        ) / (2 * sqrt(k^2 + p0 * (2 * Ek + p0)) * T)
-    ) / (32 * Ek^3 * pi^2 * ps)
-end
-
-
-
-
-
-
-function peak(p0, ps, m2, T)
-    ((sqrt(-4 * m2 + p0^2) - ps) * coth(p0 / (4 * T))) / (8 * p0 * δ * pi^2)
-end
-
-
-
-
-function flowpm(p0, ps, k, m, T)
-    if k > ps / 2
-        if p0 > Epi(k + ps, m) - Epi(k, m)
-            return 0.0
-        elseif p0 <= Epi(k + ps, m) - Epi(k, m)
-            return pmfun(p0, ps, k, Epi(k, m), T)
-        end
-    elseif k <= ps / 2
-        if p0 > Epi(k + ps, m) - Epi(k, m)
-            return 0.0
-        elseif Epi(k - ps, m) - Epi(k, m) < p0 <= Epi(k + ps, m) - Epi(k, m)
-            return pmfun(p0, ps, k, Epi(k, m), T)
-        elseif p0 <= Epi(k - ps, m) - Epi(k, m)
-            return 0.0
-        end
-    end
-end
-
-
-function flowpm(p0, k, m, T)
-    if p0 > 0.0
-        return 0.0
-    elseif p0 <= 0
-        return pmfun(p0, ps, k, Epi(k, m), T)
-    end
-end
-
 function flowpm_ps(p0, ps, k, m, T)
     if 0.0 <= ps <= -k + sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2)
         return 0.0
@@ -517,27 +477,6 @@ function flowpm_intps(p0, psmax, k, m, T)
         return 0.0
     end
 end
-
-
-
-
-
-
-
-
-
-
-function flowpp2(p0, k, m, T)
-    if p0 >= 2 * Epi(k, m)
-        return 0.0
-    elseif 2 * Epi(k - δ, m) <= p0 < 2 * Epi(k, m)
-        return -peak(p0, ps, m, T)
-    elseif p0 < 2 * Epi(k - δ, m)
-        return 0.0
-    end
-end
-
-
 
 
 
