@@ -1,7 +1,7 @@
 """
     Epi(k,m)
 
-compute ``\\sqrt (x^2+m)``
+compute ``\\sqrt{(x^2+m)}``
 """
 function Epi(q, m2)
     sqrt(q^2 + m2)
