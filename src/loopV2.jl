@@ -7,7 +7,9 @@ function Epi(q, m2)
     sqrt(q^2 + m2)
 end
 
-
+"""
+star1fun
+"""
 function star1fun(qp, qm, ps, m, T)
     (2 * π)^-2 *
     (4 * ps)^-1 *
