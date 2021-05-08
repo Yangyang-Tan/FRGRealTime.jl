@@ -4,8 +4,8 @@ using HCubature,
 
 export Epi
 
-include("loopV2.jl")
-
+include("loop.jl")
+include("flow.jl")
 
 
 end
