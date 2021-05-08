@@ -19,5 +19,9 @@ makedocs(;
 )
 
 deploydocs(;
+    target = "build",
     repo="github.com/Yangyang-Tan/FRGRealTime.jl",
+    branch = "gh-pages",
+    devbranch = "master",
+    devurl = "dev",
 )
