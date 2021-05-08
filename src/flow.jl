@@ -6,7 +6,7 @@ compute $-\frac{1}{\pi}\tilde{\partial_k}\Im I_{1, k}(p)$
 To be noticed that, `flowpp` doesn't constains $\tilde{\partial_k}\mathcal{F}_4$,
 we will consider it seperately.
 
-At $p_0=2E_{pi,k}$, `flowpp` has a $\delta$ function contribution, we use a rectangle
+At $p_0=2E_{\pi,k}$, `flowpp` has a $\delta$ function contribution, we use a rectangle
 function with width $\delta$ to approximate.
 """
 function flowpp(p0, ps, k, m, T,δ=0.02)
@@ -32,6 +32,72 @@ function flowpp(p0, ps, k, m, T,δ=0.02)
         end
     end
 end
+function ppfun(p0, ps, k, Ek, T)
+    (
+        k * (
+            (
+                2 *
+                (
+                    p0^2 * (sqrt(k^2 - 2 * Ek * p0 + p0^2) - 2 * ps) +
+                    2 * Ek * p0 * ps +
+                    ps *
+                    (2 * Ek^2 - 2 * k^2 + sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps)
+                ) *
+                coth(Ek / (2 * T))
+            ) / sqrt(k^2 + p0 * (-2 * Ek + p0)) -
+            (
+                2 *
+                (
+                    p0^2 * (sqrt(k^2 - 2 * Ek * p0 + p0^2) - 2 * ps) +
+                    2 * Ek * p0 * ps +
+                    ps *
+                    (2 * Ek^2 - 2 * k^2 + sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps)
+                ) *
+                coth((Ek - p0) / (2 * T))
+            ) / sqrt(k^2 + p0 * (-2 * Ek + p0)) -
+            (
+                16 *
+                Ek *
+                exp((2 * Ek + p0) / T) *
+                (
+                    2 * Ek * T * cosh(p0 / (2 * T)) -
+                    2 * Ek * T * cosh((-2 * Ek + p0) / (2 * T)) +
+                    (
+                        -2 * Ek * p0 + p0^2 -
+                        2 * sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps + ps^2
+                    ) * sinh((2 * Ek - p0) / (2 * T))
+                ) *
+                sinh(p0 / (2 * T))
+            ) / (T * (-1 + exp(Ek / T))^2 * (exp(Ek / T) - exp(p0 / T))^2)
+        )
+    ) / (64 * Ek^3 * pi^2 * ps)
+end
+
+
+@doc raw"""
+    flowpm(p0, ps, k, m, T)
+
+compute $-\frac{1}{\pi}\tilde{\partial_k}\Im I_{2, k}(p)$
+"""
+function flowpm(p0, ps, k, m, T)
+    if k > ps / 2
+        if p0 > Epi(k + ps, m) - Epi(k, m)
+            return 0.0
+        elseif p0 <= Epi(k + ps, m) - Epi(k, m)
+            return pmfun(p0, ps, k, Epi(k, m), T)
+        end
+    elseif k <= ps / 2
+        if p0 > Epi(k + ps, m) - Epi(k, m)
+            return 0.0
+        elseif Epi(k - ps, m) - Epi(k, m) < p0 <= Epi(k + ps, m) - Epi(k, m)
+            return pmfun(p0, ps, k, Epi(k, m), T)
+        elseif p0 <= Epi(k - ps, m) - Epi(k, m)
+            return 0.0
+        end
+    end
+end
+
+
 
 
 integroconst(p0, ps) = p0 / (16 * pi^2 * ps)
@@ -92,47 +158,6 @@ function deltasumps(p0, psmax, k, m2, T)
 end
 
 
-
-function ppfun(p0, ps, k, Ek, T)
-    (
-        k * (
-            (
-                2 *
-                (
-                    p0^2 * (sqrt(k^2 - 2 * Ek * p0 + p0^2) - 2 * ps) +
-                    2 * Ek * p0 * ps +
-                    ps *
-                    (2 * Ek^2 - 2 * k^2 + sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps)
-                ) *
-                coth(Ek / (2 * T))
-            ) / sqrt(k^2 + p0 * (-2 * Ek + p0)) -
-            (
-                2 *
-                (
-                    p0^2 * (sqrt(k^2 - 2 * Ek * p0 + p0^2) - 2 * ps) +
-                    2 * Ek * p0 * ps +
-                    ps *
-                    (2 * Ek^2 - 2 * k^2 + sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps)
-                ) *
-                coth((Ek - p0) / (2 * T))
-            ) / sqrt(k^2 + p0 * (-2 * Ek + p0)) -
-            (
-                16 *
-                Ek *
-                exp((2 * Ek + p0) / T) *
-                (
-                    2 * Ek * T * cosh(p0 / (2 * T)) -
-                    2 * Ek * T * cosh((-2 * Ek + p0) / (2 * T)) +
-                    (
-                        -2 * Ek * p0 + p0^2 -
-                        2 * sqrt(k^2 - 2 * Ek * p0 + p0^2) * ps + ps^2
-                    ) * sinh((2 * Ek - p0) / (2 * T))
-                ) *
-                sinh(p0 / (2 * T))
-            ) / (T * (-1 + exp(Ek / T))^2 * (exp(Ek / T) - exp(p0 / T))^2)
-        )
-    ) / (64 * Ek^3 * pi^2 * ps)
-end
 
 function ppfunps(p0, psmax, k, m, T)
     (
