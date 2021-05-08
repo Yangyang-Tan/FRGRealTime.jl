@@ -1,4 +1,12 @@
 """
+    deltafun(x,dϵ=0.02)
+compute ``\\delta`` function with the approximation ``\\frac{\\epsilon}{\\pi(\\epsilon^2+x^2)}``
+and ``\\epsilon`` is set to be ``0.02`` by default
+"""
+deltafun(x,dϵ=0.02)=dϵ/(pi*(dϵ^2+x^2))
+
+
+"""
     Epi(k,m)
 
 compute ``\\sqrt{(x^2+m)}``
@@ -244,8 +252,7 @@ function loopfunpmfix(p0, ps, k, m, T)
     end
 end
 
-dϵ=0.02
-deltafun(x)=dϵ/(pi*(dϵ^2+x^2))
+
 
 
 
