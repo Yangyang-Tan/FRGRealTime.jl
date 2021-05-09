@@ -289,7 +289,12 @@ function compensate_delta(ps, k, m, T)
     ((2 * k - ps) * coth(Epi(k, m) / (2 * T))) / (16 * pi^2 * Epi(k, m))
 end
 
+@doc raw"""
+    loopfunpp(p0, ps, k, m, T)
 
+compute $-\frac{1}{\pi}\Im I_{2, k}(p)$, but without $\mathcal{F}_4$
+contribution
+"""
 function loopfunpp(p0, ps, k, m, T)
     if k > ps
         if p0 >= Epi(k + ps, m) + Epi(k, m)
