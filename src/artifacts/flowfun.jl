@@ -82,6 +82,212 @@ function pmfun(p0, ps, k, Ek, T)
         ) / (2 * sqrt(k^2 + p0 * (2 * Ek + p0)) * T)
     ) / (32 * Ek^3 * pi^2 * ps)
 end
+
+function ppfunps(p0, psmax, k, m, T)
+    (
+        k *
+        csch(sqrt(k^2 + m) / (2 * T))^2 *
+        csch((sqrt(k^2 + m) - p0) / (2 * T))^2 *
+        (
+            -(
+                (
+                    -8 * k^3 * (m + (sqrt(k^2 + m) - p0) * p0) +
+                    p0^4 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) -
+                    6 *
+                    p0^2 *
+                    sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) *
+                    psmax^2 - 8 * sqrt(k^2 + m) * p0 * psmax^3 +
+                    8 * p0^2 * psmax^3 -
+                    3 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^4 +
+                    4 *
+                    k^2 *
+                    sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0)) *
+                    (2 * m + 2 * sqrt(k^2 + m) * p0 - 3 * p0^2 + 3 * psmax^2) +
+                    4 *
+                    m *
+                    (
+                        -2 * p0^2 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) +
+                        2 *
+                        p0 *
+                        sqrt((k^2 + m) * (k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2)) +
+                        3 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^2 -
+                        2 * psmax^3
+                    )
+                ) *
+                T *
+                cosh(p0 / (2 * T))
+            ) +
+            (
+                -8 * k^3 * (m + (sqrt(k^2 + m) - p0) * p0) +
+                p0^4 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) -
+                6 * p0^2 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^2 -
+                8 * sqrt(k^2 + m) * p0 * psmax^3 + 8 * p0^2 * psmax^3 -
+                3 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^4 +
+                4 *
+                k^2 *
+                sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0)) *
+                (2 * m + 2 * sqrt(k^2 + m) * p0 - 3 * p0^2 + 3 * psmax^2) +
+                4 *
+                m *
+                (
+                    -2 * p0^2 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) +
+                    2 *
+                    p0 *
+                    sqrt((k^2 + m) * (k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2)) +
+                    3 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^2 -
+                    2 * psmax^3
+                )
+            ) *
+            T *
+            cosh((-2 * sqrt(k^2 + m) + p0) / (2 * T)) +
+            (
+                8 * k^5 * (sqrt(k^2 + m) - 2 * p0) +
+                8 * k^3 * p0 * (-2 * m + sqrt(k^2 + m) * p0) +
+                8 *
+                k^4 *
+                (-sqrt(k^2 + m) + p0) *
+                sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0)) +
+                4 *
+                m *
+                p0 *
+                (
+                    p0 *
+                    sqrt((k^2 + m) * (k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2)) -
+                    p0^2 * sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0)) +
+                    (
+                        3 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) -
+                        4 * psmax
+                    ) * psmax^2
+                ) +
+                4 *
+                k^2 *
+                (
+                    -(p0^3 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2)) +
+                    2 * m * p0 * sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0)) +
+                    p0 *
+                    (
+                        3 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) -
+                        4 * psmax
+                    ) *
+                    psmax^2 +
+                    2 * sqrt(k^2 + m) * psmax^3
+                ) +
+                sqrt(k^2 + m) * (
+                    p0^4 * sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0)) -
+                    3 * sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0)) * psmax^4 +
+                    2 *
+                    p0^2 *
+                    psmax^2 *
+                    (
+                        -3 * sqrt(k^2 - 2 * sqrt(k^2 + m) * p0 + p0^2) +
+                        4 * psmax
+                    )
+                )
+            ) * sinh((2 * sqrt(k^2 + m) - p0) / (2 * T))
+        ) *
+        sinh(p0 / (2 * T))
+    ) / (
+        768 *
+        (k^2 + m)^(3 / 2) *
+        sqrt(k^2 + p0 * (-2 * sqrt(k^2 + m) + p0)) *
+        pi^2 *
+        T
+    )
+end
+
+function pmfunps(p0, psmax, k, m, T)
+    -(
+        k *
+        csch(sqrt(k^2 + m) / (2 * T)) *
+        csch((sqrt(k^2 + m) + p0) / (2 * T)) *
+        sinh(p0 / (2 * T)) *
+        (
+            2 *
+            (
+                p0^4 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) +
+                8 * k^3 * (-m + p0 * (sqrt(k^2 + m) + p0)) -
+                6 * p0^2 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^2 +
+                8 * sqrt(k^2 + m) * p0 * psmax^3 +
+                8 * p0^2 * psmax^3 -
+                3 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^4 +
+                4 *
+                k^2 *
+                (
+                    2 * m * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) -
+                    3 * p0^2 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) -
+                    2 *
+                    p0 *
+                    sqrt((k^2 + m) * (k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2)) +
+                    3 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^2
+                ) -
+                4 *
+                m *
+                (
+                    2 * p0^2 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) +
+                    2 *
+                    p0 *
+                    sqrt((k^2 + m) * (k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2)) -
+                    3 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) * psmax^2 +
+                    2 * psmax^3
+                )
+            ) *
+            T +
+            (
+                8 * k^5 * (sqrt(k^2 + m) + 2 * p0) +
+                8 * k^3 * p0 * (2 * m + sqrt(k^2 + m) * p0) +
+                p0^4 * sqrt((k^2 + m) * (k^2 + p0 * (2 * sqrt(k^2 + m) + p0))) -
+                8 *
+                k^4 *
+                (
+                    p0 * sqrt(k^2 + p0 * (2 * sqrt(k^2 + m) + p0)) +
+                    sqrt((k^2 + m) * (k^2 + p0 * (2 * sqrt(k^2 + m) + p0)))
+                ) -
+                6 *
+                p0^2 *
+                sqrt((k^2 + m) * (k^2 + p0 * (2 * sqrt(k^2 + m) + p0))) *
+                psmax^2 + 8 * sqrt(k^2 + m) * p0^2 * psmax^3 -
+                3 *
+                sqrt((k^2 + m) * (k^2 + p0 * (2 * sqrt(k^2 + m) + p0))) *
+                psmax^4 +
+                4 *
+                m *
+                p0 *
+                (
+                    p0^2 * sqrt(k^2 + p0 * (2 * sqrt(k^2 + m) + p0)) +
+                    p0 *
+                    sqrt((k^2 + m) * (k^2 + p0 * (2 * sqrt(k^2 + m) + p0))) +
+                    psmax^2 * (
+                        -3 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) +
+                        4 * psmax
+                    )
+                ) +
+                4 *
+                k^2 *
+                (
+                    p0^3 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) -
+                    2 * m * p0 * sqrt(k^2 + p0 * (2 * sqrt(k^2 + m) + p0)) +
+                    2 * sqrt(k^2 + m) * psmax^3 +
+                    p0 *
+                    psmax^2 *
+                    (
+                        -3 * sqrt(k^2 + 2 * sqrt(k^2 + m) * p0 + p0^2) +
+                        4 * psmax
+                    )
+                )
+            ) *
+            csch(sqrt(k^2 + m) / (2 * T)) *
+            csch((sqrt(k^2 + m) + p0) / (2 * T)) *
+            sinh((2 * sqrt(k^2 + m) + p0) / (2 * T))
+        )
+    ) / (
+        768 *
+        (k^2 + m)^(3 / 2) *
+        sqrt(k^2 + p0 * (2 * sqrt(k^2 + m) + p0)) *
+        pi^2 *
+        T
+    )
+end
+
 function ppfuncosthe(p0, ps, qs, k, Ek, T)
     (
         k *
