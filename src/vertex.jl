@@ -42,7 +42,7 @@ dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
 # - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 # """
 
-"""
+@doc raw"""
     VImintqs(p0, ps, k, T, Npi,mfun,lampifun)
 """
 VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function) =
