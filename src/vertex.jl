@@ -31,6 +31,8 @@ dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
 
 
 @doc raw"""
+    VImintqs(p0, ps, k, T, Npi,mfun,lampifun)
+
 compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
 In our code, we perform integration over `kprim`, `q0` & `qs` does not involved,
 so `qs=k`, `q0=Epi(k, mfun(k))`.
@@ -39,7 +41,7 @@ so `qs=k`, `q0=Epi(k, mfun(k))`.
 - `mfun::Function`: $m^2(k)$, input from zero momentum result
 - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 """
-VImintqs(p0, ps, k, T, Npi,mfun,lampifun) =
+VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function) =
     -hquadrature(
         kprim ->
             dkVImintqs(p0, ps, Epi(k, mfun(k)), k, kprim, mfun(kprim), T, Npi,lampifun(kprim)),
