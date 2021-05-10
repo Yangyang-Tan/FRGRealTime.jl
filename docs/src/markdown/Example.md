@@ -14,7 +14,7 @@ The flow of two point function is:
 
 
 
-
+## Load Package
 ```julia
 using FRGRealTime, Plots
 ```
@@ -22,10 +22,33 @@ using FRGRealTime, Plots
 
 
 
-plot a fig
 
+
+### $F_1$ & $F_2$ at zero momentum
+
+$F_1$ will goes to zero when the width of $\delta$ function is narrow.
 ```julia
-plot(sin,-1,1)
+plot(δ->FRGRealTime.loopfunppfix(1e-6,1e-5,1.0,0.5,2.0,δ),1e-10,1e-2,dpi=300)
 ```
 
 ![](figures/Example_2_1.png)
+
+
+
+At zero momentum, $F2$ will goes to zero when $p_0$ is far small than $p_s$, or
+$p_0>p_s$
+
+$p_s=1e-5$
+```julia
+plot(p0->FRGRealTime.loopfunpm(p0,1e-5,1.0,0.5,2.0),1e-8,1.5*1e-5,dpi=300)
+```
+
+![](figures/Example_3_1.png)
+
+
+$p_s=1e-10$
+```julia
+plot(p0->FRGRealTime.loopfunpm(p0,1e-10,1.0,0.5,2.0),1e-12,1.5*1e-10,dpi=300)
+```
+
+![](figures/Example_4_1.png)
