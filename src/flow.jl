@@ -117,11 +117,13 @@ end
 @doc raw"""
     flowpm_intcostheqs(p0, ps, qsmax, k, m, T)
 
-compute $$\begin{aligned}
+compute
+```math
+\begin{aligned}
 &\int_0^{qsmax}d\!\!q_s q_s^2\int_{-1}^{1}d\!\!\cos\theta \tilde{\partial_k}F_2\left(\sqrt{p_s^2+q_s^2+2*p_s*q_s}\right)\\
 &=\int_0^{qsmax}d\!\!q_s q_s^2\int_{-1}^{1}d\!\!\cos\theta \tilde{\partial_k}F_2\left(\sqrt{p_s^2+q_s^2-2*p_s*q_s}\right)
 \end{aligned}
-$$
+```
 """
 function flowpm_intcostheqs(p0, ps, qsmax, k, m, T)
     Ek1 = sqrt(k^2 + p0 * (2 * sqrt(k^2 + m) + p0))
