@@ -45,7 +45,7 @@ dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
 @doc raw"""
     d
 """
-VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function) =
+function VImintqs(p0, ps, k, T, Npi,mfun,lampifun)
     -hquadrature(
         kprim ->
             dkVImintqs(p0, ps, Epi(k, mfun(k)), k, kprim, mfun(kprim), T, Npi,lampifun(kprim)),
@@ -55,6 +55,7 @@ VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function) =
         atol = 1e-8,
         maxevals=8000,
     )[1] +deltasumkAll(p0 + Epi(k, mfun(k)), ps, k, T, Npi) + deltasumkAll(p0 - Epi(k, mfun(k)), ps, k, T, Npi)
+end
 
 
 
