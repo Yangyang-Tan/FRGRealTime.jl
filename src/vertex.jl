@@ -30,16 +30,20 @@ dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
 
 
 
-@doc raw"""
+# @doc raw"""
+#     VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function)
+#
+# compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
+# In our code, we perform integration over `kprim`, `q0` & `qs` does not involved,
+# so `qs=k`, `q0=Epi(k, mfun(k))`.
+#
+# # Arguments
+# - `mfun::Function`: $m^2(k)$, input from zero momentum result
+# - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
+# """
+
+"""
     VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function)
-
-compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
-In our code, we perform integration over `kprim`, `q0` & `qs` does not involved,
-so `qs=k`, `q0=Epi(k, mfun(k))`.
-
-# Arguments
-- `mfun::Function`: $m^2(k)$, input from zero momentum result
-- `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 """
 VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function) =
     -hquadrature(
