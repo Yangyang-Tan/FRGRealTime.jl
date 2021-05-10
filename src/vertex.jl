@@ -53,24 +53,22 @@ VImintqs(p0, ps, k, T, Npi,mfun,lampifun) =
     )[1] +deltasumkAll(p0 + Epi(k, msgfun2(k)), ps, k, T, Npi) + deltasumkAll(p0 - Epi(k, msgfun2(k)), ps, k, T, Npi)
 
 
-# 
-# propImsimpleintqs(p0, ps, T, Npi) =
-#     -hcubature(
-#         k ->
-#             (
-#                 (V4piImintqs(p0, ps, k[1], T, Npi)) *
-#                 k[1] *
-#                 (
-#                     -(
-#                         coth(Epi(k[1], msgfun2(k[1])) / (2 * T)) /
-#                         Epi(k[1], msgfun2(k[1]))^3
-#                     ) -
-#                     csch(Epi(k[1], msgfun2(k[1])) / (2 * T))^2 /
-#                     (2 * T * Epi(k[1], msgfun2(k[1]))^2)
-#                 )
-#             ) / (16 * pi^2),
-#         [kmin],
-#         [Λ],
-#         rtol = 1e-8,
-#         atol = 1e-8,maxevals=8000
-#     )[1]
+
+Coeffgamm2(k, T, Npi, mfun) =
+    (
+        k * (
+            -(coth(Epi(k, mfun(k)) / (2 * T)) / Epi(k, mfun(k))^3) -
+            csch(Epi(k, mfun(k)) / (2 * T))^2 / (2 * T * Epi(k, mfun(k))^2)
+        )
+    ) / (16 * pi^2)
+
+
+
+propImsimpleintqs(p0, ps,kmin, T, Npi,mfun,lampifun) =
+    -hcubature(
+        k ->2*VImintqs(p0, ps, k, T, Npi,mfun,lampifun) *Coeffgamm2(k, T, Npi, mfun),
+        [kmin],
+        [Λ],
+        rtol = 1e-8,
+        atol = 1e-8,maxevals=8000
+    )[1]
