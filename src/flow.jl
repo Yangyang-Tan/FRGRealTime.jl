@@ -61,11 +61,14 @@ end
 @doc raw"""
     flowpp_intcostheqs(p0, ps, qsmax, k, m, T)
 
-compute $$\begin{aligned}
+compute
+```math
+\begin{aligned}
 &\int_0^{qsmax}d\!\!q_s q_s^2\int_{-1}^{1}d\!\!\cos\theta \tilde{\partial_k}F_1\left(\sqrt{p_s^2+q_s^2+2*p_s*q_s}\right)\\
 &=\int_0^{qsmax}d\!\!q_s q_s^2\int_{-1}^{1}d\!\!\cos\theta \tilde{\partial_k}F_1\left(\sqrt{p_s^2+q_s^2-2*p_s*q_s}\right)
 \end{aligned}
-$$
+```
+
 """
 function flowpp_intcostheqs(p0, ps, qsmax, k, m, T)
     if p0 <= 2 * Epi(k, m)
