@@ -7,6 +7,7 @@ include("artifacts/flowfun.jl")
 
 include("loop.jl")
 include("flow.jl")
+include("Im.jl")
 include("vertex.jl")
 
 end
