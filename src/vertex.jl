@@ -12,7 +12,7 @@ compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\math
 so we need an extra $2$ at somewhere.
 
 # Arguments
-- `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$ 
+- `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
 - `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
 """
@@ -29,15 +29,27 @@ dkV4piImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
     )
 
 
-V4piImintqs(p0, ps, k, T, Npi) =
-    -quadgk(
-        x ->
-            dkV4piImintqs(p0, ps, Epi(k, msgfun2(k)), k, x, msgfun2(x), T, Npi),
+
+@doc raw"""
+    V4piImintqs(p0, ps, k, T, Npi,mfun,lampifun)
+
+compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
+In our code, we perform integration over `kprim`, `q_0` & `q_s` does not involved,
+so `qs=k`, `q0=Epi(k, mfun(k))`.
+
+# Arguments
+- `mfun::Function`: $m^2(k)$, input from zero momentum result
+- `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
+"""
+V4piImintqs(p0, ps, k, T, Npi,mfun,lampifun) =
+    -hquadrature(
+        kprim ->
+            dkV4piImintqs(p0, ps, Epi(k, mfun(k)), k, kprim, mfun(kprim), T, Npi,lampifun(kprim)),
         k,
         Λ,
         rtol = 1e-8,
         atol = 1e-8,
-        order = 100,maxevals=8000
+        maxevals=8000,
     )[1] +deltasumkAll(p0 + Epi(k, msgfun2(k)), ps, k, T, Npi) + deltasumkAll(p0 - Epi(k, msgfun2(k)), ps, k, T, Npi)
 
 
