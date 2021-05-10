@@ -43,7 +43,7 @@ dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
 # """
 
 """
-    VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function)
+    VImintqs(p0, ps, k, T, Npi,mfun,lampifun)
 """
 VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function) =
     -hquadrature(
