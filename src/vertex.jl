@@ -4,7 +4,7 @@
 
 
 @doc raw"""
-    dkV4piImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+    dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
 
 compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\mathrm{Im}V(q_0)$.
 
@@ -16,7 +16,7 @@ so we need an extra $2$ at somewhere.
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
 - `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
 """
-dkV4piImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
+dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
     lam4pik^2 *
     (2 + Npi) *
     π *
@@ -31,7 +31,7 @@ dkV4piImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
 
 
 @doc raw"""
-    V4piImintqs(p0, ps, k, T, Npi,mfun,lampifun)
+    VImintqs(p0, ps, k, T, Npi,mfun,lampifun)
 
 compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
 In our code, we perform integration over `kprim`, `q_0` & `q_s` does not involved,
@@ -41,7 +41,7 @@ so `qs=k`, `q0=Epi(k, mfun(k))`.
 - `mfun::Function`: $m^2(k)$, input from zero momentum result
 - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 """
-V4piImintqs(p0, ps, k, T, Npi,mfun,lampifun) =
+VImintqs(p0, ps, k, T, Npi,mfun,lampifun) =
     -hquadrature(
         kprim ->
             dkV4piImintqs(p0, ps, Epi(k, mfun(k)), k, kprim, mfun(kprim), T, Npi,lampifun(kprim)),
