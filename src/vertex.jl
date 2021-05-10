@@ -8,7 +8,7 @@
 
 compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\mathrm{Im}V(q_0)$.
 
-`dkV4piImintqs` only contains $V(q_0)$, $\int d\cos\theta V(q_0)=V(q_0)$, $\int d\cos\theta V(-q_0)$,
+`dkV4piImintqs` only contains $V(q_0)$, for $-q_0$, we have $\int d\cos\theta V(q_0)=\int d\cos\theta V(-q_0)$,
 so we need an extra $2$ at somewhere.
 
 # Arguments
