@@ -14,13 +14,16 @@ The flow of two point function is:
 
 
 
-
+## Load Package
 ```julia
 using FRGRealTime, Plots
 ```
 
-plot a fig
 
+
+### $F_1$ & $F_2$ at zero momentum
+
+$F_1$:
 ```julia
-plot(sin,-1,1)
+plot(x->FRGRealTime.loopfunppfix(x,1e-10,1.0,0.5,2.0,),1e-12,1e-10)
 ```

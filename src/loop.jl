@@ -109,10 +109,10 @@ end
 
 compute $-\frac{1}{\pi}\mathcal{F}_{4}\left(p_{0}, k, p, \bar{m}_{\pi, k}^{2}\right)$
 """
-function star4fun(p0, p, k, m, T)
+function star4fun(p0, p, k, m, T,dϵ=0.02)
     if k > p / 2
         return ((-2 * k + p)^2 * (4 * k + p) * coth(Epi(k, m) / (2 * T))) /
-               (384 * pi^2 * Epi(k, m)^2) * deltafun(p0 - 2 * Epi(k, m))
+               (384 * pi^2 * Epi(k, m)^2) * deltafun(p0 - 2 * Epi(k, m),dϵ)
     else
         return 0.0
     end
@@ -125,8 +125,8 @@ end
 
 compute $-\frac{1}{\pi}\Im I_{1, k}(p)$
 """
-function loopfunppfix(p0, ps, k, m, T)
-    star4fun(p0, ps, k, m, T)+loopfunpp(p0, ps, k, m, T)
+function loopfunppfix(p0, ps, k, m, T,dϵ=0.02)
+    star4fun(p0, ps, k, m, T,dϵ)+loopfunpp(p0, ps, k, m, T)
 end
 
 
