@@ -17,6 +17,7 @@ end
 @doc raw"""
     dkF1Allintqs(p0, ps, qsmax, k, m, T)
 
+$F_1$ is an odd function about $p_0$
 
 when `p0>0`,`dkF1Allintqs=flowpp_intcostheqs`
 
@@ -32,6 +33,8 @@ end
 
 @doc raw"""
     flowpm(p0, ps, k, m, T)
+
+$F_2$ is an odd function about $p_0$
 
 when `p0>0`,`dkF2Allintqs=flowpm_intcostheqs`
 
