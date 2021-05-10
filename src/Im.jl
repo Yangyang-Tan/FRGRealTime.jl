@@ -14,6 +14,14 @@ function deltasumkAll(p0, ps, k, T,Npi)
 end
 
 
+@doc raw"""
+    dkF1Allintqs(p0, ps, qsmax, k, m, T)
+
+
+when `p0>0`,`dkF1Allintqs=flowpp_intcostheqs`
+
+when `p0<0`,`dkF1Allintqs=-flowpp_intcostheqs(-p0)`
+"""
 function dkF1Allintqs(p0, ps, qsmax, k, m, T)
     if p0>=0.0
         flowpp_intcostheqs(p0, ps, qsmax, k, m, T)
@@ -22,6 +30,13 @@ function dkF1Allintqs(p0, ps, qsmax, k, m, T)
     end
 end
 
+@doc raw"""
+    flowpm(p0, ps, k, m, T)
+
+when `p0>0`,`dkF2Allintqs=flowpm_intcostheqs`
+
+when `p0<0`,`dkF2Allintqs=-flowpm_intcostheqs(-p0)`
+"""
 function dkF2Allintqs(p0, ps, qsmax, k, m, T)
     if p0>=0.0
         flowpm_intcostheqs(p0, ps, qsmax, k, m, T)
