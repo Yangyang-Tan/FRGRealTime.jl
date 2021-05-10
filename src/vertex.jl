@@ -1,19 +1,31 @@
 ################################################################################
 #  The simplified computation of Im parts. we have integrated out qs & cos(θ)  #
 ################################################################################
-dkV4piImintqs(p0, ps, q0, qsmax, k, m, T, Npi) =
-    lampifun(k)^2 *
+
+
+@doc raw"""
+    dkV4piImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+
+compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\mathrm{Im}V(q_0)$.
+
+`dkV4piImintqs` only contains $V(q_0)$, $\int d\cos\theta V(q_0)=V(q_0)$, $\int d\cos\theta V(-q_0)$,
+so we need an extra $2$ at somewhere.
+
+# Arguments
+- `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$ 
+- `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
+- `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
+"""
+dkV4piImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
+    lam4pik^2 *
     (2 + Npi) *
-    pi *
+    π *
+    3 *
     (
-        6 * dkF1Allintqs(p0 - q0, ps, qsmax, k, m, T)
-        +
-        6 * dkF1Allintqs(p0 + q0, ps, qsmax, k, m, T)
-        +
-        6 * (
-            dkF2Allintqs(p0 - q0, ps, qsmax, k, m, T) +
-            dkF2Allintqs(p0 + q0, ps, qsmax, k, m, T)
-        )
+        dkF1Allintqs(p0 - q0, ps, qsmax, k, m, T) +
+        dkF1Allintqs(p0 + q0, ps, qsmax, k, m, T) +
+        dkF2Allintqs(p0 - q0, ps, qsmax, k, m, T) +
+        dkF2Allintqs(p0 + q0, ps, qsmax, k, m, T)
     )
 
 
