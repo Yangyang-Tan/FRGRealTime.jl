@@ -2,6 +2,7 @@
 
 ## Two point function flow
 
+The flow of two point function is:
 ```math
 \begin{equation}
 \begin{array}{l}
@@ -12,6 +13,8 @@
 \end{array}
 \end{equation}
 ```
+
+
 
 ```julia
 using FRGRealTime, Plots
