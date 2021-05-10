@@ -26,7 +26,8 @@ using FRGRealTime, Plots
 
 ### $F_1$ & $F_2$ at zero momentum
 
- $F_1$ will goes to zero when the width of $\delta$ function is narrow.
+
+$F_1$ will goes to zero when the width of $\delta$ function is narrow.
 ```julia
 plot(δ->FRGRealTime.loopfunppfix(1e-6,1e-5,1.0,0.5,2.0,δ),1e-10,1e-2,dpi=250)
 ```
@@ -39,7 +40,6 @@ At zero momentum, $F2$ will goes to zero when $p_0$ is far small than $p_s$, or
 $p_0>p_s$.
 
 $p_s=1e-5$ case:
-
 ```julia
 plot(p0->FRGRealTime.loopfunpm(p0,1e-5,1.0,0.5,2.0),1e-8,1.5*1e-5,dpi=250)
 ```
@@ -47,8 +47,9 @@ plot(p0->FRGRealTime.loopfunpm(p0,1e-5,1.0,0.5,2.0),1e-8,1.5*1e-5,dpi=250)
 ![](figures/Example_3_1.png)
 
 
-$p_s=1e-10$ case:
 
+
+$p_s=1e-10$ case:
 ```julia
 plot(p0->FRGRealTime.loopfunpm(p0,1e-10,1.0,0.5,2.0),1e-12,1.5*1e-10,dpi=250)
 ```
