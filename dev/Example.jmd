@@ -3,7 +3,7 @@
 ## Two point function flow
 
 The flow of two point function is:
-```math
+$$
 \begin{equation}
 \begin{array}{l}
 \qquad \partial_{\tau} \Gamma_{k, \phi_{q} \phi_{c}}^{(2)}\left(p_{0},p_s\right) \\
@@ -12,8 +12,7 @@ The flow of two point function is:
 \left.+\left.\bar{\lambda}_{4 \pi, k}^{\mathrm{eff}}\right|_{q_{0}=-E_{\pi, k}(k)}\right]
 \end{array}
 \end{equation}
-```
-
+$$
 
 
 ```julia
