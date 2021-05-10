@@ -50,7 +50,7 @@ VImintqs(p0, ps, k, T, Npi,mfun,lampifun) =
         rtol = 1e-8,
         atol = 1e-8,
         maxevals=8000,
-    )[1] +deltasumkAll(p0 + Epi(k, msgfun2(k)), ps, k, T, Npi) + deltasumkAll(p0 - Epi(k, msgfun2(k)), ps, k, T, Npi)
+    )[1] +deltasumkAll(p0 + Epi(k, mfun(k)), ps, k, T, Npi) + deltasumkAll(p0 - Epi(k, mfun(k)), ps, k, T, Npi)
 
 
 
