@@ -16,7 +16,7 @@ so we need an extra $2$ at somewhere.
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
 - `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
 """
-dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
+function dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
     lam4pik^2 *
     (2 + Npi) *
     π *
@@ -27,7 +27,7 @@ dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik) =
         dkF2Allintqs(p0 - q0, ps, qsmax, k, m, T) +
         dkF2Allintqs(p0 + q0, ps, qsmax, k, m, T)
     )
-
+end
 
 
 @doc raw"""
@@ -55,17 +55,17 @@ end
 
 
 
-Coeffgamm2(k, T, Npi, mfun) =
+function Coeffgamm2(k, T, Npi, mfun)
     (
         k * (
             -(coth(Epi(k, mfun(k)) / (2 * T)) / Epi(k, mfun(k))^3) -
             csch(Epi(k, mfun(k)) / (2 * T))^2 / (2 * T * Epi(k, mfun(k))^2)
         )
     ) / (16 * pi^2)
+end
 
 
-
-propImsimpleintqs(p0, ps,kmin, T, Npi,mfun,lampifun) =
+function propImsimpleintqs(p0, ps,kmin, T, Npi,mfun,lampifun)
     -hcubature(
         k ->2*VImintqs(p0, ps, k, T, Npi,mfun,lampifun) *Coeffgamm2(k, T, Npi, mfun),
         [kmin],
@@ -73,3 +73,4 @@ propImsimpleintqs(p0, ps,kmin, T, Npi,mfun,lampifun) =
         rtol = 1e-8,
         atol = 1e-8,maxevals=8000
     )[1]
+end
