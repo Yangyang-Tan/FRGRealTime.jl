@@ -189,9 +189,9 @@ end
 
 
 #integrate delta function in F1 , we integrate out qs, cos(θ) and k' this will be used in Im part calculation
-function deltasumk(p0, ps, k, T, Npi)
+function deltasumk(p0, ps, k, T, Npi,mfun)
     #find the location of k0 where p0==2Epi(k,m)
-    deltaf(x) = 2 * Epi(x, msgfun2(x)) - p0
+    deltaf(x) = 2 * Epi(x, mfun(x)) - p0
     if deltaf(kmin) * deltaf(Λ) >= 0
         return 0.0
     else
@@ -209,13 +209,13 @@ function deltasumk(p0, ps, k, T, Npi)
                         (2 + Npi) *
                         k^3 *
                         coth(p0 / (4 * T)) *
-                        (k^2 + 5 * ps * (ps - sqrt(p0^2 - 4 * msgfun2(k0))))
+                        (k^2 + 5 * ps * (ps - sqrt(p0^2 - 4 * mfun(k0))))
                     ) / (
                         10 *
                         p0 *
                         pi *
                         ps *
-                        abs(1 + derivative(msgfun2, k0) / sqrt(p0^2 - 4 * msgfun2(k0)))
+                        abs(1 + derivative(mfun, k0) / sqrt(p0^2 - 4 * mfun(k0)))
                     )
                 elseif ps <= k
                     return (
@@ -224,13 +224,13 @@ function deltasumk(p0, ps, k, T, Npi)
                         coth(p0 / (4 * T)) *
                         (
                             ps^4 - 10 * ps^2 * k^2 +
-                            5 * k^3 * (-3 * k + 4 * sqrt(p0^2 - 4 * msgfun2(k0)))
+                            5 * k^3 * (-3 * k + 4 * sqrt(p0^2 - 4 * mfun(k0)))
                         )
                     ) / (
                         40 *
                         p0 *
                         pi *
-                        abs(1 + derivative(msgfun2, k0) / sqrt(p0^2 - 4 * msgfun2(k0)))
+                        abs(1 + derivative(mfun, k0) / sqrt(p0^2 - 4 * mfun(k0)))
                     )
                 end
             elseif max(ps - k, 0.0) > 2 * k0
@@ -244,19 +244,19 @@ function deltasumk(p0, ps, k, T, Npi)
                     lampifun(k0)^2 *
                     (
                         8 * k^3 +
-                        k^2 * (-32 * k0 - 14 * ps + 15 * sqrt(p0^2 - 4 * msgfun2(k0))) +
+                        k^2 * (-32 * k0 - 14 * ps + 15 * sqrt(p0^2 - 4 * mfun(k0))) +
                         k * (
                             96 * k0^2 + 24 * k0 * ps + 4 * ps^2 -
-                            60 * k0 * sqrt(p0^2 - 4 * msgfun2(k0)) -
-                            10 * ps * sqrt(p0^2 - 4 * msgfun2(k0))
+                            60 * k0 * sqrt(p0^2 - 4 * mfun(k0)) -
+                            10 * ps * sqrt(p0^2 - 4 * mfun(k0))
                         ) +
                         (2 * k0 - ps) * (
                             -2 * (24 * k0^2 + 6 * k0 * ps + ps^2) +
-                            30 * k0 * sqrt(p0^2 - 4 * msgfun2(k0)) +
-                            5 * ps * sqrt(p0^2 - 4 * msgfun2(k0))
+                            30 * k0 * sqrt(p0^2 - 4 * mfun(k0)) +
+                            5 * ps * sqrt(p0^2 - 4 * mfun(k0))
                         )
                     )
-                ) / (160 * p0 * pi * ps * abs(1 + derivative(msgfun2,k0) / sqrt(p0^2 - 4 * msgfun2(k0))))
+                ) / (160 * p0 * pi * ps * abs(1 + derivative(mfun,k0) / sqrt(p0^2 - 4 * mfun(k0))))
             end
         end
     end
