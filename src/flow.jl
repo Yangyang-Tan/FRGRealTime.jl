@@ -64,8 +64,8 @@ end
 compute
 ```math
 \begin{aligned}
-&\int_0^{qsmax}\!\!dq_s q_s^2\int_{-1}^{1}\!\!d\cos\theta \tilde{\partial_k}F_1\left(\sqrt{p_s^2+q_s^2+2*p_s*q_s}\right)\\
-&=\int_0^{qsmax}\!\!dq_s q_s^2\int_{-1}^{1}\!\!d\cos\theta \tilde{\partial_k}F_1\left(\sqrt{p_s^2+q_s^2-2*p_s*q_s}\right)
+&\int_0^{qsmax}\!\!dq_s q_s^2\int_{-1}^{1}\!\!d\cos\theta \tilde{\partial_k}F_1\left(\sqrt{p_s^2+q_s^2+2*p_s*q_s\cos\theta}\right)\\
+&=\int_0^{qsmax}\!\!dq_s q_s^2\int_{-1}^{1}\!\!d\cos\theta \tilde{\partial_k}F_1\left(\sqrt{p_s^2+q_s^2-2*p_s*q_s\cos\theta}\right)
 \end{aligned}
 ```
 
@@ -120,8 +120,8 @@ end
 compute
 ```math
 \begin{aligned}
-&\int_0^{qsmax}\!\!dq_s q_s^2\int_{-1}^{1}\!\!d\cos\theta \tilde{\partial_k}F_2\left(\sqrt{p_s^2+q_s^2+2*p_s*q_s}\right)\\
-&=\int_0^{qsmax}\!\!dq_s q_s^2\int_{-1}^{1}\!\!d\cos\theta \tilde{\partial_k}F_2\left(\sqrt{p_s^2+q_s^2-2*p_s*q_s}\right)
+&\int_0^{qsmax}\!\!dq_s q_s^2\int_{-1}^{1}\!\!d\cos\theta \tilde{\partial_k}F_2\left(\sqrt{p_s^2+q_s^2+2p_sq_s\cos\theta}\right)\\
+&=\int_0^{qsmax}\!\!dq_s q_s^2\int_{-1}^{1}\!\!d\cos\theta \tilde{\partial_k}F_2\left(\sqrt{p_s^2+q_s^2-2*p_s*q_s\cos\theta}\right)
 \end{aligned}
 ```
 """
