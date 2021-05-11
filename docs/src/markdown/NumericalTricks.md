@@ -9,7 +9,7 @@ $\theta\left(p_0-2E_\pi\right)$, the other is due to the existence of $\delta\le
 For the first one, we can see the plot around $p_0=2E_\pi$
 ```julia
 using FRGRealTime,Plots
-#k>ps
+#k>ps/2
 plot(p0->FRGRealTime.loopfunppfix(p0,1.0,2.0,1.0,2.0),2*Epi(2.0,1.0)-0.01,2*Epi(2.0,1.0)+0.01)
 ```
 
@@ -40,18 +40,18 @@ $F_1$ is $\theta$ function when $k>\frac{p_s}{2}$ and $p_0$
 is around $2E_\pi(k,m)$. It has a $drop=\frac{\left(2 k-p_s\right) \coth \left(\frac{\sqrt{k^2+m^2}}{2 T}\right)}{16
 \pi ^2 \sqrt{k^2+m^2}}$ drop in $p_0=2E_\pi(k,m)$. $F_1$ can be written as:
 
-$$
+```math
     F_1=drop\;\theta\Big(p_0-2E_\pi(k,m)\Big)
-$$
+```
 when $p_0=2E_\pi(k,m)$ :
 
-$$
+```math
     \partial_k F_1=-drop\;\frac{2k}{E_\pi(k,m)}\delta\Big(p_0-2E_\pi(k,m)\Big)
-$$
+```
 alternatively:
 
-$$
+```math
     \partial_k F_1=-drop\; \delta\!\left(k-\frac{1}{2} \sqrt{p_0^2-4 m^2}\right)
-$$
+```
 
 ### Im Part
