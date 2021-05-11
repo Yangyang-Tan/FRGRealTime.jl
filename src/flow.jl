@@ -189,7 +189,7 @@ end
 
 
 #integrate delta function in F1 , we integrate out qs, cos(θ) and k' this will be used in Im part calculation
-function deltasumk(p0, ps, k, T, Npi,UVScale,mfun)
+function deltasumk(p0, ps, k, T, Npi,UVScale,mfun,lamfun)
     #find the location of k0 where p0==2Epi(k,m)
     deltaf(x) = 2 * Epi(x, mfun(x)) - p0
     if deltaf(kmin) * deltaf(UVScale) >= 0
@@ -205,7 +205,7 @@ function deltasumk(p0, ps, k, T, Npi,UVScale,mfun)
             if ps <= 2 * k0 - k
                 if ps > k
                     return -(
-                        lampifun(k0)^2 *
+                        lamfun(k0)^2 *
                         (2 + Npi) *
                         k^3 *
                         coth(p0 / (4 * T)) *
@@ -219,7 +219,7 @@ function deltasumk(p0, ps, k, T, Npi,UVScale,mfun)
                     )
                 elseif ps <= k
                     return (
-                        lampifun(k0)^2 *
+                        lamfun(k0)^2 *
                         (2 + Npi) *
                         coth(p0 / (4 * T)) *
                         (
@@ -241,7 +241,7 @@ function deltasumk(p0, ps, k, T, Npi,UVScale,mfun)
                     (2 + Npi) *
                     (k + 2 * k0 - ps)^2 *
                     coth(p0 / (4 * T)) *
-                    lampifun(k0)^2 *
+                    lamfun(k0)^2 *
                     (
                         8 * k^3 +
                         k^2 * (-32 * k0 - 14 * ps + 15 * sqrt(p0^2 - 4 * mfun(k0))) +
