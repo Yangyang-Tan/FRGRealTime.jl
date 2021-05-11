@@ -189,13 +189,13 @@ end
 
 
 #integrate delta function in F1 , we integrate out qs, cos(θ) and k' this will be used in Im part calculation
-function deltasumk(p0, ps, k, T, Npi,UVScale,mfun,lamfun)
+function deltasumk(p0, ps, k, T, Npi,IRScale,UVScale,mfun,lamfun)
     #find the location of k0 where p0==2Epi(k,m)
     deltaf(x) = 2 * Epi(x, mfun(x)) - p0
-    if deltaf(kmin) * deltaf(UVScale) >= 0
+    if deltaf(IRScale) * deltaf(UVScale) >= 0
         return 0.0
     else
-        k0 = find_zero(deltaf, (kmin,UVScale))
+        k0 = find_zero(deltaf, (IRScale,UVScale))
         # println(" k0=", k0)
         # k0 should lies between k~Λ, when k>k0 you will get 0
         if k > k0
