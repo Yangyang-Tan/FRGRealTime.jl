@@ -19,15 +19,19 @@ plot(p0->FRGRealTime.loopfunppfix(p0,1.0,2.0,1.0,2.0),2*Epi(2.0,1.0)-0.01,2*Epi(
 
 
 Considering that our function has the following form:
+
 $$
     F(k)=f(k)\theta\Big(g(k)-p_0\Big)
 $$
 and this relation is only true when $p_0$ is in a infinitesimal neighborhood around $g(k)$.
 $F'(k)$ is:
+
 $$
     F'(k)=f(k) g'(k) \delta \Big(g(k)-p_0\Big)+f'(k) \theta \Big(g(k)-p_0\Big)
 $$
+
 Now we want to integrate back to $F(k)$, any finite part will disappear due to the infinitesimal measure, so:
+
 $$
     F'(k)=f(k) g'(k) \delta \Big(g(k)-p_0\Big)=f(k)\partial_k \theta\Big(g(k)-p_0\Big)
 $$
