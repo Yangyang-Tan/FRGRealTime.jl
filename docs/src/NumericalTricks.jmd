@@ -32,7 +32,7 @@ Now we want to integrate back to $F(k)$, any finite part will disappear due to t
 ```
 
 
-$F_1$ is $\theta$ function when $k>\frac{p_s}{2}$ and $p_0$
+ $F_1$ is $\theta$ function when $k>\frac{p_s}{2}$ and $p_0$
 is around $2E_\pi(k,m)$. It has a $drop=\frac{\left(2 k-p_s\right) \coth \left(\frac{\sqrt{k^2+m^2}}{2 T}\right)}{16
 \pi ^2 \sqrt{k^2+m^2}}$ drop in $p_0=2E_\pi(k,m)$. $F_1$ can be written as:
 
@@ -51,3 +51,10 @@ alternatively:
 ```
 
 ### Im Part
+
+The only chance that we can get rid of these annoying $\delta$ function in the Im part is
+doing the $k'$ or $k$ integral:
+
+```math
+\int_\Lambda^k\!\!dk'\int_0^{qsmax}\!\!dq_s\;q_s^2\int\!\!_{-1}^{1}\!\!d\cos\theta\;\tilde{\partial_k}F_1
+```
