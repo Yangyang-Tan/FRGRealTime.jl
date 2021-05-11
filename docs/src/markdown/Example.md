@@ -29,7 +29,7 @@ using FRGRealTime, Plots
 
  $F_1$ will goes to zero when the width of $\delta$ function is narrow.
 ```julia
-plot(δ->FRGRealTime.loopfunppfix(1e-6,1e-5,1.0,0.5,2.0,δ),1e-10,1e-2,dpi=250)
+plot(δ->FRGRealTime.loopfunppfix(1e-6,1e-5,1.0,0.5,2.0,δ),1e-10,1e-2)
 ```
 
 ![](figures/Example_2_1.png)
@@ -42,7 +42,7 @@ $p_0>p_s$.
 
  $p_s=1e-5$ case:
 ```julia
-plot(p0->FRGRealTime.loopfunpm(p0,1e-5,1.0,0.5,2.0),1e-8,1.5*1e-5,dpi=250)
+plot(p0->FRGRealTime.loopfunpm(p0,1e-5,1.0,0.5,2.0),1e-8,1.5*1e-5)
 ```
 
 ![](figures/Example_3_1.png)
@@ -52,7 +52,7 @@ plot(p0->FRGRealTime.loopfunpm(p0,1e-5,1.0,0.5,2.0),1e-8,1.5*1e-5,dpi=250)
 
  $p_s=1e-10$ case:
 ```julia
-plot(p0->FRGRealTime.loopfunpm(p0,1e-10,1.0,0.5,2.0),1e-12,1.5*1e-10,dpi=250)
+plot(p0->FRGRealTime.loopfunpm(p0,1e-10,1.0,0.5,2.0),1e-12,1.5*1e-10)
 ```
 
 ![](figures/Example_4_1.png)
