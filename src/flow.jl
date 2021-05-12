@@ -303,9 +303,11 @@ function deltasumkfix(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun)
                 end
             elseif max(ps - k, 0.0) > 2 * k0
                 return 0.0
-            elseif 2 * k0 - k < ps < 2 * k0 + k
+            elseif 2*k < ps < 2 * k0 + k
                 # println("locate end")
-                return (k^2*k0*(4*k^3+15*k^2*(k0-ps)+20*k*ps*(-2*k0+ps)-10*(12*k0^3-3*k0*ps^2+ps^3)+80*abs(k0)^3)*coth(p0/(4*T))*lamfun(k0)^2)/(240*p0*pi^2*ps*abs(2*k0+derivative(mfun,k0)))
+                return (qsmax^2*(40*k^3+10*ps^3-20*ps^2*qsmax+15*ps*qsmax^2-4*qsmax^3-5*k*(6*ps^2-8*ps*qsmax+3*qsmax^2))*coth(sqrt(k^2+m)/(2*T)))/(960*sqrt(k^2+m)*pi^2*ps)
+            elseif 2 * k0 - k<ps < 2 * k0
+                return -1/960*((-2*k+ps-qsmax)^3*(-6*k^2+(ps-qsmax)*(ps+4*qsmax)+k*(ps+9*qsmax))*coth(sqrt(k^2+m)/(2*T)))/(sqrt(k^2+m)*pi^2*ps)
             end
         end
     end
