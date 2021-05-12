@@ -56,7 +56,7 @@ The only chance that we can get rid of these annoying $\delta$ function in the I
 doing the $k'$ or $k$ integral:
 
 ```math
-\int_\Lambda^k\!\!dk'\int_0^{qsmax}\!\!dq_s\;q_s^2\int_{-1}^{1}\!\!d\cos\theta\;\tilde{\partial_k}F_1
+\mathrm{deltaintkqs}\equiv\int_\Lambda^k\!\!dk'\int_0^{qsmax}\!\!dq_s\;q_s^2\int_{-1}^{1}\!\!d\cos\theta\;\tilde{\partial_k}F_1
 ```
 
 the $q_s$ and $\cos\theta$ integration will act on the $drop$, the $k'$ integration will act on the $\delta$ function.
