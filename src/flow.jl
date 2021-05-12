@@ -294,39 +294,23 @@ function deltasumkfix(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun)
                         abs(2 * k0 + derivative(mfun, k0))
                     )
                 elseif ps <= k
-                    return -1/120*(k0*(-5*k0^2+ps^2)^2*coth(p0/(4*T))*lamfun(k0)^2)/(p0*pi^2*abs(2*k0+derivative(mfun,k0)))
+                    return -1 / 120 * (
+                        k0 *
+                        (-5 * k0^2 + ps^2)^2 *
+                        coth(p0 / (4 * T)) *
+                        lamfun(k0)^2
+                    ) / (p0 * pi^2 * abs(2 * k0 + derivative(mfun, k0)))
                 end
             elseif max(ps - k, 0.0) > 2 * k0
                 return 0.0
             elseif 2 * k0 - k < ps < 2 * k0 + k
                 # println("locate end")
-                return -(
-                    (2 + Npi) *
-                    (k + 2 * k0 - ps)^2 *
+                return -1 / 240 * (
+                    k0^3 *
+                    (21 * k0^3 + 55 * k0^2 * ps - 50 * k0 * ps^2 + 10 * ps^3) *
                     coth(p0 / (4 * T)) *
-                    lamfun(k0)^2 *
-                    (
-                        8 * k^3 +
-                        k^2 *
-                        (-32 * k0 - 14 * ps + 15 * sqrt(p0^2 - 4 * mfun(k0))) +
-                        k * (
-                            96 * k0^2 + 24 * k0 * ps + 4 * ps^2 -
-                            60 * k0 * sqrt(p0^2 - 4 * mfun(k0)) -
-                            10 * ps * sqrt(p0^2 - 4 * mfun(k0))
-                        ) +
-                        (2 * k0 - ps) * (
-                            -2 * (24 * k0^2 + 6 * k0 * ps + ps^2) +
-                            30 * k0 * sqrt(p0^2 - 4 * mfun(k0)) +
-                            5 * ps * sqrt(p0^2 - 4 * mfun(k0))
-                        )
-                    )
-                ) / (
-                    160 *
-                    p0 *
-                    pi *
-                    ps *
-                    abs(1 + derivative(mfun, k0) / sqrt(p0^2 - 4 * mfun(k0)))
-                )
+                    lamfun(k0)^2
+                ) / (p0 * pi^2 * ps * abs(2 * k0 + derivative(mfun, k0)))
             end
         end
     end
