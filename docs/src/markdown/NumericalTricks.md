@@ -60,7 +60,16 @@ The only chance that we can get rid of these annoying $\delta$ function in the I
 doing the $k'$ or $k$ integral:
 
 ```math
-\int_\Lambda^k\!\!dk'\int_0^{qsmax}\!\!dq_s\;q_s^2\int\!\!_{-1}^{1}\!\!d\cos\theta\;\tilde{\partial_k}F_1
+\int_\Lambda^k\!\!dk'\int_0^{qsmax}\!\!dq_s\;q_s^2\int_{-1}^{1}\!\!d\cos\theta\;\tilde{\partial_k}F_1
 ```
 
-the $q_s$ and $\cos\theta$ integration will act on the $drop$, the $k'$ integration will act on the $\delta$ function
+the $q_s$ and $\cos\theta$ integration will act on the $drop$, the $k'$ integration will act on the $\delta$ function.
+
+We also noticed that this delta function only appears in $k>p/2$, so the internel momentum integration can't performed on the whole range.
+Assuming that the solution of  $p_0=2E_\pi$  is $k_0$. So we only do the $k'$ integration around $k_0$, then $p<2k_0$.
+
+```mathematica
+Integrate[((2 k - Sqrt[ps^2 + qs^2 + 2*ps*qs*x])*
+   Coth[Sqrt[k^2 + m]/(2 T)])/(16 \[Pi]^2 Sqrt[k^2 + m]) qs^2, {x, -1,
+   1}, Assumptions -> qsmax > 0 && 1 > x > -1 && ps > 0 && qs > 0]
+```
