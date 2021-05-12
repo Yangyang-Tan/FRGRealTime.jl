@@ -294,12 +294,7 @@ function deltasumkfix(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun)
                         abs(2 * k0 + derivative(mfun, k0))
                     )
                 elseif ps <= k
-                    return -1 / 120 * (
-                        k0 *
-                        (-5 * k0^2 + ps^2)^2 *
-                        coth(p0 / (4 * T)) *
-                        lamfun(k0)^2
-                    ) / (p0 * pi^2 * abs(2 * k0 + derivative(mfun, k0)))
+                    return -1/120*(k0*(5*k^3*(-3*k+8*k0)-10*k^2*ps^2+ps^4)*coth(p0/(4*T))*lamfun(k0)^2)/(p0*pi^2*abs(2*k0+derivative(mfun,k0)))
                 end
             elseif max(ps - k, 0.0) > 2 * k0
                 return 0.0
