@@ -264,6 +264,90 @@ end
 
 
 
+#integrate delta function in F1 , we integrate out qs, cos(θ) and k' this will be used in Im part calculation
+function deltasumkfix(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun)
+    #find the location of k0 where p0==2Epi(k,m)
+    deltaf(x) = 2 * Epi(x, mfun(x)) - p0
+    if deltaf(IRScale) * deltaf(UVScale) >= 0
+        return 0.0
+    else
+        k0 = find_zero(deltaf, (IRScale, UVScale))
+        # println(" k0=", k0)
+        # k0 should lies between k~Λ, when k>k0 you will get 0
+        if k > k0
+            return 0.0
+            #δ function only appears in p<2k so we have the following division
+        elseif k <= k0
+            if ps <= 2 * k0 - k
+                if ps > k
+                    return (
+                        k^3 *
+                        k0 *
+                        (k^2 + 5 * ps * (-2 * k0 + ps)) *
+                        coth(p0 / (4 * T)) *
+                        lamfun(k0)^2
+                    ) / (
+                        30 *
+                        p0 *
+                        pi^2 *
+                        ps *
+                        abs(2 * k0 + derivative(mfun, k0))
+                    )
+                elseif ps <= k
+                    return (
+                        lamfun(k0)^2 *
+                        (2 + Npi) *
+                        coth(p0 / (4 * T)) *
+                        (
+                            ps^4 - 10 * ps^2 * k^2 +
+                            5 * k^3 * (-3 * k + 4 * sqrt(p0^2 - 4 * mfun(k0)))
+                        )
+                    ) / (
+                        40 *
+                        p0 *
+                        pi *
+                        abs(
+                            1 +
+                            derivative(mfun, k0) / sqrt(p0^2 - 4 * mfun(k0)),
+                        )
+                    )
+                end
+            elseif max(ps - k, 0.0) > 2 * k0
+                return 0.0
+            elseif 2 * k0 - k < ps < 2 * k0 + k
+                # println("locate end")
+                return -(
+                    (2 + Npi) *
+                    (k + 2 * k0 - ps)^2 *
+                    coth(p0 / (4 * T)) *
+                    lamfun(k0)^2 *
+                    (
+                        8 * k^3 +
+                        k^2 *
+                        (-32 * k0 - 14 * ps + 15 * sqrt(p0^2 - 4 * mfun(k0))) +
+                        k * (
+                            96 * k0^2 + 24 * k0 * ps + 4 * ps^2 -
+                            60 * k0 * sqrt(p0^2 - 4 * mfun(k0)) -
+                            10 * ps * sqrt(p0^2 - 4 * mfun(k0))
+                        ) +
+                        (2 * k0 - ps) * (
+                            -2 * (24 * k0^2 + 6 * k0 * ps + ps^2) +
+                            30 * k0 * sqrt(p0^2 - 4 * mfun(k0)) +
+                            5 * ps * sqrt(p0^2 - 4 * mfun(k0))
+                        )
+                    )
+                ) / (
+                    160 *
+                    p0 *
+                    pi *
+                    ps *
+                    abs(1 + derivative(mfun, k0) / sqrt(p0^2 - 4 * mfun(k0)))
+                )
+            end
+        end
+    end
+end
+
 
 
 
