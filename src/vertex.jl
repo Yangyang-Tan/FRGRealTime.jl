@@ -97,9 +97,9 @@ function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
             Coeffgamm2(k, T, Npi, mfun),
         IRScale,
         UVScale,
-        rtol = 1e-5,
-        atol = 1e-5,
-        maxevals = 1000,
+        rtol = 1e-6,
+        atol = 1e-6,
+        maxevals = 2000,
     )[1]
 end
 
@@ -112,9 +112,9 @@ function propImsimpleintqs_delta1(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
             Coeffgamm2(k, T, Npi, mfun),
         IRScale,
         UVScale,
-        rtol = 1e-5,
-        atol = 1e-5,
-        maxevals = 1000,
+        rtol = 1e-6,
+        atol = 1e-6,
+        maxevals = 2000,
     )[1]
 end
 
