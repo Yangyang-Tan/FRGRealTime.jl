@@ -5,11 +5,11 @@ dkF2(p0,ps,k,m,T)=flowpm(p0,ps,k,m,T)
 dkF1(p0, ps, qs, k, m, T)=flowpp_intcosthe(p0, ps, qs, k, m, T)
 dkF2(p0, ps, qs, k, m, T)=flowpm_intcosthe(p0, ps, qs, k, m, T)
 
-function deltasumkAll(p0, ps, k, T,Npi)
+function deltasumkAll(p0, ps, k, T,Npi,IRScale, UVScale, mfun, lamfun)
     if p0>=0.0
-        deltasumkfix(p0, ps, k, T,Npi)
+        deltasumkfix(p0, ps, k, T,Npi,IRScale, UVScale, mfun, lamfun)
     elseif p0<0.0
-        -deltasumkfix(-p0, ps, k, T,Npi)
+        -deltasumkfix(-p0, ps, k, T,Npi,IRScale, UVScale, mfun, lamfun)
     end
 end
 

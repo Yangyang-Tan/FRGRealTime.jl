@@ -31,7 +31,7 @@ end
 
 
 @doc raw"""
-    VImintqs(p0, ps, k, T, Npi,mfun::Function,lampifun::Function)
+    VImintqs(p0, ps, k, T, Npi,UVScale,mfun::Function,lampifun::Function)
 
 compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
 In our code, we perform integration over `kprim`, `q0` & `qs` does not involved,
@@ -41,7 +41,7 @@ so `qs=k`, `q0=Epi(k, mfun(k))`.
 - `mfun::Function`: $m^2(k)$, input from zero momentum result
 - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 """
-function VImintqs(p0, ps, k, T, Npi, mfun, lampifun)
+function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lampifun)
     -hquadrature(
         kprim -> dkVImintqs(
             p0,
@@ -55,7 +55,7 @@ function VImintqs(p0, ps, k, T, Npi, mfun, lampifun)
             lampifun(kprim),
         ),
         k,
-        Λ,
+        UVScale,
         rtol = 1e-8,
         atol = 1e-8,
         maxevals = 8000,
@@ -64,8 +64,8 @@ function VImintqs(p0, ps, k, T, Npi, mfun, lampifun)
     π *
     3 *
     (
-        deltasumkAll(p0 + Epi(k, mfun(k)), ps, k, T, Npi) +
-        deltasumkAll(p0 - Epi(k, mfun(k)), ps, k, T, Npi)
+        deltasumkAll(p0 + Epi(k, mfun(k)), ps, k, T, Npi,IRScale, UVScale, mfun, lamfun) +
+        deltasumkAll(p0 - Epi(k, mfun(k)), ps, k, T, Npi,IRScale, UVScale, mfun, lamfun)
     )
 end
 
@@ -85,7 +85,7 @@ function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lampifun)
     -hquadrature(
         k ->
             2 *
-            VImintqs(p0, ps, k, T, Npi, mfun, lampifun) *
+            VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lampifun) *
             Coeffgamm2(k, T, Npi, mfun),
         IRScale,
         UVScale,
