@@ -32,7 +32,11 @@ outv1=pmap(
 )
 
 
-plot(v1,outv1)
+plot(v1[1:40],outv1[1:40])
+
+
+
+
 plot(v1,(p0->FRGRealTime.deltasumImprop1(
     p0,
     0.05,

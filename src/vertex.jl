@@ -72,6 +72,21 @@ end
 
 
 
+function VImintqs_delta1(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
+    (2 + Npi) *
+    π *
+    3 *
+    (
+        deltasumkAll(p0 + Epi(k, mfun(k)), ps, k, T, Npi,IRScale, UVScale, mfun, lamfun) +
+        deltasumkAll(p0 - Epi(k, mfun(k)), ps, k, T, Npi,IRScale, UVScale, mfun, lamfun)
+    )
+end
+
+
+
+
+
+
 function Coeffgamm2(k, T, Npi, mfun)
     (
         k * (
@@ -95,6 +110,23 @@ function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
         maxevals = 1000,
     )[1]
 end
+
+
+function propImsimpleintqs_delta1(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
+    -hquadrature(
+        k ->
+            2 *
+            VImintqs_delta1(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun) *
+            Coeffgamm2(k, T, Npi, mfun),
+        IRScale,
+        UVScale,
+        rtol = 1e-5,
+        atol = 1e-5,
+        maxevals = 1000,
+    )[1]
+end
+
+
 
 
 
