@@ -22,8 +22,8 @@ function dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
     π *
     3 *
     (
-        # dkF1Allintqs(p0 - q0, ps, qsmax, k, m, T) +
-        # dkF1Allintqs(p0 + q0, ps, qsmax, k, m, T) +
+        dkF1Allintqs(p0 - q0, ps, qsmax, k, m, T) +
+        dkF1Allintqs(p0 + q0, ps, qsmax, k, m, T) +
         dkF2Allintqs(p0 - q0, ps, qsmax, k, m, T) +
         dkF2Allintqs(p0 + q0, ps, qsmax, k, m, T)
     )
@@ -94,4 +94,55 @@ function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
         atol = 1e-5,
         maxevals = 1000,
     )[1]
+end
+
+
+
+#integrate delta function in F1 , we integrate out qs, cos(θ) and k' this will be used in Im part calculation
+function deltasumImprop1(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun)
+    #find the location of k0 where p0==2Epi(k,m)
+    deltaf(x) = 3 * Epi(x, mfun(x)) - p0
+    if deltaf(IRScale) * deltaf(UVScale) >= 0
+        return 0.0
+    else
+        k0 = find_zero(deltaf, (IRScale, UVScale))
+        # println(" k0=", k0)
+        # k0 should lies between k~Λ, when k>k0 you will get 0
+        if IRScale > k0
+            return 0.0
+            #δ function only appears in p<2k so we have the following division
+        elseif IRScale <= k0
+            if ps <= 2 * k0 - k
+                if ps > k
+                    return (
+                        k^3 *
+                        k0 *
+                        (k^2 + 5 * ps * (-2 * k0 + ps)) *
+                        coth(p0 / (4 * T)) *
+                        lamfun(k0)^2
+                    ) / (
+                        30 *
+                        p0 *
+                        pi^2 *
+                        ps *
+                        abs(2 * k0 + derivative(mfun, k0))
+                    )
+                elseif ps <= k
+                    return -1 / 120 * (
+                        k0 *
+                        (5 * k^3 * (-3 * k + 8 * k0) - 10 * k^2 * ps^2 + ps^4) *
+                        coth(p0 / (4 * T)) *
+                        lamfun(k0)^2
+                    ) / (p0 * pi^2 * abs(2 * k0 + derivative(mfun, k0)))
+                end
+            elseif ps > 3 * k0
+                return 0.0
+            elseif 2*k < ps < 2 * k0 + k
+                # println("locate end")
+                return (k0*(k+2*k0-ps)^3*(6*k0^2+(k-ps)*(4*k+ps)-k0*(9*k+ps))*coth(p0/(4*T))*lamfun(k0)^2)/(240*p0*pi^2*ps*abs(2*k0+derivative(mfun,k0)))
+            elseif 2 * k0 - k<ps < 2 * k0
+                return (k0*(k+2*k0-ps)^3*(6*k0^2+(k-ps)*(4*k+ps)-k0*(9*k+ps))*coth(p0/(4*T))*lamfun(k0)^2)/(240*p0*pi^2*ps*abs(2*k0+derivative(mfun,k0)))
+            end
+        end
+    end
 end

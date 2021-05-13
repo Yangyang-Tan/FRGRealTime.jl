@@ -12,7 +12,7 @@ nprocs()
 @everywhere m2fun=Spline1D(kdata,m2data)
 
 
-v1=SharedArray(collect(1.0:3.2:400.0))
+v1=SharedArray(collect(0.1:0.32:10.0))
 
 @everywhere FRGRealTime.propImsimpleintqs(4.0, 10.0, 145.0,1.0,400.0, 4.0, m2fun, lamfun)
 
@@ -20,7 +20,7 @@ v1=SharedArray(collect(1.0:3.2:400.0))
 outv1=pmap(
     p0 -> FRGRealTime.propImsimpleintqs(
         p0,
-        0.5,
+        0.05,
         145.0,
         1.0,
         400.0,
@@ -37,6 +37,6 @@ plot(v1,outv1)
 outv1|>maximum
 
 
-plot(p0->FRGRealTime.flowpp(p0,10.0,20.0,-10.0,145.0),40.0,100.0)
+plot(p0->FRGRealTime.flowpm(p0,10.0,20.0,-10.0,145.0),0.0,10.0)
 
-plot(p0->FRGRealTime.flowpm_intcostheqs(p0,0.5,100.0,100.0,m2fun(100.0),145.0),1.0,100.0)
+plot(p0->FRGRealTime.flowpp_intcostheqs(p0,0.00,100.0,100.0,m2fun(100.0),145.0),1.0,200.0)

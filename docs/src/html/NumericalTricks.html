@@ -700,20 +700,30 @@ div.title {text-align: center;}
 <h3>Im Part</h3>
 <p>The only chance that we can get rid of these annoying <span class="math">$\delta$</span> function in the Im part is doing the <span class="math">$k'$</span> or <span class="math">$k$</span> integral:</p>
 <p class="math">\[
-\int_\Lambda^k\!\!dk'\int_0^{qsmax}\!\!dq_s\;q_s^2\int_{-1}^{1}\!\!d\cos\theta\;\tilde{\partial_k}F_1
+\mathrm{deltaintkqs}\equiv\int_\Lambda^k\!\!dk'\int_0^{qsmax}\!\!dq_s\;q_s^2\int_{-1}^{1}\!\!d\cos\theta\;\tilde{\partial_k}F_1
 \]</p>
 <p>the <span class="math">$q_s$</span> and <span class="math">$\cos\theta$</span> integration will act on the <span class="math">$drop$</span>, the <span class="math">$k'$</span> integration will act on the <span class="math">$\delta$</span> function.</p>
 <p>We also noticed that this delta function only appears in <span class="math">$k>p/2$</span>, so the internel momentum integration can&#39;t performed on the whole range. Assuming that the solution of  <span class="math">$p_0=2E_\pi$</span>  is <span class="math">$k_0$</span>. So we only do the <span class="math">$k'$</span> integration around <span class="math">$k_0$</span>, then <span class="math">$p<2k_0$</span>.</p>
 <pre><code class="language-mathematica">Integrate&#91;&#40;&#40;2 k - Sqrt&#91;ps^2 &#43; qs^2 &#43; 2*ps*qs*x&#93;&#41;*
    Coth&#91;Sqrt&#91;k^2 &#43; m&#93;/&#40;2 T&#41;&#93;&#41;/&#40;16 \&#91;Pi&#93;^2 Sqrt&#91;k^2 &#43; m&#93;&#41; qs^2, &#123;x, -1,
    1&#125;, Assumptions -&gt; qsmax &gt; 0 &amp;&amp; 1 &gt; x &gt; -1 &amp;&amp; ps &gt; 0 &amp;&amp; qs &gt; 0&#93;</code></pre>
+<p>we get:</p>
+<p class="math">\[
+\begin{aligned}
+&p_s<k_0,\;\;\; \int_0^{k_0}\\
+&p_s>3k_0,\;\;\; 0\\
+&p_s>3k_0,\;\;\; 0\\
+&p_s>3k_0,\;\;\; 0\\
+
+\end{aligned}
+\]</p>
 
 
         <HR/>
         <div class="footer">
           <p>
             Published from <a href="NumericalTricks.jmd">NumericalTricks.jmd</a>
-            using <a href="http://github.com/JunoLab/Weave.jl">Weave.jl</a> v0.10.8 on 2021-05-12.
+            using <a href="http://github.com/JunoLab/Weave.jl">Weave.jl</a> v0.10.8 on 2021-05-13.
           </p>
         </div>
       </div>
