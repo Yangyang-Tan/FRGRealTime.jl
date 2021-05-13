@@ -12,7 +12,7 @@ nprocs()
 @everywhere m2fun=Spline1D(kdata,m2data)
 
 
-v1=SharedArray(collect(0.1:0.32:10.0))
+v1=SharedArray(collect(0.1:3.0:400.0))
 
 @everywhere FRGRealTime.propImsimpleintqs(4.0, 10.0, 145.0,1.0,400.0, 4.0, m2fun, lamfun)
 
@@ -32,6 +32,25 @@ outv1=pmap(
 
 
 plot(v1,outv1)
+plot(v1,outv1.+FRGRealTime.deltasumImprop1.(
+    v1,
+    0.05,
+    145.0,
+    1.0,
+    400.0,
+    4.0,
+    m2fun,
+    lamfun,
+)+FRGRealTime.deltasumImprop2.(
+    v1,
+    0.05,
+    145.0,
+    1.0,
+    400.0,
+    4.0,
+    m2fun,
+    lamfun,
+))
 
 
 outv1|>maximum
