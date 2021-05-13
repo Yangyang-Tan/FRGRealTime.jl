@@ -22,8 +22,8 @@ function dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
     π *
     3 *
     (
-        dkF1Allintqs(p0 - q0, ps, qsmax, k, m, T) +
-        dkF1Allintqs(p0 + q0, ps, qsmax, k, m, T) +
+        # dkF1Allintqs(p0 - q0, ps, qsmax, k, m, T) +
+        # dkF1Allintqs(p0 + q0, ps, qsmax, k, m, T) +
         dkF2Allintqs(p0 - q0, ps, qsmax, k, m, T) +
         dkF2Allintqs(p0 + q0, ps, qsmax, k, m, T)
     )
