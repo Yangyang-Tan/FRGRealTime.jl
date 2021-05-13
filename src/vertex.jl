@@ -60,14 +60,6 @@ function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
         atol = 1e-5,
         maxevals = 1000,
     )[1]
-    +
-    (2 + Npi) *
-    π *
-    3 *
-    (
-        deltasumkAll(p0 + Epi(k, mfun(k)), ps, k, T, Npi,IRScale, UVScale, mfun, lamfun) +
-        deltasumkAll(p0 - Epi(k, mfun(k)), ps, k, T, Npi,IRScale, UVScale, mfun, lamfun)
-    )
 end
 
 

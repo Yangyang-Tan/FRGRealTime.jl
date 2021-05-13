@@ -32,7 +32,20 @@ outv1=pmap(
 )
 
 
-plot(v1[1:40],outv1[1:40])
+outv2=pmap(
+    p0 -> FRGRealTime.propImsimpleintqs_delta1(
+        p0,
+        0.05,
+        145.0,
+        1.0,
+        400.0,
+        4.0,
+        m2fun,
+        lamfun,
+    ),v1
+)
+
+plot(v1,outv1.-outv2)
 
 
 
