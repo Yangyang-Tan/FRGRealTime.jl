@@ -81,14 +81,14 @@ function Coeffgamm2(k, T, Npi, mfun)
 end
 
 
-function propImsimpleintqs(p0, ps, kmin, T, Npi, mfun, lampifun)
+function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lampifun)
     -hcubature(
         k ->
             2 *
             VImintqs(p0, ps, k, T, Npi, mfun, lampifun) *
             Coeffgamm2(k, T, Npi, mfun),
-        [kmin],
-        [Λ],
+        [IRScale],
+        [UVScale],
         rtol = 1e-8,
         atol = 1e-8,
         maxevals = 8000,
