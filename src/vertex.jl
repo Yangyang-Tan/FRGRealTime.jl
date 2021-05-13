@@ -82,7 +82,7 @@ end
 
 
 function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lampifun)
-    -hcubature(
+    -hquadrature(
         k ->
             2 *
             VImintqs(p0, ps, k, T, Npi, mfun, lampifun) *
