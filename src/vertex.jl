@@ -41,16 +41,32 @@ so `qs=k`, `q0=Epi(k, mfun(k))`.
 - `mfun::Function`: $m^2(k)$, input from zero momentum result
 - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 """
-function VImintqs(p0, ps, k, T, Npi,mfun,lampifun)
+function VImintqs(p0, ps, k, T, Npi, mfun, lampifun)
     -hquadrature(
-        kprim ->
-            dkVImintqs(p0, ps, Epi(k, mfun(k)), k, kprim, mfun(kprim), T, Npi,lampifun(kprim)),
+        kprim -> dkVImintqs(
+            p0,
+            ps,
+            Epi(k, mfun(k)),
+            k,
+            kprim,
+            mfun(kprim),
+            T,
+            Npi,
+            lampifun(kprim),
+        ),
         k,
         Λ,
         rtol = 1e-8,
         atol = 1e-8,
-        maxevals=8000,
-    )[1] +(2 + Npi) *π *3 *(deltasumkAll(p0 + Epi(k, mfun(k)), ps, k, T, Npi) + deltasumkAll(p0 - Epi(k, mfun(k)), ps, k, T, Npi))
+        maxevals = 8000,
+    )[1] +
+    (2 + Npi) *
+    π *
+    3 *
+    (
+        deltasumkAll(p0 + Epi(k, mfun(k)), ps, k, T, Npi) +
+        deltasumkAll(p0 - Epi(k, mfun(k)), ps, k, T, Npi)
+    )
 end
 
 
@@ -65,12 +81,16 @@ function Coeffgamm2(k, T, Npi, mfun)
 end
 
 
-function propImsimpleintqs(p0, ps,kmin, T, Npi,mfun,lampifun)
+function propImsimpleintqs(p0, ps, kmin, T, Npi, mfun, lampifun)
     -hcubature(
-        k ->2*VImintqs(p0, ps, k, T, Npi,mfun,lampifun) *Coeffgamm2(k, T, Npi, mfun),
+        k ->
+            2 *
+            VImintqs(p0, ps, k, T, Npi, mfun, lampifun) *
+            Coeffgamm2(k, T, Npi, mfun),
         [kmin],
         [Λ],
         rtol = 1e-8,
-        atol = 1e-8,maxevals=8000
+        atol = 1e-8,
+        maxevals = 8000,
     )[1]
 end

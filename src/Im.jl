@@ -7,9 +7,9 @@ dkF2(p0, ps, qs, k, m, T)=flowpm_intcosthe(p0, ps, qs, k, m, T)
 
 function deltasumkAll(p0, ps, k, T,Npi)
     if p0>=0.0
-        deltasumk(p0, ps, k, T,Npi)
+        deltasumkfix(p0, ps, k, T,Npi)
     elseif p0<0.0
-        -deltasumk(-p0, ps, k, T,Npi)
+        -deltasumkfix(-p0, ps, k, T,Npi)
     end
 end
 
