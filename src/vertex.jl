@@ -56,10 +56,10 @@ function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
         ),
         k,
         UVScale,
-        rtol = 1e-6,
-        atol = 1e-6,
+        rtol = 1e-5,
+        atol = 1e-5,
         maxevals = 1000,
-    )[1] -
+    )[1] +
     (2 + Npi) *
     π *
     3 *
@@ -89,8 +89,8 @@ function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
             Coeffgamm2(k, T, Npi, mfun),
         IRScale,
         UVScale,
-        rtol = 1e-6,
-        atol = 1e-6,
-        maxevals = 2000,
+        rtol = 1e-5,
+        atol = 1e-5,
+        maxevals = 1000,
     )[1]
 end
