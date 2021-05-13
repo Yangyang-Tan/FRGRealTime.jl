@@ -31,7 +31,7 @@ end
 
 
 @doc raw"""
-    VImintqs(p0, ps, k, T, Npi,UVScale,mfun::Function,lampifun::Function)
+    VImintqs(p0, ps, k, T, Npi,UVScale,mfun::Function,lamfun::Function)
 
 compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
 In our code, we perform integration over `kprim`, `q0` & `qs` does not involved,
@@ -41,7 +41,7 @@ so `qs=k`, `q0=Epi(k, mfun(k))`.
 - `mfun::Function`: $m^2(k)$, input from zero momentum result
 - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 """
-function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lampifun)
+function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
     -hquadrature(
         kprim -> dkVImintqs(
             p0,
@@ -52,7 +52,7 @@ function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lampifun)
             mfun(kprim),
             T,
             Npi,
-            lampifun(kprim),
+            lamfun(kprim),
         ),
         k,
         UVScale,
@@ -81,11 +81,11 @@ function Coeffgamm2(k, T, Npi, mfun)
 end
 
 
-function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lampifun)
+function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
     -hquadrature(
         k ->
             2 *
-            VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lampifun) *
+            VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun) *
             Coeffgamm2(k, T, Npi, mfun),
         IRScale,
         UVScale,
