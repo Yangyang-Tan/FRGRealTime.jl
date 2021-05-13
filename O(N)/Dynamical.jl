@@ -20,7 +20,7 @@ v1=SharedArray(collect(1.0:3.2:100.0))
 outv1=pmap(
     p0 -> FRGRealTime.propImsimpleintqs(
         p0,
-        10.0,
+        0.5,
         145.0,
         1.0,
         400.0,
@@ -34,4 +34,5 @@ outv1=pmap(
 plot(v1,outv1)
 
 
-plot(p0->FRGRealTime.propImsimpleintqs(p0, 10.0, 145.0,1.0,400.0, 4.0, m2fun, lamfun),1.0,100.0)
+
+plot(p0->FRGRealTime.loopfunpp(p0,10.0,20.0,-10.0,145.0),1.0,100.0)
