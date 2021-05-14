@@ -436,8 +436,8 @@ function loopfunpp(p0, ps, k, m, T)
                 qp = sqrt((p0 - Epi(k, m))^2 - m)
                 return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
             elseif Epi(k, m) + Epi(ps - k, m) <= p0 < 2 * Epi(ps / 2, m)
-                qm = ps - sqrt((p0 - Epi(k, m))^2 - m^2)
-                qp = sqrt((p0 - Epi(k, m))^2 - m^2)
+                qm = ps - sqrt((p0 - Epi(k, m))^2 - m)
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
                 qmp =
                     ps / 2 -
                     sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
