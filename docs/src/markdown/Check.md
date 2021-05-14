@@ -225,5 +225,9 @@ plot!(p0->FRGRealTime.loopfunpm(p0,10.0,2.0,-3.0,145.0),1.0,20.0,label="F2")
 
 The flow equation of vertex has the following form:
 ```math
-\partial_kV_k=\lambda_{4\pi}(k)^2 *\tilde{\partial_k} 3\pi (2 + Npi) \left(F1(p_0-q_0,|\mathbb{p}_s+\mathbb{q}_s|,k,m(k))\right)
+\begin{aligned}
+&\partial_kV_k=\lambda_{4\pi}(k)^2 *\tilde{\partial_k}\left\{3\pi (2 + Npi) \left(\\
+&F1(p_0-q_0,|\mathbb{p}_s+\mathbb{q}_s|,k,m(k))+F2(p_0-q_0,|\mathbb{p}_s+\mathbb{q}_s|,k,m(k))
++F1(p_0+q_0,|\mathbb{p}_s+\mathbb{q}_s|,k,m(k))+F2(p_0+q_0,|\mathbb{p}_s+\mathbb{q}_s|,k,m(k))\right)\right\}
+\end{aligned}
 ```
