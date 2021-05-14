@@ -136,7 +136,7 @@ The flow equation of vertex has the following form:
 ```math
 \begin{aligned}
 \partial_kV_k=&\lambda_{4\pi}(k)^2 \tilde{\partial_k}\Bigg\{3\pi\Bigg.
-(2 + Npi) \Big[\Big.
+(2 + N) \Big[\Big.
 F_1(p_0-q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))+F_2(p_0-q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))\\
 &\Bigg.\Big.+F_1(p_0+q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))+F_2(p_0+q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))\Big]\Bigg\}
 \end{aligned}
