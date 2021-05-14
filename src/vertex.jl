@@ -3,14 +3,50 @@
 ################################################################################
 
 
+
+@doc raw"""
+    dkVIm(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+
+compute $\tilde{\partial_k}\mathrm{Im}V_k(q_0)$.
+
+`dkVIm` only contains $V(q_0)$, no $V(-q_0)$
+
+`dkVIm` contains delta function
+# Arguments
+- `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$
+- `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
+- `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
+"""
+function dkVIm(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+    lam4pik^2 *
+    (2 + Npi) *
+    π *
+    3 *
+    (
+        dkF1All(p0 - q0, ps, qsmax, k, m, T) +
+        dkF1All(p0 + q0, ps, qsmax, k, m, T) +
+        dkF2All(p0 - q0, ps, qsmax, k, m, T) +
+        dkF2All(p0 + q0, ps, qsmax, k, m, T)
+    )
+end
+
+
+
+
+
+
+
+
+
 @doc raw"""
     dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
 
 compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\mathrm{Im}V(q_0)$.
 
-`dkV4piImintqs` only contains $V(q_0)$, for $-q_0$, we have $\int d\cos\theta V(q_0)=\int d\cos\theta V(-q_0)$,
+`dkVImintqs` only contains $V(q_0)$, for $-q_0$, we have $\int d\cos\theta V(q_0)=\int d\cos\theta V(-q_0)$,
 so we need an extra $2$ at somewhere.
 
+`dkVImintqs` don't have delta function contribution, we consider it in `VImintqs_delta1` separately.
 # Arguments
 - `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
@@ -36,6 +72,9 @@ end
 compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
 In our code, we perform integration over `kprim`, `q0` & `qs` does not involved,
 so `qs=k`, `q0=Epi(k, mfun(k))`.
+
+
+`VImintqs` don't have delta function contribution, we consider it in `VImintqs_delta1` separately.
 
 # Arguments
 - `mfun::Function`: $m^2(k)$, input from zero momentum result

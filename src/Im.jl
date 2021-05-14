@@ -14,6 +14,46 @@ function deltasumkAll(p0, ps, k, T,Npi,IRScale, UVScale, mfun, lamfun)
 end
 
 
+
+@doc raw"""
+    dkF1All(p0, ps, k, m, T)
+
+ $F_1$ is an odd function about $p_0$
+
+when `p0>0`,`dkF1All=flowpp`
+
+when `p0<0`,`dkF1All=-flowpp(-p0)`
+"""
+function dkF1All(p0, ps, k, m, T,δ=0.02)
+    if p0>=0.0
+        flowpp(p0, ps, k, m, T,δ)
+    elseif p0<0.0
+        -flowpp(-p0, ps, k, m, T,δ)
+    end
+end
+
+
+@doc raw"""
+    dkF2All(p0, ps, k, m, T)
+
+ $F_2$ is an odd function about $p_0$
+
+when `p0>0`,`dkF2All=flowpm`
+
+when `p0<0`,`dkF2All=-flowpm(-p0)`
+"""
+function dkF2All(p0, ps, k, m, T)
+    if p0>=0.0
+        flowpm(p0, ps, k, m, T)
+    elseif p0<0.0
+        -flowpm(-p0, ps, k, m, T)
+    end
+end
+
+
+
+
+
 @doc raw"""
     dkF1Allintqs(p0, ps, qsmax, k, m, T)
 
