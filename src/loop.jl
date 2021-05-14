@@ -3,7 +3,7 @@
 compute ``\\delta`` function with the approximation ``\\frac{\\epsilon}{\\pi(\\epsilon^2+x^2)}``
 and ``\\epsilon`` is set to be ``0.02`` by default
 """
-deltafun(x,dϵ=0.02)=dϵ/(pi*(dϵ^2+x^2))
+deltafun(x, dϵ = 0.02) = dϵ / (pi * (dϵ^2 + x^2))
 
 
 """
@@ -40,9 +40,7 @@ Compared with $\mathcal{F}$, the $\mathcal{F'}$ has subtracted vacuum contributi
 function star1funpm(qp, qm, ps, m, T)
     (2 * π)^-2 *
     (4 * ps)^-1 *
-    (
-        2 * T * log((1 - exp(-Epi(qp, m) / T)) / (1 - exp(-Epi(qm, m) / T)))
-    )
+    (2 * T * log((1 - exp(-Epi(qp, m) / T)) / (1 - exp(-Epi(qm, m) / T))))
 end
 
 
@@ -109,10 +107,10 @@ end
 
 compute $-\frac{1}{\pi}\mathcal{F}_{4}\left(p_{0}, k, p, \bar{m}_{\pi, k}^{2}\right)$
 """
-function star4fun(p0, p, k, m, T,dϵ=0.02)
+function star4fun(p0, p, k, m, T, dϵ = 0.02)
     if k > p / 2
         return ((-2 * k + p)^2 * (4 * k + p) * coth(Epi(k, m) / (2 * T))) /
-               (384 * pi^2 * Epi(k, m)^2) * deltafun(p0 - 2 * Epi(k, m),dϵ)
+               (384 * pi^2 * Epi(k, m)^2) * deltafun(p0 - 2 * Epi(k, m), dϵ)
     else
         return 0.0
     end
@@ -125,8 +123,8 @@ end
 
 compute $-\frac{1}{\pi}\Im I_{1, k}(p)$
 """
-function loopfunppfix(p0, ps, k, m, T,dϵ=0.02)
-    star4fun(p0, ps, k, m, T,dϵ)+loopfunpp(p0, ps, k, m, T)
+function loopfunppfix(p0, ps, k, m, T, dϵ = 0.02)
+    star4fun(p0, ps, k, m, T, dϵ) + loopfunpp(p0, ps, k, m, T)
 end
 
 
@@ -144,15 +142,18 @@ function loopfunpm(p0, ps, k, m, T)
             elseif Epi(k + ps, m) - Epi(k, m) < p0 <= ps
                 qm =
                     -ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 qp =
                     ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 return star1funpm(qp, qm, ps, m, T)
             elseif p0 <= Epi(k + ps, m) - Epi(k, m)
                 qm = -ps + sqrt((p0 + Epi(k, m))^2 - m)
                 qp = qm + ps
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             end
         elseif ps / 2 < k <= ps
             if p0 > ps
@@ -160,19 +161,23 @@ function loopfunpm(p0, ps, k, m, T)
             elseif Epi(k + ps, m) - Epi(k, m) < p0 <= ps
                 qm =
                     -ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 qp =
                     ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 return star1funpm(qp, qm, ps, m, T)
             elseif Epi(ps, m) - Epi(k, m) < p0 <= Epi(k + ps, m) - Epi(k, m)
                 qm = -ps + sqrt((p0 + Epi(k, m))^2 - m)
                 qp = qm + ps
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             elseif p0 <= Epi(ps, m) - Epi(k, m)
                 qm = ps - sqrt((p0 + Epi(k, m))^2 - m)
                 qp = sqrt((p0 + Epi(k, m))^2 - m)
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             end
         elseif k <= ps / 2
             if p0 > ps
@@ -180,26 +185,32 @@ function loopfunpm(p0, ps, k, m, T)
             elseif Epi(k + ps, m) - Epi(k, m) < p0 <= ps
                 qm =
                     -ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 qp =
                     ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 return star1funpm(qp, qm, ps, m, T)
             elseif Epi(ps, m) - Epi(k, m) < p0 <= Epi(k + ps, m) - Epi(k, m)
                 qm = -ps + sqrt((p0 + Epi(k, m))^2 - m)
                 qp = qm + ps
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             elseif Epi(k - ps, m) - Epi(k, m) < p0 <= Epi(ps, m) - Epi(k, m)
                 qm = ps - sqrt((p0 + Epi(k, m))^2 - m)
                 qp = sqrt((p0 + Epi(k, m))^2 - m)
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             elseif p0 <= Epi(k - ps, m) - Epi(k, m)
                 qm =
                     ps / 2 +
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 qp =
                     ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 return star1funpm(qp, qm, ps, m, T)
             end
         end
@@ -215,12 +226,14 @@ function loopfunpm(p0, ps, k, m, T)
                     sqrt(p0^2 * (p0^2 - ps^2) * (-4 * m + p0^2 - ps^2)) /
                     (2 * (p0^2 - ps^2))
                 qpp = qmp + ps
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T) -
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T) -
                        star1funpm(qpp, qmp, ps, m, T)
             elseif p0 <= ps
                 qm = -ps + sqrt((p0 + Epi(k, m))^2 - m)
                 qp = qm + ps
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             end
         elseif ps / 2 < k <= ps
             if p0 > Epi(k + ps, m) - Epi(k, m)
@@ -230,24 +243,29 @@ function loopfunpm(p0, ps, k, m, T)
                 qm3p =
                     (
                         -ps +
-                        sqrt(p0^2 * (-p0^2 + ps^2) * (4 * m - p0^2 + ps^2)) / (p0^2 - ps^2)
+                        sqrt(p0^2 * (-p0^2 + ps^2) * (4 * m - p0^2 + ps^2)) /
+                        (p0^2 - ps^2)
                     ) / 2
                 qp3 = sqrt(-m + (sqrt(k^2 + m) + p0)^2)
                 qp3p =
                     (
                         ps +
-                        sqrt(p0^2 * (-p0^2 + ps^2) * (4 * m - p0^2 + ps^2)) / (p0^2 - ps^2)
+                        sqrt(p0^2 * (-p0^2 + ps^2) * (4 * m - p0^2 + ps^2)) /
+                        (p0^2 - ps^2)
                     ) / 2
-                return -star1funpm(qp3p, qm3p, ps, m, T) + star2funpm(qp3, qm3, ps, k, m, T) -
+                return -star1funpm(qp3p, qm3p, ps, m, T) +
+                       star2funpm(qp3, qm3, ps, k, m, T) -
                        star3funpm(qp3, ps, k, m, T)
             elseif Epi(ps, m) - Epi(k, m) < p0 <= ps
                 qm = -ps + sqrt((p0 + Epi(k, m))^2 - m)
                 qp = qm + ps
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             elseif p0 <= Epi(ps, m) - Epi(k, m)
                 qm = ps - sqrt((p0 + Epi(k, m))^2 - m)
                 qp = sqrt((p0 + Epi(k, m))^2 - m)
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             end
         elseif k <= ps / 2
             if p0 > Epi(k + ps, m) - Epi(k, m)
@@ -260,23 +278,28 @@ function loopfunpm(p0, ps, k, m, T)
                     sqrt(p0^2 * (p0^2 - ps^2) * (-4 * m + p0^2 - ps^2)) /
                     (2 * (p0^2 - ps^2))
                 qpp = qmp + ps
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T) -
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T) -
                        star1funpm(qpp, qmp, ps, m, T)
             elseif Epi(ps, m) - Epi(k, m) < p0 <= ps
                 qm = -ps + sqrt((p0 + Epi(k, m))^2 - m)
                 qp = qm + ps
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             elseif Epi(k - ps, m) - Epi(k, m) < p0 <= Epi(ps, m) - Epi(k, m)
                 qm = ps - sqrt((p0 + Epi(k, m))^2 - m)
                 qp = sqrt((p0 + Epi(k, m))^2 - m)
-                return star2funpm(qp, qm, ps, k, m, T) - star3funpm(qp, ps, k, m, T)
+                return star2funpm(qp, qm, ps, k, m, T) -
+                       star3funpm(qp, ps, k, m, T)
             elseif p0 <= Epi(k - ps, m) - Epi(k, m)
                 qm =
                     ps / 2 +
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 qp =
                     ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) / (2 * (p0^2 - ps^2))
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
                 return star1funpm(qp, qm, ps, m, T)
             end
         end
@@ -296,68 +319,138 @@ compute $-\frac{1}{\pi}\Im I_{2, k}(p)$, but without $\mathcal{F}_4$
 contribution
 """
 function loopfunpp(p0, ps, k, m, T)
-    if k > ps
-        if p0 >= Epi(k + ps, m) + Epi(k, m)
-            qm =
-                -ps / 2 +
-                sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
-                (2 * (p0^2 - ps^2))
-            qp = qm + ps
-            return star1fun(qp, qm, ps, m, T)
-        elseif 2 * Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
-            qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
-            qp = sqrt((p0 - Epi(k, m))^2 - m)
-            return star2fun(qp, qm, ps, k, m, T)+star3fun(qp, ps, k, m, T)
-        elseif p0 < 2 * Epi(k, m)
-            return 0.0
+    if m >= 0
+        if k > ps
+            if p0 >= Epi(k + ps, m) + Epi(k, m)
+                qm =
+                    -ps / 2 +
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
+                qp = qm + ps
+                return star1fun(qp, qm, ps, m, T)
+            elseif 2 * Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
+                qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif p0 < 2 * Epi(k, m)
+                return 0.0
+            end
+        elseif ps / 2 < k <= ps
+            if p0 >= Epi(k + ps, m) + Epi(k, m)
+                qm =
+                    -ps / 2 +
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
+                qp = qm + ps
+                return star1fun(qp, qm, ps, m, T)
+            elseif Epi(ps, m) + Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
+                qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif 2 * Epi(k, m) <= p0 < Epi(ps, m) + Epi(k, m)
+                qm = ps - sqrt((p0 - Epi(k, m))^2 - m)
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif p0 < 2 * Epi(k, m)
+                return 0.0
+            end
+        elseif k <= ps / 2
+            if p0 >= Epi(k + ps, m) + Epi(k, m)
+                qm =
+                    -ps / 2 +
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
+                qp = qm + ps
+                return star1fun(qp, qm, ps, m, T)
+            elseif Epi(ps, m) + Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
+                qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif Epi(k, m) + Epi(ps - k, m) <= p0 < Epi(ps, m) + Epi(k, m)
+                qm = ps - sqrt((p0 - Epi(k, m))^2 - m)
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif 2 * Epi(ps / 2, m) <= p0 < Epi(k, m) + Epi(ps - k, m)
+                qm =
+                    ps / 2 -
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
+                qp =
+                    ps / 2 +
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
+                return star1fun(qp, qm, ps, m, T)
+            elseif p0 < 2 * Epi(ps / 2, m)
+                return 0.0
+            end
         end
-    elseif ps / 2 < k <= ps
-        if p0 >= Epi(k + ps, m) + Epi(k, m)
-            qm =
-                -ps / 2 +
-                sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
-                (2 * (p0^2 - ps^2))
-            qp = qm + ps
-            return star1fun(qp, qm, ps, m, T)
-        elseif Epi(ps, m) + Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
-            qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
-            qp = sqrt((p0 - Epi(k, m))^2 - m)
-            return star2fun(qp, qm, ps, k, m, T)+star3fun(qp, ps, k, m, T)
-        elseif 2 * Epi(k, m) <= p0 < Epi(ps, m) + Epi(k, m)
-            qm = ps - sqrt((p0 - Epi(k, m))^2 - m)
-            qp = sqrt((p0 - Epi(k, m))^2 - m)
-            return star2fun(qp, qm, ps, k, m, T)+star3fun(qp, ps, k, m, T)
-        elseif p0 < 2 * Epi(k, m)
-            return 0.0
-        end
-    elseif k <= ps / 2
-        if p0 >= Epi(k + ps, m) + Epi(k, m)
-            qm =
-                -ps / 2 +
-                sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
-                (2 * (p0^2 - ps^2))
-            qp = qm + ps
-            return star1fun(qp, qm, ps, m, T)
-        elseif Epi(ps, m) + Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
-            qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
-            qp = sqrt((p0 - Epi(k, m))^2 - m)
-            return star2fun(qp, qm, ps, k, m, T)+star3fun(qp, ps, k, m, T)
-        elseif Epi(k, m) + Epi(ps - k, m) <= p0 < Epi(ps, m) + Epi(k, m)
-            qm = ps - sqrt((p0 - Epi(k, m))^2 - m)
-            qp = sqrt((p0 - Epi(k, m))^2 - m)
-            return star2fun(qp, qm, ps, k, m, T)+star3fun(qp, ps, k, m, T)
-        elseif 2 * Epi(ps / 2, m) <= p0 < Epi(k, m) + Epi(ps - k, m)
-            qm =
-                ps / 2 -
-                sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
-                (2 * (p0^2 - ps^2))
-            qp =
-                ps / 2 +
-                sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
-                (2 * (p0^2 - ps^2))
-            return star1fun(qp, qm, ps, m, T)
-        elseif p0 < 2 * Epi(ps / 2, m)
-            return 0.0
+    elseif m < 0
+        if k > ps
+            if p0 >= Epi(k + ps, m) + Epi(k, m)
+                qm =
+                    -ps / 2 +
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
+                qp = qm + ps
+                return star1fun(qp, qm, ps, m, T)
+            elseif 2 * Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
+                qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif p0 < 2 * Epi(k, m)
+                return 0.0
+            end
+        elseif ps / 2 < k <= ps
+            if p0 >= Epi(k + ps, m) + Epi(k, m)
+                qm =
+                    -ps / 2 +
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
+                qp = qm + ps
+                return star1fun(qp, qm, ps, m, T)
+            elseif Epi(ps, m) + Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
+                qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif 2 * Epi(k, m) <= p0 < Epi(ps, m) + Epi(k, m)
+                qm = ps - sqrt((p0 - Epi(k, m))^2 - m)
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif p0 < 2 * Epi(k, m)
+                return 0.0
+            end
+        elseif k <= ps / 2
+            if p0 >= Epi(k + ps, m) + Epi(k, m)
+                qm =
+                    -ps / 2 +
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
+                    (2 * (p0^2 - ps^2))
+                qp = qm + ps
+                return star1fun(qp, qm, ps, m, T)
+            elseif Epi(ps, m) + Epi(k, m) <= p0 < Epi(k + ps, m) + Epi(k, m)
+                qm = sqrt((p0 - Epi(k, m))^2 - m) - ps
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif 2 * Epi(ps / 2, m) <= p0 < Epi(ps, m) + Epi(k, m)
+                qm = ps - sqrt((p0 - Epi(k, m))^2 - m)
+                qp = sqrt((p0 - Epi(k, m))^2 - m)
+                return star2fun(qp, qm, ps, k, m, T) + star3fun(qp, ps, k, m, T)
+            elseif Epi(k, m) + Epi(ps - k, m) <= p0 < 2 * Epi(ps / 2, m)
+                qm = ps - sqrt((p0 - Epi(k, m))^2 - m^2)
+                qp = sqrt((p0 - Epi(k, m))^2 - m^2)
+                qmp =
+                    ps / 2 -
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m^2)) /
+                    (2 * (p0^2 - ps^2))
+                qpp =
+                    ps / 2 +
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m^2)) /
+                    (2 * (p0^2 - ps^2))
+                return star2fun(qp, qm, ps, k, m, T) +
+                       star3fun(qp, ps, k, m, T) - star1fun(qpp, qmp, ps, m, T)
+            elseif p0 < Epi(k, m) + Epi(ps - k, m)
+                return 0.0
+            end
         end
     end
 end
