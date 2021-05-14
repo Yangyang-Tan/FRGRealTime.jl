@@ -14,6 +14,48 @@ function deltasumkAll(p0, ps, k, T,Npi,IRScale, UVScale, mfun, lamfun)
 end
 
 
+@doc raw"""
+    F1All(p0, ps, k, m, T)
+
+ $F_1$ is an odd function about $p_0$
+
+when `p0>0`,`F1All=loopfunpp`
+
+when `p0<0`,`dkF1All=-loopfunpp(-p0)`
+
+`F1All` doesn't constains the type-2 delta function
+"""
+function F1All(p0, ps, k, m, T)
+    if p0>=0.0
+        loopfunpp(p0, ps, k, m, T)
+    elseif p0<0.0
+        -loopfunpp(-p0, ps, k, m, T)
+    end
+end
+
+
+@doc raw"""
+    F2All(p0, ps, k, m, T)
+
+ $F_2$ is an odd function about $p_0$
+
+when `p0>0`,`F2All=loopfunpm`
+
+when `p0<0`,`F2All=-loopfunpm(-p0)`
+"""
+function F2All(p0, ps, k, m, T)
+    if p0>=0.0
+        loopfunpm(p0, ps, k, m, T)
+    elseif p0<0.0
+        -loopfunpm(-p0, ps, k, m, T)
+    end
+end
+
+
+
+
+
+
 
 @doc raw"""
     dkF1All(p0, ps, k, m, T)
@@ -23,6 +65,8 @@ end
 when `p0>0`,`dkF1All=flowpp`
 
 when `p0<0`,`dkF1All=-flowpp(-p0)`
+
+`dkF1All` doesn't constains the type-2 delta function
 """
 function dkF1All(p0, ps, k, m, T,δ=0.02)
     if p0>=0.0
@@ -62,6 +106,10 @@ end
 when `p0>0`,`dkF1Allintqs=flowpp_intcostheqs`
 
 when `p0<0`,`dkF1Allintqs=-flowpp_intcostheqs(-p0)`
+
+`dkF1Allintqs` doesn't constains the type-1 delta function
+
+`dkF1Allintqs` doesn't constains the type-2 delta function
 """
 function dkF1Allintqs(p0, ps, qsmax, k, m, T)
     if p0>=0.0

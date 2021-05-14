@@ -4,6 +4,8 @@
 
 
 
+
+
 @doc raw"""
     dkVIm(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
 
@@ -23,10 +25,10 @@ function dkVIm(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
     π *
     3 *
     (
-        dkF1All(p0 - q0, ps, qsmax, k, m, T) +
-        dkF1All(p0 + q0, ps, qsmax, k, m, T) +
-        dkF2All(p0 - q0, ps, qsmax, k, m, T) +
-        dkF2All(p0 + q0, ps, qsmax, k, m, T)
+        dkF1All(p0 - q0, ps, k, m, T) +
+        dkF1All(p0 + q0, ps, k, m, T) +
+        dkF2All(p0 - q0, ps, k, m, T) +
+        dkF2All(p0 + q0, ps, k, m, T)
     )
 end
 
