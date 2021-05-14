@@ -440,11 +440,11 @@ function loopfunpp(p0, ps, k, m, T)
                 qp = sqrt((p0 - Epi(k, m))^2 - m^2)
                 qmp =
                     ps / 2 -
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m^2)) /
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
                     (2 * (p0^2 - ps^2))
                 qpp =
                     ps / 2 +
-                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m^2)) /
+                    sqrt(p0^2 * (p0^2 - ps^2) * (p0^2 - ps^2 - 4 * m)) /
                     (2 * (p0^2 - ps^2))
                 return star2fun(qp, qm, ps, k, m, T) +
                        star3fun(qp, ps, k, m, T) - star1fun(qpp, qmp, ps, m, T)
