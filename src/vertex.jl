@@ -19,17 +19,17 @@ function dkVIm(p0, ps, q0, k, m, T, Npi, lam4pik)
     lam4pik^2 *
     (2 + Npi) *
     π *
-    3 *
     (
-        dkF1All(p0 - q0, ps, k, m, T) +
-        dkF1All(p0 + q0, ps, k, m, T) +
-        dkF2All(p0 - q0, ps, k, m, T) +
-        dkF2All(p0 + q0, ps, k, m, T)
+        3 * (
+            dkF1All(p0 - q0, ps, k, m, T) +
+            dkF1All(p0 + q0, ps, k, m, T) +
+            dkF2All(p0 - q0, ps, k, m, T) +
+            dkF2All(p0 + q0, ps, k, m, T)
+        ) +
+        (2 + Npi) * dkF2All(1e-8 - 1e-14, 1e-8, k, m, T) +
+        dkF2All(1e-8 - 1e-14, 1e-8, k, m, T)
     )
 end
-
-
-
 
 
 
@@ -48,12 +48,15 @@ function VImSimple(p0, ps, q0, k, m, T, Npi, lam4pik)
     lam4pik^2 *
     (2 + Npi) *
     π *
-    3 *
     (
-        F1All(p0 - q0, ps, k, m, T) +
-        F1All(p0 + q0, ps, k, m, T) +
-        F2All(p0 - q0, ps, k, m, T) +
-        F2All(p0 + q0, ps, k, m, T)
+        3 * (
+            F1All(p0 - q0, ps, k, m, T) +
+            F1All(p0 + q0, ps, k, m, T) +
+            F2All(p0 - q0, ps, k, m, T) +
+            F2All(p0 + q0, ps, k, m, T)
+        ) +
+        (2 + Npi) * F2All(1e-8 - 1e-14, 1e-8, k, m, T) +
+        F2All(1e-8 - 1e-14, 1e-8, k, m, T)
     )
 end
 
@@ -91,6 +94,11 @@ function dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
 end
 
 
+
+
+
+
+
 @doc raw"""
     VImintqs(p0, ps, k, T, Npi,UVScale,mfun::Function,lamfun::Function)
 
@@ -122,7 +130,7 @@ function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
         UVScale,
         rtol = 1e-5,
         atol = 1e-5,
-        maxevals = 1000,
+        maxevals = 500,
     )[1]
 end
 
@@ -153,7 +161,7 @@ function Coeffgamm2(k, T, Npi, mfun)
 end
 
 
-function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
+function propImintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
     -hquadrature(
         k ->
             2 *
@@ -163,12 +171,15 @@ function propImsimpleintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
         UVScale,
         rtol = 1e-6,
         atol = 1e-6,
-        maxevals = 2000,
+        maxevals = 4000,
     )[1]
 end
 
 
-function propImsimpleintqs_delta1(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
+
+
+
+function propImintqs_delta1(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
     -hquadrature(
         k ->
             2 *

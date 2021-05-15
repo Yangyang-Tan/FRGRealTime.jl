@@ -279,3 +279,24 @@ $m<0,k=ps/2,\cos\theta=0.0,qs=k$
 ```julia
 checkplotVIm(20.0,10.0,0.0,10.0,-2.0,145.0,1.0)
 ```
+
+
+
+
+
+
+
+
+
+## Check Two Point function
+
+
+```julia
+testmfun(x)=-2.0
+teslamfun(x)=1.0
+```
+```julia
+plot(p0->FRGRealTime.propImsimpleintqs_delta1(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun, teslamfun),1.0,100.0)
+
+FRGRealTime.propImsimpleintqs(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun, teslamfun)
+```
