@@ -17,7 +17,7 @@ when `p0>0`,`F1All=loopfunpp`
 
 when `p0<0`,`dkF1All=-loopfunpp(-p0)`
 
-`F1All` doesn't constains the type-2 delta function
+`F1All` doesn't contains the type-2 delta function
 """
 function F1All(p0, ps, k, m, T)
     if p0>=0.0
@@ -60,7 +60,7 @@ when `p0>0`,`dkF1All=flowpp`
 
 when `p0<0`,`dkF1All=-flowpp(-p0)`
 
-`dkF1All` doesn't constains the type-2 delta function
+`dkF1All` doesn't contains the type-2 delta function
 """
 function dkF1All(p0, ps, k, m, T,δ=0.02)
     if p0>=0.0
@@ -101,9 +101,9 @@ when `p0>0`,`dkF1Allintqs=flowpp_intcostheqs`
 
 when `p0<0`,`dkF1Allintqs=-flowpp_intcostheqs(-p0)`
 
-`dkF1Allintqs` doesn't constains the type-1 delta function
+`dkF1Allintqs` doesn't contains the type-1 delta function
 
-`dkF1Allintqs` doesn't constains the type-2 delta function
+`dkF1Allintqs` doesn't contains the type-2 delta function
 """
 function dkF1Allintqs(p0, ps, qsmax, k, m, T)
     if p0>=0.0
