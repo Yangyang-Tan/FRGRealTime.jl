@@ -295,12 +295,31 @@ checkplotVIm(20.0,10.0,0.0,10.0,-2.0,145.0,1.0)
 using Dierckx
 testmfun(x)=-2.0
 testlamfun(x)=1.0
-testmfun2=Spline1D(collect(0.1:0.1:800.0),fill(-2.0,length(collect(0.1:0.1:800.0))))
-testlamfun2=Spline1D(collect(0.1:0.1:800.0),fill(1.0,length(collect(0.1:0.1:800.0))))
+testmfun2=Spline1D(collect(0.1:0.5:800.0),fill(-2.0,length(collect(0.1:0.5:800.0))))
+testlamfun2=Spline1D(collect(0.1:0.5:800.0),fill(1.0,length(collect(0.1:0.5:800.0))))
 
 ```
 ```julia
-plot(p0->FRGRealTime.propImintqs(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun, testlamfun),1.0,100.0)
+plot!(p0->FRGRealTime.propImintqs(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun2, testlamfun2),1.0,100.0)
 
-FRGRealTime.propImintqs(4.0, 0.5, 145.0,5.0,400.0, 4.0, testmfun, testlamfun)
+FRGRealTime.propImintqs(4.0, 0.5, 145.0,5.0,400.0, 4.0, testmfun2, testlamfun2)
+FRGRealTime.propImSimple(10.0, 0.5, 145.0, 5.0,400.0, 4.0, -2.0, 1.0)
+plot(p0->FRGRealTime.propImSimple(p0, 0.5, 145.0,5.0,400.0, 4.0, -2.0, 1.0),1.0,100.0)
+
+propImSimple(10.0, 0.5, 145.0, 5.0,400.0, 4.0, -2.0, 1.0)
+
+plot!(p0->propImSimple(p0, 0.5, 145.0,5.0,400.0, 4.0, -2.0, 1.0),1.0,100.0)
+
+function propImSimple(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
+    hquadrature(
+        x ->
+            FRGRealTime.Coeffgamm2Simple(x, T, Npi, m) *
+            FRGRealTime.VImintqsSimple(p0, ps, x, T, Npi, m, lamda),
+        IRScale,
+        UVScale,
+        atol = 1e-5,
+        rtol = 1e-5,
+    )[1]
+end
+
 ```

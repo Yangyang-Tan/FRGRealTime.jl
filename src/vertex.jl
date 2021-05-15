@@ -92,7 +92,7 @@ end
 - `lamda`: $\lambda_{4\pi}$, it's a constant number.
 """
 function propImSimple(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
-    hquadrature(
+    -hquadrature(
         x ->
             Coeffgamm2Simple(x, T, Npi, m) *
             VImintqsSimple(p0, ps, x, T, Npi, m, lamda),
@@ -168,9 +168,8 @@ function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
         ),
         k,
         UVScale,
-        rtol = 1e-5,
-        atol = 1e-5,
-        maxevals = 500,
+        rtol = 1e-4,
+        atol = 1e-4,
     )[1]
 end
 
@@ -216,9 +215,8 @@ function propImintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
             Coeffgamm2(k, T, Npi, mfun),
         IRScale,
         UVScale,
-        rtol = 1e-6,
-        atol = 1e-6,
-        maxevals = 4000,
+        rtol = 1e-4,
+        atol = 1e-4,
     )[1]
 end
 
