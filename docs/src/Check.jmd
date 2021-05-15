@@ -141,3 +141,8 @@ F_1(p_0-q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))+F_2(p_0-q_0,|\mathbf{p}_s+\mathb
 &\Bigg.\Big.+F_1(p_0+q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))+F_2(p_0+q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))\Big]\Bigg\}
 \end{aligned}
 ```
+
+Define Vertex testing function:
+```julia
+
+```
