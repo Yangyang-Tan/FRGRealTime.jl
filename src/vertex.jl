@@ -4,22 +4,19 @@
 
 
 
-
-
 @doc raw"""
-    dkVIm(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+    dkVIm(p0, ps, q0, k, m, T, Npi, lam4pik)
 
 compute $\tilde{\partial_k}\mathrm{Im}V_k(q_0)$.
 
 `dkVIm` only contains $V(q_0)$, no $V(-q_0)$
 
-`dkVIm` contains delta function
+`dkVIm` contains type-1 delta function
 # Arguments
-- `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
 - `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
 """
-function dkVIm(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+function dkVIm(p0, ps, q0, k, m, T, Npi, lam4pik)
     lam4pik^2 *
     (2 + Npi) *
     π *
@@ -33,6 +30,34 @@ function dkVIm(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
 end
 
 
+
+
+
+
+@doc raw"""
+    VImSimple(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+
+compute $\tilde{\partial_k}\mathrm{Im}V_k(q_0)$.
+
+`dkVIm` only contains $V(q_0)$, no $V(-q_0)$
+
+`VImSimple` contains type-1 delta function
+# Arguments
+- `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
+- `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
+"""
+function VImSimple(p0, ps, q0, k, m, T, Npi, lam4pik)
+    lam4pik^2 *
+    (2 + Npi) *
+    π *
+    3 *
+    (
+        F1All(p0 - q0, ps, k, m, T) +
+        F1All(p0 + q0, ps, k, m, T) +
+        F2All(p0 - q0, ps, k, m, T) +
+        F2All(p0 + q0, ps, k, m, T)
+    )
+end
 
 
 

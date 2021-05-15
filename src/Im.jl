@@ -1,9 +1,3 @@
-F1 = loopfunpp
-F2 = loopfunpm
-dkF1(p0,ps,k,m,T)=flowpp2(p0,ps,k,m,T)
-dkF2(p0,ps,k,m,T)=flowpm(p0,ps,k,m,T)
-dkF1(p0, ps, qs, k, m, T)=flowpp_intcosthe(p0, ps, qs, k, m, T)
-dkF2(p0, ps, qs, k, m, T)=flowpm_intcosthe(p0, ps, qs, k, m, T)
 
 function deltasumkAll(p0, ps, k, T,Npi,IRScale, UVScale, mfun, lamfun)
     if p0>=0.0
