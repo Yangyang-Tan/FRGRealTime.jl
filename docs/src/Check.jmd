@@ -144,5 +144,5 @@ F_1(p_0-q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))+F_2(p_0-q_0,|\mathbf{p}_s+\mathb
 
 Define Vertex testing function:
 ```julia
-
+testVIm(p0, ps, q0, x, m, T, lam4pik)=hquadrature(x->dkVIm(p0, ps, q0, x, m, T, 4.0, lam4pik),k,400.0)
 ```
