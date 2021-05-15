@@ -3,8 +3,8 @@
 
 compute $-\frac{1}{\pi}\tilde{\partial_k}\Im I_{1, k}(p)$
 
-To be noticed that, `flowpp` doesn't constains $\tilde{\partial_k}\mathcal{F}_4$,
-we will consider it seperately.
+To be noticed that, `flowpp` doesn't contains $\tilde{\partial_k}\mathcal{F}_4$,
+we will consider it separately.
 
 At $p_0=2E_{\pi,k}$, `flowpp` has a $\delta$ function contribution, we use a rectangle
 function with width $\delta$ to approximate.
