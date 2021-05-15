@@ -271,13 +271,43 @@ checkplotVIm(0.0,5.0,1.0,10.0,-2.0,145.0,1.0)
 
 
 
+$m<0,k>ps/2,\cos\theta=1.0,ps=0.0,qs=8,k=10$
+```julia
+checkplotVIm(0.0,8.0,1.0,10.0,-2.0,145.0,1.0)
+```
+
+![](figures/Check_23_1.png)
+
+
+
+$m<0,k>ps/2,\cos\theta=1.0,ps=0.0,qs=9,k=10$
+```julia
+checkplotVIm(0.0,9.0,1.0,10.0,-2.0,145.0,1.0)
+```
+
+![](figures/Check_24_1.png)
+
+
+
+$m<0,k>ps/2,\cos\theta=1.0,ps=0.0,qs=ps$
+```julia
+checkplotVIm(0.0,10.0,1.0,10.0,-2.0,145.0,1.0)
+```
+
+![](figures/Check_25_1.png)
+
+
+
+
+
+
 
 $m<0,k>ps/2,\cos\theta=-1.0,ps=4.0,k=10.0$
 ```julia
 checkplotVIm(4.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_23_1.png)
+![](figures/Check_26_1.png)
 
 
 
@@ -286,7 +316,7 @@ $m<0,k>ps/2,\cos\theta=0.0,ps=4.0,k=10.0$
 checkplotVIm(4.0,5.0,0.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_24_1.png)
+![](figures/Check_27_1.png)
 
 
 
@@ -296,7 +326,7 @@ $m<0,k>ps/2,\cos\theta=1.0,ps=4.0,k=10.0$
 checkplotVIm(4.0,5.0,1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_25_1.png)
+![](figures/Check_28_1.png)
 
 
 
@@ -305,7 +335,7 @@ $m<0,k>ps/2,\cos\theta=-1.0,ps=10.0,k=10.0$
 checkplotVIm(10.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_26_1.png)
+![](figures/Check_29_1.png)
 
 
 
@@ -314,7 +344,7 @@ $m<0,k>ps/2,\cos\theta=0.0,ps=10.0,k=10.0$
 checkplotVIm(10.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_27_1.png)
+![](figures/Check_30_1.png)
 
 
 
@@ -323,7 +353,7 @@ $m<0,k>ps/2,\cos\theta=1.0,ps=10.0,k=10.0$
 checkplotVIm(10.0,5.0,1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_28_1.png)
+![](figures/Check_31_1.png)
 
 
 
@@ -338,7 +368,7 @@ $m<0,k=ps/2,\cos\theta=-1.0$
 checkplotVIm(20.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_29_1.png)
+![](figures/Check_32_1.png)
 
 
 
@@ -347,7 +377,7 @@ $m<0,k=ps/2,\cos\theta=0.0$
 checkplotVIm(20.0,5.0,0.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_30_1.png)
+![](figures/Check_33_1.png)
 
 
 
@@ -356,7 +386,7 @@ $m<0,k=ps/2,\cos\theta=1.0$
 checkplotVIm(20.0,5.0,1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_31_1.png)
+![](figures/Check_34_1.png)
 
 
 
@@ -369,7 +399,7 @@ $m<0,k<ps/2,\cos\theta=-1.0$
 checkplotVIm(40.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_32_1.png)
+![](figures/Check_35_1.png)
 
 
 
@@ -378,7 +408,7 @@ $m<0,k<ps/2,\cos\theta=0.0$
 checkplotVIm(40.0,5.0,0.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_33_1.png)
+![](figures/Check_36_1.png)
 
 
 
@@ -387,7 +417,7 @@ $m<0,k<ps/2,\cos\theta=1.0$
 checkplotVIm(40.0,5.0,1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_34_1.png)
+![](figures/Check_37_1.png)
 
 
 
@@ -399,7 +429,7 @@ $m<0,k<ps/2,\cos\theta=-1.0,qs=k$
 checkplotVIm(40.0,10.0,-1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_35_1.png)
+![](figures/Check_38_1.png)
 
 
 
@@ -408,7 +438,7 @@ $m<0,k<ps/2,\cos\theta=0.0,qs=k$
 checkplotVIm(40.0,10.0,0.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_36_1.png)
+![](figures/Check_39_1.png)
 
 
 
@@ -417,7 +447,7 @@ $m<0,k<ps/2,\cos\theta=1.0,qs=k$
 checkplotVIm(40.0,10.0,1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_37_1.png)
+![](figures/Check_40_1.png)
 
 
 
@@ -428,7 +458,7 @@ $m<0,k=ps/2,\cos\theta=-1.0,qs=k$
 checkplotVIm(20.0,10.0,-1.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_38_1.png)
+![](figures/Check_41_1.png)
 
 
 
@@ -437,4 +467,4 @@ $m<0,k=ps/2,\cos\theta=0.0,qs=k$
 checkplotVIm(20.0,10.0,0.0,10.0,-2.0,145.0,1.0)
 ```
 
-![](figures/Check_39_1.png)
+![](figures/Check_42_1.png)
