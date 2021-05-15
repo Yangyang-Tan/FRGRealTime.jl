@@ -63,6 +63,46 @@ end
 
 
 
+function VImintqsSimple(p0, ps, k, T, Npi, m, lamda)
+    hcubature(
+        x ->
+            x[1]^2 * VImSimple(
+                p0,
+                sqrt(x[1]^2 + ps^2 + 2 * x[1] * x[2] * ps),
+                Epi(k, m),
+                k,
+                m,
+                T,
+                Npi,
+                lamda,
+            ),
+        [0.0, -1.0],
+        [k, 1.0],atol=1e-4,rtol=1e-4
+    )[1]
+end
+
+
+
+@doc raw"""
+    propImSimple(p0, ps, T,IRScale,UVScale, Npi, m, lamda)
+`x[1]` is `qs`, `x[2]` is `costh`, `x[3]` is `k`
+
+# Arguments
+- `m`: mass square, it's a constant number.
+- `lamda`: $\lambda_{4\pi}$, it's a constant number.
+"""
+function propImSimple(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
+    hquadrature(
+        x ->
+            Coeffgamm2Simple(x, T, Npi, m) *
+            VImintqsSimple(p0, ps, x, T, Npi, m, lamda),
+        IRScale,
+        UVScale,
+        atol = 1e-4,
+        rtol = 1e-4,
+    )[1]
+end
+
 
 
 
@@ -148,7 +188,14 @@ end
 
 
 
-
+function Coeffgamm2Simple(k, T, Npi, m)
+    (
+        k * (
+            -(coth(Epi(k, m) / (2 * T)) / Epi(k, m)^3) -
+            csch(Epi(k, m) / (2 * T))^2 / (2 * T * Epi(k, m)^2)
+        )
+    ) / (16 * pi^2)
+end
 
 
 function Coeffgamm2(k, T, Npi, mfun)
