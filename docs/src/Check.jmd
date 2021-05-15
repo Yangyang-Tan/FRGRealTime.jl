@@ -146,3 +146,4 @@ Define Vertex testing function:
 ```julia
 testVIm(p0, ps, q0, k, m, T, lam4pik)=-hquadrature(x->dkVIm(p0, ps, q0, x, m, T, 4.0, lam4pik),k,400.0)[1]+VImSimple(p0, ps, q0, 400.0, m, T,4.0, lam4pik)
 ```
+
