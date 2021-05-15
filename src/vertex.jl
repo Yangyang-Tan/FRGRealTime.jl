@@ -12,6 +12,8 @@ compute $\tilde{\partial_k}\mathrm{Im}V_k(q_0)$.
 `dkVIm` only contains $V(q_0)$, no $V(-q_0)$
 
 `dkVIm` contains type-1 delta function
+
+`dkVIm` doesn't contains type-2 delta function
 # Arguments
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
 - `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
@@ -39,9 +41,11 @@ end
 
 compute $\tilde{\partial_k}\mathrm{Im}V_k(q_0)$.
 
-`dkVIm` only contains $V(q_0)$, no $V(-q_0)$
+`VImSimple` only contains $V(q_0)$, no $V(-q_0)$
 
 `VImSimple` contains type-1 delta function
+
+`VImSimple` doesn't contains type-2 delta function
 # Arguments
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
 - `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
@@ -73,7 +77,7 @@ compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\math
 `dkVImintqs` only contains $V(q_0)$, for $-q_0$, we have $\int d\cos\theta V(q_0)=\int d\cos\theta V(-q_0)$,
 so we need an extra $2$ at somewhere.
 
-`dkVImintqs` don't have delta function contribution, we consider it in `VImintqs_delta1` separately.
+`dkVImintqs` doesn't have any delta function contribution, we include the type-1 delta function in `VImintqs_delta1` separately.
 # Arguments
 - `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
@@ -101,7 +105,7 @@ In our code, we perform integration over `kprim`, `q0` & `qs` does not involved,
 so `qs=k`, `q0=Epi(k, mfun(k))`.
 
 
-`VImintqs` don't have delta function contribution, we consider it in `VImintqs_delta1` separately.
+`VImintqs` don't have any delta function contribution, we include the type-1 delta function in `VImintqs_delta1` separately.
 
 # Arguments
 - `mfun::Function`: $m^2(k)$, input from zero momentum result
