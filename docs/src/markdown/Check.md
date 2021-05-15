@@ -227,8 +227,71 @@ The flow equation of vertex has the following form:
 ```math
 \begin{aligned}
 \partial_kV_k=&\lambda_{4\pi}(k)^2 \tilde{\partial_k}\Bigg\{3\pi\Bigg.
-(2 + Npi) \Big[\Big.
+(2 + N) \Big[\Big.
 F_1(p_0-q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))+F_2(p_0-q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))\\
 &\Bigg.\Big.+F_1(p_0+q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))+F_2(p_0+q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))\Big]\Bigg\}
 \end{aligned}
 ```
+
+Define Vertex testing function, we set $q_0=E_\pi(k,m)$:
+```julia
+testVIm(p0, ps, k, m, T, lam4pik)=-hquadrature(x->FRGRealTime.dkVIm(p0, ps, Epi(k,m), x, m, T, 4.0, lam4pik),k,400.0,atol=1e-10,rtol=1e-10,initdiv=2000)[1]+FRGRealTime.VImSimple(p0, ps, Epi(k,m), 400.0, m, T,4.0, lam4pik)
+```
+
+```
+testVIm (generic function with 1 method)
+```
+
+
+
+
+
+Define a check plot function with `p0` is x-axis:
+```julia
+function checkplotVIm(ps,qs,costh, k, m, T, lam4pik)
+  plot(p0->testVIm(p0, sqrt(ps^2+qs^2+2*ps*qs*costh), k, m, T, lam4pik),1.0,100.0,label="Integrate Flow",xaxis="p0")
+  plot!(p0->FRGRealTime.VImSimple(p0, sqrt(ps^2+qs^2+2*ps*qs*costh), Epi(k,m), k, m, T,4.0, lam4pik),1.0,100.0,label="F1&F2")
+end
+```
+
+```
+checkplotVIm (generic function with 1 method)
+```
+
+
+
+
+
+$m<0,k>ps/2,\cos\theta=1.0$
+```julia
+checkplotVIm(0.0,5.0,1.0,10.0,-2.0,145.0,1.0)
+```
+
+![](figures/Check_22_1.png)
+
+
+
+$m<0,k<ps/2,\cos\theta=1.0$
+```julia
+checkplotVIm(20.0,5.0,1.0,10.0,-2.0,145.0,1.0)
+```
+
+![](figures/Check_23_1.png)
+
+
+
+$m<0,k<ps/2,\cos\theta=-1.0$
+```julia
+checkplotVIm(20.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
+```
+
+![](figures/Check_24_1.png)
+
+
+
+$m<0,k<ps/2,\cos\theta=-1.0$
+```julia
+checkplotVIm(20.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
+```
+
+![](figures/Check_25_1.png)

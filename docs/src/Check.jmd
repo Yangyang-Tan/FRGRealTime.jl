@@ -142,8 +142,35 @@ F_1(p_0-q_0,|\mathbf{p}_s+\mathbf{q}_s|,k,m(k))+F_2(p_0-q_0,|\mathbf{p}_s+\mathb
 \end{aligned}
 ```
 
-Define Vertex testing function:
+Define Vertex testing function, we set $q_0=E_\pi(k,m)$:
 ```julia
-testVIm(p0, ps, q0, k, m, T, lam4pik)=-hquadrature(x->dkVIm(p0, ps, q0, x, m, T, 4.0, lam4pik),k,400.0)[1]+VImSimple(p0, ps, q0, 400.0, m, T,4.0, lam4pik)
+testVIm(p0, ps, k, m, T, lam4pik)=-hquadrature(x->FRGRealTime.dkVIm(p0, ps, Epi(k,m), x, m, T, 4.0, lam4pik),k,400.0,atol=1e-10,rtol=1e-10,initdiv=2000)[1]+FRGRealTime.VImSimple(p0, ps, Epi(k,m), 400.0, m, T,4.0, lam4pik)
 ```
 
+Define a check plot function with `p0` is x-axis:
+```julia
+function checkplotVIm(ps,qs,costh, k, m, T, lam4pik)
+  plot(p0->testVIm(p0, sqrt(ps^2+qs^2+2*ps*qs*costh), k, m, T, lam4pik),1.0,100.0,label="Integrate Flow",xaxis="p0")
+  plot!(p0->FRGRealTime.VImSimple(p0, sqrt(ps^2+qs^2+2*ps*qs*costh), Epi(k,m), k, m, T,4.0, lam4pik),1.0,100.0,label="F1&F2")
+end
+```
+
+$m<0,k>ps/2,\cos\theta=1.0$
+```julia
+checkplotVIm(0.0,5.0,1.0,10.0,-2.0,145.0,1.0)
+```
+
+$m<0,k<ps/2,\cos\theta=1.0$
+```julia
+checkplotVIm(20.0,5.0,1.0,10.0,-2.0,145.0,1.0)
+```
+
+$m<0,k<ps/2,\cos\theta=-1.0$
+```julia
+checkplotVIm(20.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
+```
+
+$m<0,k<ps/2,\cos\theta=-1.0$
+```julia
+checkplotVIm(20.0,5.0,-1.0,10.0,-2.0,145.0,1.0)
+```
