@@ -28,7 +28,7 @@ function dkVIm(p0, ps, q0, k, m, T, Npi, lam4pik)
         ) +
         (2 + Npi) * (
             dkF1All(1e-8 - 1e-14, 1e-8, k, m, T) +
-            dkF1All(1e-8 - 1e-14, 1e-8, k, m, T)
+            dkF2All(1e-8 - 1e-14, 1e-8, k, m, T)
         )
     )
 end
@@ -52,36 +52,19 @@ function VImSimple(p0, ps, q0, k, m, T, Npi, lam4pik, UVScale)
     π *
     (
         3 * (
-            F1All(p0 - q0, ps, k, m, T)  +
-            F1All(p0 + q0, ps, k, m, T) +
-            F2All(p0 - q0, ps, k, m, T)  +
-            F2All(p0 + q0, ps, k, m, T)
+            F1All(p0 - q0, ps, k, m, T) - F1All(p0 - q0, ps, UVScale, m, T) +
+            F1All(p0 + q0, ps, k, m, T) - F1All(p0 + q0, ps, UVScale, m, T) +
+            F2All(p0 - q0, ps, k, m, T) - F2All(p0 - q0, ps, UVScale, m, T) +
+            F2All(p0 + q0, ps, k, m, T) - F2All(p0 + q0, ps, UVScale, m, T)
         ) +
         (2 + Npi) * (
-            F1All(1e-8 - 1e-14, 1e-8, k, m, T) +
-            F2All(1e-8 - 1e-14, 1e-8, k, m, T)
+            F1All(1e-8 - 1e-14, 1e-8, k, m, T) -
+            F1All(1e-8 - 1e-14, 1e-8, UVScale, m, T) +
+            F2All(1e-8 - 1e-14, 1e-8, k, m, T) -
+            F2All(1e-8 - 1e-14, 1e-8, UVScale, m, T)
         )
     )
 end
-# function VImSimple(p0, ps, q0, k, m, T, Npi, lam4pik, UVScale)
-#     lam4pik^2 *
-#     (2 + Npi) *
-#     π *
-#     (
-#         3 * (
-#             F1All(p0 - q0, ps, k, m, T) - F1All(p0 - q0, ps, UVScale, m, T) +
-#             F1All(p0 + q0, ps, k, m, T) - F1All(p0 + q0, ps, UVScale, m, T) +
-#             F2All(p0 - q0, ps, k, m, T) - F2All(p0 - q0, ps, UVScale, m, T) +
-#             F2All(p0 + q0, ps, k, m, T) - F2All(p0 + q0, ps, UVScale, m, T)
-#         ) +
-#         (2 + Npi) * (
-#             F1All(1e-8 - 1e-14, 1e-8, k, m, T) -
-#             F1All(1e-8 - 1e-14, 1e-8, UVScale, m, T) +
-#             F2All(1e-8 - 1e-14, 1e-8, k, m, T) -
-#             F2All(1e-8 - 1e-14, 1e-8, UVScale, m, T)
-#         )
-#     )
-# end
 
 
 
