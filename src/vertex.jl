@@ -83,7 +83,7 @@ function VImintqsSimple(p0, ps, k, T, Npi, m, lamda,UVScale)
                 lamda,UVScale,
             ),
         [0.0, -1.0],
-        [k, 1.0],atol=1e-4,rtol=1e-4
+        [k, 1.0],atol=1e-4,rtol=1e-4,maxevals=1000,
     )[1]
 end
 
@@ -105,7 +105,7 @@ function propImSimple(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
         IRScale,
         UVScale,
         atol = 1e-4,
-        rtol = 1e-4,maxevals=1000,
+        rtol = 1e-4,maxevals=200,
     )[1]
 end
 
