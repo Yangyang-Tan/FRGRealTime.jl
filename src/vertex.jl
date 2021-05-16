@@ -69,7 +69,7 @@ end
 
 
 
-function VImintqsSimple(p0, ps, k, T, Npi, m, lamda)
+function VImintqsSimple(p0, ps, k, T, Npi, m, lamda,UVScale)
     hcubature(
         x ->
             x[1]^2 * VImSimple(
@@ -80,7 +80,7 @@ function VImintqsSimple(p0, ps, k, T, Npi, m, lamda)
                 m,
                 T,
                 Npi,
-                lamda,
+                lamda,UVScale,
             ),
         [0.0, -1.0],
         [k, 1.0],atol=1e-4,rtol=1e-4
@@ -101,7 +101,7 @@ function propImSimple(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
     -hquadrature(
         x ->
             2*Coeffgamm2Simple(x, T, Npi, m) *
-            VImintqsSimple(p0, ps, x, T, Npi, m, lamda),
+            VImintqsSimple(p0, ps, x, T, Npi, m, lamda,UVScale),
         IRScale,
         UVScale,
         atol = 1e-4,
