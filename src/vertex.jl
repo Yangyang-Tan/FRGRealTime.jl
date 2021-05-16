@@ -138,8 +138,8 @@ function dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
             dkF2Allintqs(p0 + q0, ps, qsmax, k, m, T)
         ) +
         (Npi + 2) *2/3 *qsmax^3*(
-            dkF1Allintqs(1e-8 - 1e-14, 1e-8, k, m, T) +
-            dkF1Allintqs(1e-8 - 1e-14, 1e-8, k, m, T)
+            dkF1All(1e-8 - 1e-14, 1e-8, k, m, T) +
+            dkF2All(1e-8 - 1e-14, 1e-8, k, m, T)
         )
     )
 end
