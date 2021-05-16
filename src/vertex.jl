@@ -26,8 +26,10 @@ function dkVIm(p0, ps, q0, k, m, T, Npi, lam4pik)
             dkF2All(p0 - q0, ps, k, m, T) +
             dkF2All(p0 + q0, ps, k, m, T)
         ) +
-        (2 + Npi) * dkF1All(1e-8 - 1e-14, 1e-8, k, m, T) +
-        dkF1All(1e-8 - 1e-14, 1e-8, k, m, T)
+        (2 + Npi) * (
+            dkF1All(1e-8 - 1e-14, 1e-8, k, m, T) +
+            dkF1All(1e-8 - 1e-14, 1e-8, k, m, T)
+        )
     )
 end
 
@@ -44,19 +46,23 @@ compute $\mathrm{Im}V_k(q_0)$, the `k` dependence of $\lambda_{4\pi}$ and $m$ ar
 
 `VImSimple` doesn't contains type-2 delta function
 """
-function VImSimple(p0, ps, q0, k, m, T, Npi, lam4pik,UVScale)
+function VImSimple(p0, ps, q0, k, m, T, Npi, lam4pik, UVScale)
     lam4pik^2 *
     (2 + Npi) *
     π *
     (
         3 * (
-            F1All(p0 - q0, ps, k, m, T)-F1All(p0 - q0, ps, UVScale, m, T)+
-            F1All(p0 + q0, ps, k, m, T)- F1All(p0 + q0, ps, UVScale, m, T)+
-            F2All(p0 - q0, ps, k, m, T)- F2All(p0 - q0, ps, UVScale, m, T)+
-            F2All(p0 + q0, ps, k, m, T)-F2All(p0 + q0, ps, UVScale, m, T)
+            F1All(p0 - q0, ps, k, m, T) - F1All(p0 - q0, ps, UVScale, m, T) +
+            F1All(p0 + q0, ps, k, m, T) - F1All(p0 + q0, ps, UVScale, m, T) +
+            F2All(p0 - q0, ps, k, m, T) - F2All(p0 - q0, ps, UVScale, m, T) +
+            F2All(p0 + q0, ps, k, m, T) - F2All(p0 + q0, ps, UVScale, m, T)
         ) +
-        (2 + Npi) * (F1All(1e-8 - 1e-14, 1e-8, k, m, T)-F1All(1e-8 - 1e-14, 1e-8, UVScale, m, T) +
-        F2All(1e-8 - 1e-14, 1e-8, k, m, T)-F2All(1e-8 - 1e-14, 1e-8, UVScale, m, T))
+        (2 + Npi) * (
+            F1All(1e-8 - 1e-14, 1e-8, k, m, T) -
+            F1All(1e-8 - 1e-14, 1e-8, UVScale, m, T) +
+            F2All(1e-8 - 1e-14, 1e-8, k, m, T) -
+            F2All(1e-8 - 1e-14, 1e-8, UVScale, m, T)
+        )
     )
 end
 
