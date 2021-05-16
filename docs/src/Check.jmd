@@ -297,26 +297,25 @@ testmfun(x)=-2.0
 testlamfun(x)=1.0
 testmfun2=Spline1D(collect(0.1:0.5:800.0),fill(-2.0,length(collect(0.1:0.5:800.0))))
 testlamfun2=Spline1D(collect(0.1:0.5:800.0),fill(1.0,length(collect(0.1:0.5:800.0))))
-
 ```
 
 
 
 ```julia
-v1=collect(1.0:2.0:100.0)
-propout1=FRGRealTime.propImintqs.(v1, 0.5, 145.0,5.0,400.0, 4.0, testmfun, testlamfun)
-propdeltaout1=-(p0->FRGRealTime.propImintqs_delta1(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun2, testlamfun2)).(v1)
+v1=collect(1.0:5.0:400.0)
+propout1=(p0->FRGRealTime.propImintqs(p0, 0.5, 145.0,5.0,700.0, 4.0, lamfun, lamfun)).(v1)
+propdeltaout1=-(p0->FRGRealTime.propImintqs_delta1(p0, 0.5, 145.0,5.0,700.0, 4.0, lamfun, lamfun)).(v1)
 
 propsimpleout1=FRGRealTime.propImSimple.(v1, 0.5, 145.0, 5.0,400.0, 4.0, -2.0, 1.0)
 
-
+plot(k->2Epi(k,m2fun(k)),1.0,800.0)
 
 
 
 plot(v1,propout1+propdeltaout1)
 
 
-plot(v1,propsimpleout1)
+plot!(v1,propsimpleout1)
 plot(p0->FRGRealTime.propImintqs(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun, testlamfun),1.0,100.0)
 
 FRGRealTime.propImintqs(4.0, 0.5, 145.0,5.0,400.0, 4.0, testmfun2, testlamfun2)
