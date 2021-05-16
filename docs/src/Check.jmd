@@ -299,8 +299,61 @@ testmfun2=Spline1D(collect(0.1:0.5:800.0),fill(-2.0,length(collect(0.1:0.5:800.0
 testlamfun2=Spline1D(collect(0.1:0.5:800.0),fill(1.0,length(collect(0.1:0.5:800.0))))
 
 ```
+
+
+
 ```julia
-plot!(p0->FRGRealTime.propImintqs(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun2, testlamfun2),1.0,100.0)
+v1=collect(1.0:2.0:100.0)
+propout1=FRGRealTime.propImintqs.(v1, 0.5, 145.0,5.0,400.0, 4.0, testmfun, testlamfun)
+propdeltaout1=-(p0->FRGRealTime.propImintqs_delta1(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun2, testlamfun2)).(v1)
+
+propoutini1=propImSimple_ini.(v1, 0.5, 145.0, 5.0,400.0, 4.0, -2.0, 1.0)
+propsimpleout1=FRGRealTime.propImSimple.(v1, 0.5, 145.0, 5.0,400.0, 4.0, -2.0, 1.0)
+
+
+
+
+
+function VImintqsSimple_ini(p0, ps, k, T, Npi, m, lamda)
+    hcubature(
+        x ->
+            x[1]^2 * VImSimple(
+                p0,
+                sqrt(x[1]^2 + ps^2 + 2 * x[1] * x[2] * ps),
+                Epi(k, m),
+                400.0,
+                m,
+                T,
+                Npi,
+                lamda,
+            ),
+        [0.0, -1.0],
+        [k, 1.0],atol=1e-4,rtol=1e-4
+    )[1]
+end
+
+
+
+
+function propImSimple_ini(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
+  -hquadrature(
+      x ->
+          2*FRGRealTime.Coeffgamm2Simple(x, T, Npi, m) *
+          VImintqsSimple_ini(p0, ps, x, T, Npi, m, lamda),
+      IRScale,
+      UVScale,
+      atol = 1e-4,
+      rtol = 1e-4,
+  )[1]
+end
+
+
+
+plot(v1,propout1+propdeltaout1+propoutini1)
+
+
+plot(v1,propsimpleout1)
+plot(p0->FRGRealTime.propImintqs(p0, 0.5, 145.0,5.0,400.0, 4.0, testmfun, testlamfun),1.0,100.0)
 
 FRGRealTime.propImintqs(4.0, 0.5, 145.0,5.0,400.0, 4.0, testmfun2, testlamfun2)
 FRGRealTime.propImSimple(10.0, 0.5, 145.0, 5.0,400.0, 4.0, -2.0, 1.0)
