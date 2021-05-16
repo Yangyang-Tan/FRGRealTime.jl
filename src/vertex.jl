@@ -105,7 +105,7 @@ function propImSimple(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
         IRScale,
         UVScale,
         atol = 1e-4,
-        rtol = 1e-4,
+        rtol = 1e-4,maxevals=1000,
     )[1]
 end
 
