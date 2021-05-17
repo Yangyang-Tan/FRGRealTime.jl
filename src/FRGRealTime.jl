@@ -4,6 +4,7 @@ using HCubature,
 
 export Epi
 include("artifacts/flowfun.jl")
+include("artifacts/integrate.jl")
 
 include("loop.jl")
 include("flow.jl")

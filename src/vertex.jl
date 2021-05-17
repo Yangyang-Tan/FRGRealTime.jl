@@ -1,9 +1,6 @@
 ################################################################################
 #  The simplified computation of Im parts. we have integrated out qs & cos(θ)  #
 ################################################################################
-
-
-
 @doc raw"""
     dkVIm(p0, ps, q0, k, m, T, Npi, lam4pik)
 
@@ -32,7 +29,6 @@ function dkVIm(p0, ps, q0, k, m, T, Npi, lam4pik)
         )
     )
 end
-
 
 
 @doc raw"""
@@ -68,7 +64,17 @@ end
 
 
 
+@doc raw"""
+    VImintqsSimple(p0, ps, k, T, Npi, m, lamda,UVScale)
 
+compute $\int_0^kq_s^2dqs\int_{-1}^{1}d\cos\theta\mathrm{Im}V_k(q_0)$, the `k` dependence of $\lambda_{4\pi}$ and $m$ are neglected.
+
+`VImintqsSimple` only contains $V(q_0)$, no $V(-q_0)$
+
+`VImintqsSimple` contains type-1 delta function
+
+`VImintqsSimple` doesn't contains type-2 delta function
+"""
 function VImintqsSimple(p0, ps, k, T, Npi, m, lamda,UVScale)
     hcubature(
         x ->
@@ -89,26 +95,6 @@ end
 
 
 
-@doc raw"""
-    propImSimple(p0, ps, T,IRScale,UVScale, Npi, m, lamda)
-`x[1]` is `qs`, `x[2]` is `costh`, `x[3]` is `k`
-
-# Arguments
-- `m`: mass square, it's a constant number.
-- `lamda`: $\lambda_{4\pi}$, it's a constant number.
-"""
-function propImSimple(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
-    -hquadrature(
-        x ->
-            2*Coeffgamm2Simple(x, T, Npi, m) *
-            VImintqsSimple(p0, ps, x, T, Npi, m, lamda,UVScale),
-        IRScale,
-        UVScale,
-        atol = 1e-4,
-        rtol = 1e-4,maxevals=200,
-    )[1]
-end
-
 
 
 
@@ -121,6 +107,7 @@ compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\math
 so we need an extra $2$ at somewhere.
 
 `dkVImintqs` doesn't have any delta function contribution, we include the type-1 delta function in `VImintqs_delta1` separately.
+
 # Arguments
 - `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
@@ -183,9 +170,13 @@ function VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
 end
 
 
+@doc raw"""
+    VImintqs_delta1(p0, ps, k, T, Npi,IRScale,UVScale, mfun::Spline1D, lamfun::Spline1D)
 
+compute type-1 delta function contribution in $\mathrm{Im}V_k$, we do the triple integral analytically.
+"""
 function VImintqs_delta1(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
-    (2 + Npi) *
+    -(2 + Npi) *
     π *
     3 *
     (
@@ -196,6 +187,13 @@ end
 
 
 
+
+
+@doc raw"""
+    Coeffgamm2Simple(k, T, Npi, m)
+
+The coefficient before the two point function flow.
+"""
 function Coeffgamm2Simple(k, T, Npi, m)
     (
         k * (
@@ -206,6 +204,12 @@ function Coeffgamm2Simple(k, T, Npi, m)
 end
 
 
+
+@doc raw"""
+    Coeffgamm2(k, T, Npi, mfun::Spline1D)
+
+The coefficient before the two point function flow.
+"""
 function Coeffgamm2(k, T, Npi, mfun)
     (
         k * (
@@ -214,6 +218,29 @@ function Coeffgamm2(k, T, Npi, mfun)
         )
     ) / (16 * pi^2)
 end
+
+
+
+@doc raw"""
+    propImSimple(p0, ps, T,IRScale,UVScale, Npi, m, lamda)
+`x[1]` is `qs`, `x[2]` is `costh`, `x[3]` is `k`
+
+# Arguments
+- `m`: mass square, it's a constant number.
+- `lamda`: $\lambda_{4\pi}$, it's a constant number.
+"""
+function propImSimple(p0, ps, T, IRScale, UVScale, Npi, m, lamda)
+    -hquadrature(
+        x ->
+            2*Coeffgamm2Simple(x, T, Npi, m) *
+            VImintqsSimple(p0, ps, x, T, Npi, m, lamda,UVScale),
+        IRScale,
+        UVScale,
+        atol = 1e-4,
+        rtol = 1e-4,maxevals=200,
+    )[1]
+end
+
 
 
 function propImintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
