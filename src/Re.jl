@@ -81,7 +81,7 @@ function PvdkF1Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
             x -> flowpp_intcostheqs(x, ps, qsmax, k, m, T),
             Epi(ps - k - qsmax, m) + Epi(k, m),
             p0,
-            Epi(k + ps + qsmax, m) + Epi(k, m),
+            Epi(k + ps + qsmax, m) + Epi(k, m);
             kwargs...,
         )
     elseif ps < 2 * k + qsmax
@@ -89,7 +89,7 @@ function PvdkF1Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
             x -> flowpp_intcostheqs(x, ps, qsmax, k, m, T),
             2 * Epi(k, m),
             p0,
-            Epi(k + ps + qsmax, m) + Epi(k, m),
+            Epi(k + ps + qsmax, m) + Epi(k, m);
             kwargs...,
         )[1]
     end
