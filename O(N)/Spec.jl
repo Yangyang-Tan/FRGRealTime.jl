@@ -12,9 +12,21 @@ v1=SharedArray(collect(0.1:3.0:200.0))
 @everywhere FRGRealTime.propReintqs(4.0, 10.0, 145.0,1.0,400.0, 4.0, m2fun, lamfun)
 
 
-FRGRealTime.propReintqs(100.0, 0.05, 145.0,1.0,400.0, 4.0, m2fun, lamfun;order=10)
+
+FRGRealTime.propReintqs(10.0, 0.05, 145.0,1.0,400.0, 4.0, m2fun, lamfun)
 
 
+
+FRGRealTime.PvdkF1Tildeps(10.0, 0.05, 13.0, 13.0, -20, 145.0,atol=1e-14,rtol=1e-14,order=400)
+
+FRGRealTime.VReintqs(10.0, 0.05, 14.117832901393134, 145.0, 4.0, 1.0,400.0, m2fun, lamfun)
+
+FRGRealTime.VReintqs(10.0, 0.05, 14.117832901393177, 145.0, 4.0, 1.0,400.0, m2fun, lamfun)
+
+
+
+
+FRGRealTime.PvdkF2Tildeps(100.0, 0.05, 10.0, 10.0, -2.0, 145.0)
 
 outv1=pmap(
     p0 -> FRGRealTime.propReintqs(

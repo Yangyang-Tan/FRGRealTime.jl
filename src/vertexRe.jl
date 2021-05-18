@@ -57,6 +57,7 @@ so `qs=k`, `q0=Epi(k, mfun(k))`.
 - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 """
 function VReintqs(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun; kwarg...)
+    println("k=",k)
     -hquadrature(
         kprim -> dkVReintqs(
             p0,
