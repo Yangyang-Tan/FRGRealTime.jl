@@ -15,15 +15,6 @@ v1=SharedArray(collect(0.1:3.0:200.0))
 
 FRGRealTime.propReintqs(10.0, 0.05, 145.0,1.0,400.0, 4.0, m2fun, lamfun)
 
-
-
-FRGRealTime.VReintqs(10.0, 0.05, 4.704184134381539, 145.0, 4.0, 1.0,400.0, m2fun, lamfun)
-
-
-
-
-
-
 outv1=pmap(
     p0 -> FRGRealTime.propReintqs(
         p0,

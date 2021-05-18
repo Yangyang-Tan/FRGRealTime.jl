@@ -1,7 +1,9 @@
 function quadgk_PV(f, a, c, b; kwargs...)
     fc = f(c)
     g(x) = 2 * x * (-c^2 + x^2)^-1 * (f(x) - fc)
-    return quadgk(g, a, c,b; kwargs...)[1] +fc * log(abs((b^2 - c^2) / (a^2 - c^2)))
+    return quadgk(g, a, prevfloat(c); kwargs...)[1] +
+           quadgk(g, nextfloat(c), b; kwargs...)[1] +
+           fc * log(abs((b^2 - c^2) / (a^2 - c^2)))
 end
 
 function hquadrature_PV(f, a, c, b; kwargs...)
