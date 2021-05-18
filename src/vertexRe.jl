@@ -1,12 +1,6 @@
 ################################################################################
 #  The simplified computation of Im parts. we have integrated out qs & cos(θ)  #
 ################################################################################
-
-
-
-
-
-
 @doc raw"""
     dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
 
@@ -74,7 +68,7 @@ function VReintqs(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun; kwarg...)
         UVScale,
         rtol = 1e-4,
         atol = 1e-4,
-    )[1] + (k^3 * lamfun(UVScale) * (2 + Npi)) / 3
+    )[1] + 2*(k^3 * lamfun(UVScale) * (2 + Npi)) / 3
 end
 
 
