@@ -33,8 +33,8 @@ function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
             dkF2TildeintqsAll(p0 + q0, ps, qsmax, k, m, T)
         ) +
         (Npi + 2) *2/3 *qsmax^3*(
-            dkF1All(1e-8 - 1e-14, 1e-8, k, m, T) +
-            dkF2All(1e-8 - 1e-14, 1e-8, k, m, T)
+            dkF1TildeAll(k, m, T) +
+            dkF1TildeAll(k, m, T)
         )
     )
 end
@@ -44,14 +44,14 @@ end
 
 
 @doc raw"""
-    VImintqs(p0, ps, k, T, Npi,UVScale,mfun::Function,lamfun::Function)
+    VReintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
 
-compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Im}V(q_0,k)$.
+compute $\int_0^{k}dq_s qs^2\int_{-1}^{1}d\cos\theta \mathrm{Re}V(q_0,k)$.
 In our code, we perform integration over `kprim`, `q0` & `qs` does not involved,
 so `qs=k`, `q0=Epi(k, mfun(k))`.
 
 
-`VImintqs` don't have any delta function contribution, we include the type-1 delta function in `VImintqs_delta1` separately.
+`VReintqs` contains type-1 and type-2 delta function.
 
 # Arguments
 - `mfun::Function`: $m^2(k)$, input from zero momentum result
@@ -59,7 +59,7 @@ so `qs=k`, `q0=Epi(k, mfun(k))`.
 """
 function VReintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
     -hquadrature(
-        kprim -> dkVImintqs(
+        kprim -> dkVReintqs(
             p0,
             ps,
             Epi(k, mfun(k)),
@@ -74,7 +74,7 @@ function VReintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
         UVScale,
         rtol = 1e-4,
         atol = 1e-4,
-    )[1]
+    )[1]+(2 * k^3 * lamfun(UVScale) * (2 + Npi)) / 3
 end
 
 
@@ -90,5 +90,5 @@ function propReintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
         UVScale,
         rtol = 1e-4,
         atol = 1e-4,
-    )[1]
+    )[1]+p0^2-ps^2-mfun(UVScale)
 end

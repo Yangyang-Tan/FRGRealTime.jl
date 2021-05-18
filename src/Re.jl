@@ -13,7 +13,14 @@ function dkF1Tilde3(k, m, T)
     ) / (pi^2 * T * Epi(k, m)^5)
 end
 
-dkF2Tilde3(k, m, T) = 0.0
+function dkF2Tilde3(k, m, T)
+    -1 / 48 * (
+        k^4 *
+        csch(Epi(k, m) / (2 * T))^2 *
+        (2 * T + coth(Epi(k, m) / (2 * T)) * Epi(k, m))
+    ) / (pi^2 * T^2 * Epi(k, m)^4)
+end
+
 
 
 
@@ -169,8 +176,8 @@ dkF2TildeintqsAll(p0, ps, qsmax, k, m, T; kwargs...) =
 # dkF2TildeAll(p0, ps, k, m, T) = dkF2Tilde3(abs(p0), ps, k, m, T)
 #
 #
-# dkF1TildeAll(k, m, T) = dkF1Tilde3(k, m, T)
-# dkF2TildeAll(k, m, T) = dkF2Tilde3(k, m, T)
+dkF1TildeAll(k, m, T) = dkF1Tilde3(k, m, T)
+dkF2TildeAll(k, m, T) = dkF2Tilde3(k, m, T)
 #
 #
 #
