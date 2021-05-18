@@ -95,5 +95,5 @@ function propReintqs(p0, ps, T, IRScale, UVScale, Npi, mfun, lamfun; kwarg...)
         UVScale,
         rtol = 1e-4,
         atol = 1e-4,
-    )[1] + p0^2 - ps^2 - mfun(UVScale)
+    )[1] - p0^2 + ps^2 - mfun(UVScale)
 end
