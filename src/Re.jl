@@ -112,7 +112,7 @@ end
 function PvdkF2Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
     if ps > 2 * k + qsmax
         quadgk_PV(
-            x -> flowpm_intcostheqsfix(x, ps, qsmax, k, m, T),
+            x -> flowpm_intcostheqs(x, ps, qsmax, k, m, T),
             Epi(ps - k - qsmax, m) - Epi(k, m),
             p0,
             Epi(k + ps + qsmax, m) - Epi(k, m);
@@ -120,7 +120,7 @@ function PvdkF2Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
         )
     elseif ps < 2 * k + qsmax
         quadgk_PV(
-            x -> flowpm_intcostheqsfix(x, ps, qsmax, k, m, T),
+            x -> flowpm_intcostheqs(x, ps, qsmax, k, m, T),
             0.0,
             p0,
             Epi(k + ps + qsmax, m) - Epi(k, m);

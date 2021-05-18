@@ -84,7 +84,7 @@ function propReintqs(p0, ps, T, IRScale, UVScale, Npi, mfun, lamfun; kwarg...)
     -hquadrature(
         k ->
             2 *
-            VImintqs(
+            VReintqs(
                 p0,
                 ps,
                 k,
