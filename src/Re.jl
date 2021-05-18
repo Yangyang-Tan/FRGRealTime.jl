@@ -69,7 +69,7 @@ dkF2Tilde3(k, m, T)=0.0
 #but we have seprated it
 
 @doc raw"""
-    propImSimple(p0, ps, T,IRScale,UVScale, Npi, m, lamda)
+    PvdkF1Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
 
 Piecewise hints:
 
@@ -85,13 +85,34 @@ function PvdkF1Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
             kwargs...,
         )
     elseif ps < 2 * k + qsmax
-        quadgk(
+        quadgk_PV(
             x -> flowpp_intcostheqs(x, ps, qsmax, k, m, T),
             2 * Epi(k, m),
             p0,
             Epi(k + ps + qsmax, m) + Epi(k, m);
             kwargs...,
-        )[1]
+        )
+    end
+end
+
+
+function PvdkF2Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
+    if ps > 2 * k + qsmax
+        quadgk_PV(
+            x -> flowpm_intcostheqsfix(x, ps, qsmax, k, m, T),
+            Epi(ps - k - qsmax, m) - Epi(k, m),
+            p0,
+            Epi(k + ps + qsmax, m) - Epi(k, m);
+            kwargs...,
+        )
+    elseif ps < 2 * k + qsmax
+        quadgk_PV(
+            x -> flowpm_intcostheqsfix(x, ps, qsmax, k, m, T),
+            0.0,
+            p0,
+            Epi(k + ps + qsmax, m) - Epi(k, m);
+            kwargs...,
+        )
     end
 end
 
@@ -99,81 +120,6 @@ end
 deltasum_intcosthqsAll(p0, ps, qsmax, k, m, T) =
     deltasum_intcosthqs(abs(p0), ps, qsmax, k, m, T)
 
-
-function dkF2Tilde_intcostheqs(p0, ps, qsmax, k, m, T)
-    if ps > 2 * k + qsmax
-        quadgk(
-            x ->
-                2 *
-                x *
-                (-p0^2 + x^2)^-1 *
-                (
-                    flowpm_intcostheqsfix(x, ps, qsmax, k, m, T) -
-                    flowpm_intcostheqsfix(p0, ps, qsmax, k, m, T)
-                ),
-            Epi(ps - k - qsmax, m)-Epi(k,m),
-            Epi(k + ps + qsmax, m) - Epi(k, m),
-            rtol = fineerror,
-            atol = fineerror,
-            maxevals = finequadgkmax,
-            order=maxiter
-        )[1] +
-        flowpm_intcostheqsfix(p0, ps, qsmax, k, m, T) * log(
-            abs(
-                ((Epi(k + ps + qsmax, m) - Epi(k, m))^2 - p0^2) /
-                ((Epi(ps - k - qsmax, m)-Epi(k, m))^2 - p0^2),
-            ),
-        )
-    elseif ps < 2 * k + qsmax
-        quadgk(
-            x ->
-                2 *
-                x *
-                (-p0^2 + x^2)^-1 *
-                (
-                    flowpm_intcostheqsfix(x, ps, qsmax, k, m, T) -
-                    flowpm_intcostheqsfix(p0, ps, qsmax, k, m, T)
-                ),
-            0.0,
-            Epi(k + ps + qsmax, m) - Epi(k, m),
-            rtol = fineerror,
-            atol = fineerror,
-            maxevals = finequadgkmax,
-            order=maxiter
-        )[1] +
-        flowpm_intcostheqsfix(p0, ps, qsmax, k, m, T) *
-        log(abs(((Epi(k + ps + qsmax, m) - Epi(k, m))^2 - p0^2) / p0^2))
-    end
-end
-
-
-
-
-
-
-function test_dkF1Tilde_intcostheqs(p0, ps, qsmax, k, m, T)
-    hcubature(
-        x ->
-            x[2]^2 *
-            dkF1Tilde3(p0, sqrt(ps^2 + x[2]^2 - 2 * x[1] * x[2] * ps), k, m, T),
-        [-1.0, 0.0],
-        [1.0, qsmax],
-        rtol = 1e-4,
-        atol = 1e-4,
-    )[1]
-end
-
-function test_dkF2Tilde_intcostheqs(p0, ps, qsmax, k, m, T)
-    hcubature(
-        x ->
-            x[2]^2 *
-            dkF2Tilde3(p0, sqrt(ps^2 + x[2]^2 - 2 * x[1] * x[2] * ps), k, m, T),
-        [-1.0, 0.0],
-        [1.0, qsmax],
-        rtol = 1e-4,
-        atol = 1e-4,
-    )[1]
-end
 
 
 

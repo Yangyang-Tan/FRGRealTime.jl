@@ -187,83 +187,6 @@ function flowpm_intcostheqs(p0, ps, qsmax, k, m, T)
 end
 
 
-
-#integrate delta function in F1 , we integrate out qs, cos(θ) and k' this will be used in Im part calculation
-function deltasumk(p0, ps, k, T, Npi,IRScale,UVScale,mfun,lamfun)
-    #find the location of k0 where p0==2Epi(k,m)
-    deltaf(x) = 2 * Epi(x, mfun(x)) - p0
-    if deltaf(IRScale) * deltaf(UVScale) >= 0
-        return 0.0
-    else
-        k0 = find_zero(deltaf, (IRScale,UVScale))
-        # println(" k0=", k0)
-        # k0 should lies between k~Λ, when k>k0 you will get 0
-        if k > k0
-            return 0.0
-        #δ function only appears in p<2k so we have the following division
-        elseif k <= k0
-            if ps <= 2 * k0 - k
-                if ps > k
-                    return -(
-                        lamfun(k0)^2 *
-                        (2 + Npi) *
-                        k^3 *
-                        coth(p0 / (4 * T)) *
-                        (k^2 + 5 * ps * (ps - sqrt(p0^2 - 4 * mfun(k0))))
-                    ) / (
-                        10 *
-                        p0 *
-                        pi *
-                        ps *
-                        abs(1 + derivative(mfun, k0) / sqrt(p0^2 - 4 * mfun(k0)))
-                    )
-                elseif ps <= k
-                    return (
-                        lamfun(k0)^2 *
-                        (2 + Npi) *
-                        coth(p0 / (4 * T)) *
-                        (
-                            ps^4 - 10 * ps^2 * k^2 +
-                            5 * k^3 * (-3 * k + 4 * sqrt(p0^2 - 4 * mfun(k0)))
-                        )
-                    ) / (
-                        40 *
-                        p0 *
-                        pi *
-                        abs(1 + derivative(mfun, k0) / sqrt(p0^2 - 4 * mfun(k0)))
-                    )
-                end
-            elseif max(ps - k, 0.0) > 2 * k0
-                return 0.0
-            elseif 2 * k0 - k < ps < 2 * k0 + k
-                # println("locate end")
-                return -(
-                    (2 + Npi) *
-                    (k + 2 * k0 - ps)^2 *
-                    coth(p0 / (4 * T)) *
-                    lamfun(k0)^2 *
-                    (
-                        8 * k^3 +
-                        k^2 * (-32 * k0 - 14 * ps + 15 * sqrt(p0^2 - 4 * mfun(k0))) +
-                        k * (
-                            96 * k0^2 + 24 * k0 * ps + 4 * ps^2 -
-                            60 * k0 * sqrt(p0^2 - 4 * mfun(k0)) -
-                            10 * ps * sqrt(p0^2 - 4 * mfun(k0))
-                        ) +
-                        (2 * k0 - ps) * (
-                            -2 * (24 * k0^2 + 6 * k0 * ps + ps^2) +
-                            30 * k0 * sqrt(p0^2 - 4 * mfun(k0)) +
-                            5 * ps * sqrt(p0^2 - 4 * mfun(k0))
-                        )
-                    )
-                ) / (160 * p0 * pi * ps * abs(1 + derivative(mfun,k0) / sqrt(p0^2 - 4 * mfun(k0))))
-            end
-        end
-    end
-end
-
-
-
 #integrate delta function in F1 , we integrate out qs, cos(θ) and k' this will be used in Im part calculation
 function deltasumkfix(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun)
     #find the location of k0 where p0==2Epi(k,m)
@@ -316,24 +239,146 @@ end
 
 
 
-integroconst(p0, ps) = p0 / (16 * pi^2 * ps)
 
-deltasumpole(p0, ps, k, m2, T) =
-    (k * (-2 * sqrt(k^2) + ps) * coth(sqrt(k^2 + m2) / (2 * T))) /
-    (2 * sqrt(k^2 + m2) * (4 * (k^2 + m2) - p0^2) * pi^2)
 
 # deltasum(k, m, T) =
 #     -1 / 4 * (k^2 * coth(Epi(k, m) / (2 * T))) / (pi^2 * Epi(k, m)^3)
 
-function deltasum(p0, ps, k, m2, T)
-    if p0 + δk > 2 * Epi(k, m2) > p0 - δk
-        return (k * (-2 * k + ps) * coth(Epi(k, m2) / (2 * T))) /
-               (8 * Epi(k, m2)^2 * (2 * Epi(k, m2) + p0) * pi^2)
-    else
-        return (k * (-2 * k + ps) * coth(sqrt(k^2 + m2) / (2 * T))) /
-               (2 * sqrt(k^2 + m2) * (4 * (k^2 + m2) - p0^2) * pi^2)
+
+#integrate type1 delta function in F1 , we integrate out qs, cos(θ) and q0' this will be used in Re part calculation
+function delta1_intcosthqs(p0, ps, qsmax, k, m, T)
+    #δ function only appears in p<2k so we have the following division
+    if ps >= 2 * k + qsmax
+        return 0.0
+        #for Principal Value integration we ommit k0-δ ~ k0+δ
+    elseif 2 * k + qsmax > ps >= 2 * k
+        if p0 + δk > 2 * Epi(k, m) > p0 - δk
+            return -1 / 120 * (
+                k *
+                (2 * k - ps + qsmax)^3 *
+                (
+                    6 * k^2 - (ps - qsmax) * (ps + 4 * qsmax) -
+                    k * (ps + 9 * qsmax)
+                ) *
+                coth(Epi(k, m) / (2 * T)) *
+                (p0 + Epi(k, m))
+            ) / (p0^2 * pi^2 * ps * Epi(k, m) * (p0 + 2 * Epi(k, m)))
+        else
+            return (
+                k *
+                (2 * k - ps + qsmax)^3 *
+                (
+                    6 * k^2 - (ps - qsmax) * (ps + 4 * qsmax) -
+                    k * (ps + 9 * qsmax)
+                ) *
+                coth(Epi(k, m) / (2 * T))
+            ) / (120 * pi^2 * ps * Epi(k, m) * (-p0^2 + 4 * Epi(k, m)^2))
+        end
+    elseif 2 * k > ps >= 2 * k - qsmax
+        if p0 + δk > 2 * Epi(k, m) > p0 - δk
+            return (
+                k *
+                qsmax^2 *
+                (
+                    10 * (-2 * k + ps)^2 * (k + ps) +
+                    20 * (2 * k - ps) * ps * qsmax +
+                    15 * (-k + ps) * qsmax^2 - 4 * qsmax^3
+                ) *
+                coth(Epi(k, m) / (2 * T)) *
+                (p0 + Epi(k, m))
+            ) / (120 * p0^2 * pi^2 * ps * Epi(k, m) * (p0 + 2 * Epi(k, m)))
+        else
+            return -1 / 120 * (
+                k *
+                qsmax^2 *
+                (
+                    -10 * (-2 * k + ps)^2 * (k + ps) +
+                    20 * ps * (-2 * k + ps) * qsmax +
+                    15 * (k - ps) * qsmax^2 +
+                    4 * qsmax^3
+                ) *
+                coth(Epi(k, m) / (2 * T))
+            ) / (pi^2 * ps * Epi(k, m) * (p0^2 - 4 * Epi(k, m)^2))
+        end
+    elseif 2 * k - qsmax > ps >= qsmax
+        if p0 + δk > 2 * Epi(k, m) > p0 - δk
+            return (
+                k *
+                qsmax^3 *
+                (10 * k * ps - 5 * ps^2 - qsmax^2) *
+                coth(Epi(k, m) / (2 * T)) *
+                (p0 + Epi(k, m))
+            ) / (15 * p0^2 * pi^2 * ps * Epi(k, m) * (p0 + 2 * Epi(k, m)))
+        else
+            return (
+                k *
+                qsmax^3 *
+                (5 * ps * (-2 * k + ps) + qsmax^2) *
+                coth(Epi(k, m) / (2 * T))
+            ) / (15 * pi^2 * ps * Epi(k, m) * (-p0^2 + 4 * Epi(k, m)^2))
+        end
+    elseif ps < qsmax
+        if p0 + δk > 2 * Epi(k, m) > p0 - δk
+            return (
+                k *
+                (
+                    ps^4 - 10 * ps^2 * qsmax^2 +
+                    5 * (8 * k - 3 * qsmax) * qsmax^3
+                ) *
+                coth(Epi(k, m) / (2 * T)) *
+                (p0 + Epi(k, m))
+            ) / (60 * p0^2 * pi^2 * Epi(k, m) * (p0 + 2 * Epi(k, m)))
+        else
+            return (
+                k *
+                (
+                    ps^4 - 10 * ps^2 * qsmax^2 +
+                    5 * (8 * k - 3 * qsmax) * qsmax^3
+                ) *
+                coth(Epi(k, m) / (2 * T))
+            ) / (60 * pi^2 * Epi(k, m) * (p0^2 - 4 * Epi(k, m)^2))
+        end
     end
 end
+
+
+
+#integrate type2 delta function in F1 , we integrate out qs, cos(θ) and q0' this will be used in Re part calculation
+function delta2_intcosthqs(p0, ps, qsmax, k, m, T,δk=0.02)
+    #δ function only appears in p<2k so we have the following division
+    Ek=Epi(k,m)
+    if ps >= 2 * k + qsmax
+        return 0.0
+        #for Principal Value integration we ommit k0-δ ~ k0+δ
+    elseif 2 * k + qsmax > ps >= 2 * k
+        if p0 + δk > 2 * Epi(k, m) > p0 - δk
+            return 0.0
+        else
+            return delta2funcosthqs1(p0, ps, qsmax, k, Ek, T)
+        end
+    elseif 2 * k > ps >= 2 * k - qsmax
+        if p0 + δk > 2 * Epi(k, m) > p0 - δk
+            return 0.0
+        else
+            return delta2funcosthqs2(p0, ps, qsmax, k, Ek, T)
+        end
+    elseif 2 * k - qsmax > ps >= qsmax
+        if p0 + δk > 2 * Epi(k, m) > p0 - δk
+            return 0.0
+        else
+            return delta2funcosthqs3(p0, ps, qsmax, k, Ek, T)
+        end
+    elseif ps < qsmax
+        if p0 + δk > 2 * Epi(k, m) > p0 - δk
+            return 0.0
+        else
+            return delta2funcosthqs4(p0, ps, qsmax, k, Ek, T)
+        end
+    end
+end
+
+
+
 
 
 function F1tilde_delta(p0, p, k, m, T)
@@ -356,22 +401,6 @@ function F1tilde_delta(p0, p, k, m, T)
     ) / (192 * (k^2 + m)^(3 / 2) * (-4 * (k^2 + m) + p0^2)^2 * pi^2 * T)
 end
 
-
-function deltasumps(p0, psmax, k, m2, T)
-    if p0 + δk > 2 * Epi(k, m2) > p0 - δk
-        return (
-            k *
-            (sqrt(k^2 + m2) + p0) *
-            (8 * k - 3 * psmax) *
-            psmax^3 *
-            coth(sqrt(k^2 + m2) / (2 * T))
-        ) / (24 * p0^2 * (2 * k^2 + 2 * m2 + sqrt(k^2 + m2) * p0) * pi^2)
-    else
-        return (
-            k * psmax^3 * (-8 * k + 3 * psmax) * coth(sqrt(k^2 + m2) / (2 * T))
-        ) / (24 * sqrt(k^2 + m2) * (4 * (k^2 + m2) - p0^2) * pi^2)
-    end
-end
 
 
 
