@@ -34,7 +34,7 @@ function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik; kwarg...)
         ) +
         (Npi + 2) * 2 / 3 *
         qsmax^3 *
-        (dkF1TildeAll(k, m, T) + dkF1TildeAll(k, m, T))
+        (dkF1TildeAll(k, m, T) + dkF2TildeAll(k, m, T))
     )
 end
 
@@ -74,7 +74,7 @@ function VReintqs(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun; kwarg...)
         UVScale,
         rtol = 1e-4,
         atol = 1e-4,
-    )[1] + (2 * k^3 * lamfun(UVScale) * (2 + Npi)) / 3
+    )[1] + (k^3 * lamfun(UVScale) * (2 + Npi)) / 3
 end
 
 
