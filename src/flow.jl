@@ -246,7 +246,7 @@ end
 
 
 #integrate type1 delta function in F1 , we integrate out qs, cos(θ) and q0' this will be used in Re part calculation
-function delta1_intcosthqs(p0, ps, qsmax, k, m, T)
+function delta1_intcosthqs(p0, ps, qsmax, k, m, T,δk=0.02)
     #δ function only appears in p<2k so we have the following division
     if ps >= 2 * k + qsmax
         return 0.0
