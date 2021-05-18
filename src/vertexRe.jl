@@ -22,15 +22,15 @@ so we need an extra $2$ at somewhere.
 - `m`: mass square, it will be $m(k')$ when we do the integration $dk'$.
 - `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
 """
-function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik;kwarg...)
     lam4pik^2 *
     (2 + Npi) *
     (
         3 * (
-            dkF1TildeintqsAll(p0 - q0, ps, qsmax, k, m, T) +
-            dkF1TildeintqsAll(p0 + q0, ps, qsmax, k, m, T) +
-            dkF2TildeintqsAll(p0 - q0, ps, qsmax, k, m, T) +
-            dkF2TildeintqsAll(p0 + q0, ps, qsmax, k, m, T)
+            dkF1TildeintqsAll(p0 - q0, ps, qsmax, k, m, T;kwarg...) +
+            dkF1TildeintqsAll(p0 + q0, ps, qsmax, k, m, T;kwarg...) +
+            dkF2TildeintqsAll(p0 - q0, ps, qsmax, k, m, T;kwarg...) +
+            dkF2TildeintqsAll(p0 + q0, ps, qsmax, k, m, T;kwarg...)
         ) +
         (Npi + 2) *2/3 *qsmax^3*(
             dkF1TildeAll(k, m, T) +
@@ -57,7 +57,7 @@ so `qs=k`, `q0=Epi(k, mfun(k))`.
 - `mfun::Function`: $m^2(k)$, input from zero momentum result
 - `lampifun::Function`: $\lambda_{4\pi}(k)$, input from zero momentum result.
 """
-function VReintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
+function VReintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun;kwarg...)
     -hquadrature(
         kprim -> dkVReintqs(
             p0,
@@ -68,7 +68,7 @@ function VReintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun)
             mfun(kprim),
             T,
             Npi,
-            lamfun(kprim),
+            lamfun(kprim);kwarg...
         ),
         k,
         UVScale,
@@ -80,11 +80,11 @@ end
 
 
 
-function propReintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
+function propReintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun;kwarg...)
     -hquadrature(
         k ->
             2 *
-            VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun) *
+            VImintqs(p0, ps, k, T, Npi,IRScale,UVScale, mfun, lamfun;kwarg...) *
             Coeffgamm2(k, T, Npi, mfun),
         IRScale,
         UVScale,
