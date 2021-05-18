@@ -5,9 +5,13 @@
 #without a maxiter
 
 function dkF1Tilde3(k, m, T)
-    deltasum(k, m, T)
+    -1 / 48 * (
+        k^4 * (
+            6 * T * coth(Epi(k, m) / (2 * T)) +
+            csch(Epi(k, m) / (2 * T))^2 * Epi(k, m)
+        )
+    ) / (pi^2 * T * Epi(k, m)^5)
 end
-
 
 dkF2Tilde3(k, m, T) = 0.0
 

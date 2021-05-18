@@ -8,14 +8,14 @@
 
 
 @doc raw"""
-    dkVImintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
+    dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
 
-compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\mathrm{Im}V(q_0)$.
+compute $\int_0^{qsmax}dq_s qs^2\int_{-1}^{1}d\cos\theta \tilde{\partial_k}\mathrm{Re}V(q_0)$.
 
 `dkVImintqs` only contains $V(q_0)$, for $-q_0$, we have $\int d\cos\theta V(q_0)=\int d\cos\theta V(-q_0)$,
 so we need an extra $2$ at somewhere.
 
-`dkVImintqs` doesn't have any delta function contribution, we include the type-1 delta function in `VImintqs_delta1` separately.
+`dkVReintqs` contains type-1 and type-2 delta function
 
 # Arguments
 - `qsmax`: we integrate $q_s$ from $0$ to $k$, `qsmax` will set to `k` when we do the integration $dk'$, it should be distinguished from $k'$
@@ -27,10 +27,10 @@ function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
     (2 + Npi) *
     (
         3 * (
-            dkF1Allintqs(p0 - q0, ps, qsmax, k, m, T) +
-            dkF1Allintqs(p0 + q0, ps, qsmax, k, m, T) +
-            dkF2Allintqs(p0 - q0, ps, qsmax, k, m, T) +
-            dkF2Allintqs(p0 + q0, ps, qsmax, k, m, T)
+            dkF1TildeintqsAll(p0 - q0, ps, qsmax, k, m, T) +
+            dkF1TildeintqsAll(p0 + q0, ps, qsmax, k, m, T) +
+            dkF2TildeintqsAll(p0 - q0, ps, qsmax, k, m, T) +
+            dkF2TildeintqsAll(p0 + q0, ps, qsmax, k, m, T)
         ) +
         (Npi + 2) *2/3 *qsmax^3*(
             dkF1All(1e-8 - 1e-14, 1e-8, k, m, T) +
