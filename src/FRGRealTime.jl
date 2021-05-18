@@ -10,6 +10,7 @@ include("loop.jl")
 include("flow.jl")
 include("Im.jl")
 include("Re.jl")
-include("vertex.jl")
+include("vertexIm.jl")
+include("vertexRe.jl")
 
 end
