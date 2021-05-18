@@ -23,7 +23,6 @@ so we need an extra $2$ at somewhere.
 - `lam4pik`: $\lambda_{4\pi}$, it will be $\lambda_{4\pi}(k')$ when we do the integration $dk'$ .
 """
 function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik; kwarg...)
-    println("var=",p0,",", ps,",", q0,",", qsmax,",", k,",", m,",", T,",", Npi,",", lam4pik)
     lam4pik^2 *
     (2 + Npi) *
     (
