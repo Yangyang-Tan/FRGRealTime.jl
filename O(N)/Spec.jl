@@ -2,7 +2,7 @@ using Distributed
 using SharedArrays
 addprocs(8)
 nprocs()
-@everywhere using FRGRealTime, DelimitedFiles,Dierckx,Plots
+@everywhere using FRGRealTime, DelimitedFiles, Dierckx, Plots
 @everywhere kdata=readdlm("/home/tyy/Documents/CTP-fRG-Test/CTPcode/Zero-ODEVersion/realtime_zero_k.dat")[:,1]|>reverse
 @everywhere lamdata=readdlm("/home/tyy/Documents/CTP-fRG-Test/CTPcode/Zero-ODEVersion/realtime_zero_lamdak.dat")[:,1]|>reverse
 @everywhere m2data=readdlm("/home/tyy/Documents/CTP-fRG-Test/CTPcode/Zero-ODEVersion/realtime_zero_m2k.dat")[:,1]|>reverse
