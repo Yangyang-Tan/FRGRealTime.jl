@@ -1,4 +1,12 @@
 using FRGRealTime
 using HCubature
 using Plots
-deltasumps(p0, 10.0, 10.0, 2.0, 2.0)
+δk=0.02
+ppfunps_delta(p0, k, kprim, m, T)
+
+plot(p0 -> 2*ppfunps_delta(p0, 10.0, 10.0, -2.0, 145.0), 30.0, 100)
+plot!(
+    p0 -> FRGRealTime.delta2_intcosthqs(p0, 0.001, 10.0, 10.0, -2.0, 145.0),
+    30.0,
+    100,
+)
