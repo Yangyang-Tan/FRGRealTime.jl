@@ -25,10 +25,11 @@ function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik; kwarg...)
             dkF1TildeintqsAll(p0 + q0, ps, qsmax, k, m, T; kwarg...) +
             dkF2TildeintqsAll(p0 - q0, ps, qsmax, k, m, T; kwarg...) +
             dkF2TildeintqsAll(p0 + q0, ps, qsmax, k, m, T; kwarg...)
-        ) +
-        (Npi + 2) * 2 / 3 *
-        qsmax^3 *
-        (dkF1TildeAll(k, m, T) + dkF2TildeAll(k, m, T))
+        )
+        # +
+        # (Npi + 2) * 2 / 3 *
+        # qsmax^3 *
+        # (dkF1TildeAll(k, m, T) + dkF2TildeAll(k, m, T))
     )
 end
 
