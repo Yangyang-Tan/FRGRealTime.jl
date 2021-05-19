@@ -16,11 +16,11 @@ plot(x->m2fun(x),1.0,800.0)
 plot(x->lamfun(x),1.0,800.0)
 
 FRGRealTime.propReintqs(
-    0.1,
-    0.05,
-    144.0,
+    0.000001,
+    0.0005,
+    100.0,
     1.0,
-    400.0,
+    800.0,
     4.0,
     m2fun,
     lamfun,
