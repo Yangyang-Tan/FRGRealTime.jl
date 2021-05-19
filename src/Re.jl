@@ -105,8 +105,8 @@ function PvdkF1Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
         )
         +
         delta1_intcosthqs(p0, ps, qsmax, k, m, T)
-        # +
-        # delta2_intcosthqs(p0, ps, qsmax, k, m, T)
+        +
+        delta2_intcosthqs(p0, ps, qsmax, k, m, T,1.0)
     end
 end
 
