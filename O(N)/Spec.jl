@@ -3,20 +3,22 @@ using SharedArrays
 addprocs(8)
 nprocs()
 @everywhere using FRGRealTime, DelimitedFiles,Dierckx,Plots
-@everywhere kdata=readdlm("/home/tyy/Documents/CTP-fRG-Test/PDE/k_pde_break.dat")[:,1]|>reverse
-@everywhere lamdata=readdlm("/home/tyy/Documents/CTP-fRG-Test/PDE/lamdak_pde_break.dat")[:,1]|>reverse
-@everywhere m2data=readdlm("/home/tyy/Documents/CTP-fRG-Test/PDE/m2k_pde_break.dat")[:,1]|>reverse
-@everywhere lamfun=Spline1D(kdata,lamdata)
+@everywhere kdata=readdlm("/home/tyy/Documents/CTP-fRG-Test/CTPcode/Zero-ODEVersion/realtime_zero_k.dat")[:,1]|>reverse
+@everywhere lamdata=readdlm("/home/tyy/Documents/CTP-fRG-Test/CTPcode/Zero-ODEVersion/realtime_zero_lamdak.dat")[:,1]|>reverse
+@everywhere m2data=readdlm("/home/tyy/Documents/CTP-fRG-Test/CTPcode/Zero-ODEVersion/realtime_zero_m2k.dat")[:,1]|>reverse
+@everywhere lamfun=Spline1D(kdata,-0.5*lamdata)
 @everywhere m2fun=Spline1D(kdata,m2data)
-v1=SharedArray(collect(0.1:5.0:400.0))
+v1=SharedArray(collect(0.1:6.5:100.0))
 @everywhere FRGRealTime.propReintqs(4.0, 10.0, 145.0,1.0,400.0, 4.0, m2fun, lamfun)
 
-m2fun(400.0)
+
+plot(x->m2fun(x),1.0,800.0)
+plot(x->lamfun(x),1.0,800.0)
 
 FRGRealTime.propReintqs(
-    400.0,
+    0.1,
     0.05,
-    145.0,
+    144.0,
     1.0,
     400.0,
     4.0,

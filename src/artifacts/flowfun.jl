@@ -2137,47 +2137,32 @@ end
 
 
 function delta2funcosthqs1(p0, ps, qsmax, k, Ek, T)
-    (
+    -1 / 57600 * (
         k *
         csch(Ek / (2 * T))^2 *
         (
             Ek * (
-                (4 * Ek^2 - p0^2) *
-                (2 * k - ps + qsmax) *
-                (
-                    1408 * k^4 - 137 * ps^4 +
-                    8 * k^3 * (-300 + 223 * ps - 88 * qsmax) +
-                    163 * ps^3 * qsmax - 137 * ps^2 * qsmax^2 +
-                    63 * ps * qsmax^3 - 12 * qsmax^4 +
+                (4 * Ek^2 - p0^2) * (
+                    (2 * k - ps)^3 * (248 * k^2 + 702 * k * ps + 137 * ps^2) +
+                    300 * ps * (-2 * k + ps)^2 * (4 * k + ps) * qsmax -
+                    300 * (4 * k^3 - 6 * k^2 * ps + ps^3) * qsmax^2 +
+                    200 * (-2 * k^2 + ps^2) * qsmax^3 - 75 * ps * qsmax^4 +
+                    12 * qsmax^5
+                ) +
+                60 * (
                     4 *
-                    k^2 *
                     (
-                        ps * (-900 + 503 * ps) + 300 * qsmax -
-                        311 * ps * qsmax + 88 * qsmax^2
-                    ) +
-                    2 *
-                    k *
+                        8 * k^5 * p0^2 +
+                        40 * Ek^2 * k^3 * ps^2 +
+                        5 * k^2 * p0^2 * ps^3 +
+                        Ek^2 * ps^5
+                    ) *
+                    log((-2 * k + ps) / qsmax) +
                     (
-                        -77 * ps^3 + 86 * ps^2 * qsmax - 51 * ps * qsmax^2 +
-                        12 * qsmax^3
-                    )
-                ) -
-                60 *
-                (
-                    -(p0^2 * (128 * k^5 + 40 * k^2 * ps^2 + ps^5)) +
-                    4 *
-                    Ek^2 *
-                    (
-                        -160 * k^4 + 128 * k^5 - 20 * k^2 * (-2 + ps) * ps^2 +
-                        ps^5
-                    )
-                ) *
-                log((-2 * k + ps) / qsmax) +
-                1200 *
-                k^2 *
-                p0^2 *
-                (8 * k^2 + ps^3) *
-                log(-(qsmax / (2 * k - ps)))
+                        p0^2 * ps^2 * (40 * k^3 + ps^3) +
+                        16 * Ek^2 * (8 * k^5 + 5 * k^2 * ps^3)
+                    ) * log(-(qsmax / (2 * k - ps)))
+                )
             ) +
             T *
             (
@@ -2185,176 +2170,135 @@ function delta2funcosthqs1(p0, ps, qsmax, k, Ek, T)
                     -1600 *
                     Ek^4 *
                     (
-                        8 * k^2 + 10 * k * ps + 11 * ps^2 -
-                        4 * k * (3 + qsmax) + 2 * qsmax * (3 + qsmax) -
-                        ps * (18 + 7 * qsmax)
-                    ) +
-                    4 *
-                    Ek^2 *
-                    (
-                        4224 * k^4 - 411 * ps^4 +
-                        24 * k^3 * (-300 + 223 * ps - 88 * qsmax) +
-                        489 * ps^3 * qsmax - 411 * ps^2 * qsmax^2 +
-                        189 * ps * qsmax^3 - 36 * qsmax^4 +
-                        4 *
-                        k^2 *
-                        (
-                            200 * p0^2 +
-                            3 * ps * (-900 + 503 * ps) +
-                            900 * qsmax - 933 * ps * qsmax + 264 * qsmax^2
-                        ) +
-                        6 *
-                        k *
-                        (
-                            -77 * ps^3 + 86 * ps^2 * qsmax - 51 * ps * qsmax^2 +
-                            12 * qsmax^3
-                        ) +
-                        200 * k * p0^2 * (5 * ps - 2 * (3 + qsmax)) +
-                        100 *
-                        p0^2 *
-                        (
-                            11 * ps^2 + 2 * qsmax * (3 + qsmax) -
-                            ps * (18 + 7 * qsmax)
-                        )
+                        10 * k^2 + 17 * k * ps - 11 * ps^2 - 5 * k * qsmax +
+                        7 * ps * qsmax - 2 * qsmax^2
                     ) +
                     p0^2 * (
-                        -1408 * k^4 + 137 * ps^4 - 163 * ps^3 * qsmax +
-                        137 * ps^2 * qsmax^2 - 63 * ps * qsmax^3 +
-                        12 * qsmax^4 +
-                        8 * k^3 * (300 - 223 * ps + 88 * qsmax) +
-                        2 *
-                        k *
-                        (
-                            77 * ps^3 - 86 * ps^2 * qsmax + 51 * ps * qsmax^2 -
-                            12 * qsmax^3
-                        ) -
-                        4 *
-                        k^2 *
-                        (
-                            503 * ps^2 + 4 * qsmax * (75 + 22 * qsmax) -
-                            ps * (900 + 311 * qsmax)
-                        )
-                    )
-                ) +
-                60 *
-                (
-                    320 * Ek^4 * (4 * k^3 + ps^2) +
+                        -(
+                            (-2 * k + ps)^2 *
+                            (248 * k^2 + 702 * k * ps + 137 * ps^2)
+                        ) +
+                        (2 * k - ps) *
+                        (248 * k^2 - 498 * k * ps - 163 * ps^2) *
+                        qsmax +
+                        (352 * k^2 - 102 * k * ps - 137 * ps^2) * qsmax^2 +
+                        3 * (8 * k + 21 * ps) * qsmax^3 - 12 * qsmax^4
+                    ) +
                     4 *
                     Ek^2 *
                     (
-                        96 * (5 - 4 * k) * k^4 - 80 * (-1 + k) * k^2 * p0^2 -
-                        20 * (6 * k^2 + p0^2) * ps^2 +
-                        10 * (6 * k^2 + p0^2) * ps^3 - 3 * ps^5
-                    ) +
-                    p0^2 * (128 * k^5 + 40 * k^2 * ps^2 + ps^5)
+                        (2 * k - ps) * (
+                            1488 * k^3 +
+                            500 * k * p0^2 +
+                            3468 * k^2 * ps +
+                            1100 * p0^2 * ps - 1284 * k * ps^2 - 411 * ps^3
+                        ) -
+                        (
+                            1488 * k^3 + 500 * k * p0^2 - 3732 * k^2 * ps -
+                            700 * p0^2 * ps +
+                            516 * k * ps^2 +
+                            489 * ps^3
+                        ) * qsmax +
+                        (-1056 * k^2 - 200 * p0^2 + 306 * k * ps + 411 * ps^2) *
+                        qsmax^2 - 9 * (8 * k + 21 * ps) * qsmax^3 +
+                        36 * qsmax^4
+                    )
+                ) +
+                240 *
+                (
+                    40 * Ek^4 * (4 * k^3 + ps^3) +
+                    3 * Ek^2 * ps^2 * (40 * k^3 + 10 * k * p0^2 + ps^3) +
+                    k^2 * p0^2 * (8 * k^3 + 5 * ps^3)
                 ) *
                 log((-2 * k + ps) / qsmax) +
-                1200 *
-                (8 * Ek^4 + k^2 * p0^2) *
-                (8 * k^2 + ps^3) *
+                60 *
+                (
+                    480 * Ek^4 * k * ps^2 +
+                    p0^2 * ps^2 * (40 * k^3 + ps^3) +
+                    8 *
+                    Ek^2 *
+                    (48 * k^5 + 20 * k^3 * p0^2 + 5 * (6 * k^2 + p0^2) * ps^3)
+                ) *
                 log(-(qsmax / (2 * k - ps)))
             ) *
             sinh(Ek / T)
         )
-    ) / (57600 * Ek^3 * (-4 * Ek^2 + p0^2)^2 * pi^2 * ps * T)
+    ) / (Ek^3 * (-4 * Ek^2 + p0^2)^2 * pi^2 * ps * T)
 end
 
 function delta2funcosthqs2(p0, ps, qsmax, k, Ek, T)
     (
         k * (
-            Ek *
-            (4 * Ek^2 - p0^2) *
-            (
-                2816 * k^5 - 120 * k * ps^4 +
-                137 * ps^5 +
-                320 * k^3 * ps * (-15 + 7 * ps) +
-                240 * k^4 * (-20 + 9 * ps) - 300 * ps^4 * qsmax +
-                300 * ps^3 * qsmax^2 - 200 * ps^2 * qsmax^3 +
-                75 * ps * qsmax^4 - 12 * qsmax^5 -
-                40 *
-                k^2 *
+            -(
+                Ek *
+                (4 * Ek^2 - p0^2) *
                 (
-                    58 * ps^3 - 90 * ps^2 * (1 + qsmax) -
-                    10 * qsmax^2 * (3 + qsmax) +
-                    15 * ps * qsmax * (8 + 3 * qsmax)
-                ) +
-                60 *
-                (-160 * k^4 + 128 * k^5 - 20 * k^2 * (-2 + ps) * ps^2 + ps^5) *
-                log(qsmax / (2 * k - ps))
-            ) -
+                    (2 * k - ps)^3 * (248 * k^2 + 702 * k * ps + 137 * ps^2) +
+                    300 * ps * (-2 * k + ps)^2 * (4 * k + ps) * qsmax -
+                    300 * (4 * k^3 - 6 * k^2 * ps + ps^3) * qsmax^2 +
+                    200 * (-2 * k^2 + ps^2) * qsmax^3 - 75 * ps * qsmax^4 +
+                    12 * qsmax^5 +
+                    60 *
+                    (-2 * k + ps)^3 *
+                    (4 * k^2 + 6 * k * ps + ps^2) *
+                    log((2 * k - ps) / qsmax)
+                )
+            ) +
             T *
             (
                 (2 * k - ps + qsmax) * (
                     1600 *
                     Ek^4 *
                     (
-                        8 * k^2 + 10 * k * ps + 11 * ps^2 -
-                        4 * k * (3 + qsmax) + 2 * qsmax * (3 + qsmax) -
-                        ps * (18 + 7 * qsmax)
-                    ) -
+                        10 * k^2 + 17 * k * ps - 11 * ps^2 - 5 * k * qsmax +
+                        7 * ps * qsmax - 2 * qsmax^2
+                    ) +
                     4 *
                     Ek^2 *
                     (
-                        4224 * k^4 - 411 * ps^4 +
-                        24 * k^3 * (-300 + 223 * ps - 88 * qsmax) +
-                        489 * ps^3 * qsmax - 411 * ps^2 * qsmax^2 +
-                        189 * ps * qsmax^3 - 36 * qsmax^4 +
-                        4 *
-                        k^2 *
-                        (
-                            200 * p0^2 +
-                            3 * ps * (-900 + 503 * ps) +
-                            900 * qsmax - 933 * ps * qsmax + 264 * qsmax^2
+                        -(
+                            (2 * k - ps) * (
+                                1488 * k^3 +
+                                500 * k * p0^2 +
+                                3468 * k^2 * ps +
+                                1100 * p0^2 * ps - 1284 * k * ps^2 - 411 * ps^3
+                            )
                         ) +
-                        6 *
-                        k *
                         (
-                            -77 * ps^3 + 86 * ps^2 * qsmax - 51 * ps * qsmax^2 +
-                            12 * qsmax^3
-                        ) +
-                        200 * k * p0^2 * (5 * ps - 2 * (3 + qsmax)) +
-                        100 *
-                        p0^2 *
-                        (
-                            11 * ps^2 + 2 * qsmax * (3 + qsmax) -
-                            ps * (18 + 7 * qsmax)
-                        )
+                            1488 * k^3 + 500 * k * p0^2 - 3732 * k^2 * ps -
+                            700 * p0^2 * ps +
+                            516 * k * ps^2 +
+                            489 * ps^3
+                        ) * qsmax +
+                        (1056 * k^2 + 200 * p0^2 - 306 * k * ps - 411 * ps^2) *
+                        qsmax^2 +
+                        9 * (8 * k + 21 * ps) * qsmax^3 - 36 * qsmax^4
                     ) +
                     p0^2 * (
-                        1408 * k^4 - 137 * ps^4 +
-                        8 * k^3 * (-300 + 223 * ps - 88 * qsmax) +
-                        163 * ps^3 * qsmax - 137 * ps^2 * qsmax^2 +
-                        63 * ps * qsmax^3 - 12 * qsmax^4 +
-                        2 *
-                        k *
-                        (
-                            -77 * ps^3 + 86 * ps^2 * qsmax - 51 * ps * qsmax^2 +
-                            12 * qsmax^3
-                        ) +
-                        4 *
-                        k^2 *
-                        (
-                            503 * ps^2 + 4 * qsmax * (75 + 22 * qsmax) -
-                            ps * (900 + 311 * qsmax)
-                        )
+                        (-2 * k + ps)^2 *
+                        (248 * k^2 + 702 * k * ps + 137 * ps^2) -
+                        (2 * k - ps) *
+                        (248 * k^2 - 498 * k * ps - 163 * ps^2) *
+                        qsmax +
+                        (-352 * k^2 + 102 * k * ps + 137 * ps^2) * qsmax^2 -
+                        3 * (8 * k + 21 * ps) * qsmax^3 + 12 * qsmax^4
                     )
                 ) +
                 60 *
+                (-2 * k + ps)^2 *
                 (
-                    160 * Ek^4 * (8 * (-1 + k) * k^2 - (-2 + ps) * ps^2) +
+                    -160 * Ek^4 * (k + ps) +
                     4 *
                     Ek^2 *
                     (
-                        96 * (5 - 4 * k) * k^4 - 80 * (-1 + k) * k^2 * p0^2 -
-                        20 * (6 * k^2 + p0^2) * ps^2 +
-                        10 * (6 * k^2 + p0^2) * ps^3 - 3 * ps^5
+                        24 * k^3 +
+                        10 * k * p0^2 +
+                        24 * k^2 * ps +
+                        10 * p0^2 * ps - 12 * k * ps^2 - 3 * ps^3
                     ) +
-                    p0^2 * (
-                        -160 * k^4 + 128 * k^5 - 20 * k^2 * (-2 + ps) * ps^2 +
-                        ps^5
-                    )
+                    p0^2 * (-8 * k^3 - 8 * k^2 * ps + 4 * k * ps^2 + ps^3)
                 ) *
-                log(qsmax / (2 * k - ps))
+                log((2 * k - ps) / qsmax)
             ) *
             sinh(Ek / T)
         )
@@ -2368,27 +2312,32 @@ function delta2funcosthqs3(p0, ps, qsmax, k, Ek, T)
         qsmax *
         csch(Ek / (2 * T))^2 *
         (
-            Ek *
-            (4 * Ek^2 - p0^2) *
-            (
-                -75 * ps * (4 * k^2 * (4 - 3 * ps) + ps^3) -
-                50 * (-2 * k^2 + ps^2) * qsmax^2 - 3 * qsmax^4
-            ) +
-            (
-                -800 * Ek^4 * (3 * ps * (-4 + 3 * ps) + qsmax^2) +
-                4 *
-                Ek^2 *
+            -(
+                Ek *
+                (4 * Ek^2 - p0^2) *
                 (
-                    -75 *
-                    ps *
-                    (k^2 * (48 - 36 * ps) + p0^2 * (8 - 6 * ps) + 3 * ps^3) +
-                    50 * (6 * k^2 + p0^2 - 3 * ps^2) * qsmax^2 - 9 * qsmax^4
-                ) +
-                p0^2 * (
-                    75 * ps * (4 * k^2 * (4 - 3 * ps) + ps^3) +
+                    75 * ps * (-2 * k + ps)^2 * (4 * k + ps) +
                     50 * (-2 * k^2 + ps^2) * qsmax^2 +
                     3 * qsmax^4
                 )
+            ) +
+            (
+                -75 *
+                (2 * k - ps) *
+                ps *
+                (
+                    -96 * Ek^4 +
+                    p0^2 * (-8 * k^2 + 2 * k * ps + ps^2) +
+                    12 * Ek^2 * (2 * p0^2 + (2 * k - ps) * (4 * k + ps))
+                ) +
+                50 *
+                (
+                    -16 * Ek^4 +
+                    4 * Ek^2 * (6 * k^2 + p0^2 - 3 * ps^2) +
+                    p0^2 * (-2 * k^2 + ps^2)
+                ) *
+                qsmax^2 +
+                3 * (-12 * Ek^2 + p0^2) * qsmax^4
             ) *
             T *
             sinh(Ek / T)
@@ -2405,8 +2354,9 @@ function delta2funcosthqs4(p0, ps, qsmax, k, Ek, T)
             Ek *
             (4 * Ek^2 - p0^2) *
             (
-                -137 * ps^4 - 300 * ps^2 * qsmax^2 - 75 * qsmax^4 +
-                200 * k^2 * (11 * ps^2 + 3 * qsmax * (-8 + 3 * qsmax)) +
+                -137 * ps^4 - 4800 * k^3 * qsmax - 300 * ps^2 * qsmax^2 -
+                75 * qsmax^4 +
+                200 * k^2 * (11 * ps^2 + 9 * qsmax^2) +
                 60 * ps^2 * (-20 * k^2 + ps^2) * log(ps / qsmax)
             ) +
             T *
@@ -2415,12 +2365,14 @@ function delta2funcosthqs4(p0, ps, qsmax, k, Ek, T)
                 Ek^2 *
                 (
                     1100 * (6 * k^2 + p0^2) * ps^2 - 411 * ps^4 -
-                    2400 * (6 * k^2 + p0^2) * qsmax +
+                    3600 * k * (4 * k^2 + p0^2) * qsmax +
                     900 * (6 * k^2 + p0^2 - ps^2) * qsmax^2 - 225 * qsmax^4
-                ) - 1600 * Ek^4 * (11 * ps^2 + 3 * qsmax * (-8 + 3 * qsmax)) +
+                ) - 1600 * Ek^4 * (11 * ps^2 + 9 * qsmax * (-4 * k + qsmax)) +
                 p0^2 * (
-                    137 * ps^4 + 300 * ps^2 * qsmax^2 + 75 * qsmax^4 -
-                    200 * k^2 * (11 * ps^2 + 3 * qsmax * (-8 + 3 * qsmax))
+                    137 * ps^4 +
+                    4800 * k^3 * qsmax +
+                    300 * ps^2 * qsmax^2 +
+                    75 * qsmax^4 - 200 * k^2 * (11 * ps^2 + 9 * qsmax^2)
                 ) +
                 60 *
                 ps^2 *
