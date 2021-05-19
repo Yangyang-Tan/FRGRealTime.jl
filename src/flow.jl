@@ -354,7 +354,7 @@ function delta2_intcosthqs(p0, ps, qsmax, k, m, T,δk=0.02)
         if p0 + δk > 2 * Epi(k, m) > p0 - δk
             return 0.0
         else
-            return delta2funcosthqs1(p0, ps, qsmax, k, Ek, T)
+            return 0.0
         end
     elseif 2 * k > ps >= 2 * k - qsmax
         if p0 + δk > 2 * Epi(k, m) > p0 - δk
