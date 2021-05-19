@@ -26,10 +26,10 @@ function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik; kwarg...)
             dkF2TildeintqsAll(p0 - q0, ps, qsmax, k, m, T; kwarg...) +
             dkF2TildeintqsAll(p0 + q0, ps, qsmax, k, m, T; kwarg...)
         )
-        # +
-        # (Npi + 2) * 2 / 3 *
-        # qsmax^3 *
-        # (dkF1TildeAll(k, m, T) + dkF2TildeAll(k, m, T))
+        +
+        (Npi + 2) * 2 / 3 *
+        qsmax^3 *
+        (dkF1TildeAll(k, m, T) + dkF2TildeAll(k, m, T))
     )
 end
 
@@ -67,8 +67,8 @@ function VReintqs(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun; kwarg...)
         ),
         k,
         UVScale,
-        rtol = 1e-4,
-        atol = 1e-4,
+        rtol = 1e-3,
+        atol = 1e-3,
     )[1] + 2*(k^3 * lamfun(UVScale) * (2 + Npi)) / 3
 end
 
@@ -94,7 +94,7 @@ function propReintqs(p0, ps, T, IRScale, UVScale, Npi, mfun, lamfun; kwarg...)
             Coeffgamm2(k, T, Npi, mfun),
         IRScale,
         UVScale,
-        rtol = 1e-4,
-        atol = 1e-4,
+        rtol = 1e-3,
+        atol = 1e-3,
     )[1] - p0^2 + ps^2 - mfun(UVScale)
 end
