@@ -45,16 +45,13 @@ function propReZeroflow(k, T, Npi, lamdapiΛ, hfun, UVScale)
     Coeffgamm2Simple(k, T, Npi, -hfun(k)[2]) *
     Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun, UVScale)
 end
-propReLPAflow(k, T, Npi, hfun) =
-        2*
+function propReLPAflow(k, T, Npi, hfun)
+    2*
         Gamma2coeff(k, -hfun(k)[2],T) *
         Vintqs_LPA(k, Npi, hfun(k)[1])
+end
 
 
-
-################################################################################
-#  The simplified computation of Im parts. we have integrated out qs & cos(θ)  #
-################################################################################
 @doc raw"""
     dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik)
 
