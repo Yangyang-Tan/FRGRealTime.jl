@@ -257,9 +257,6 @@ function propImintqs(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
 end
 
 
-
-
-
 function propImintqs_delta1(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
     -hquadrature(
         k ->
@@ -273,9 +270,6 @@ function propImintqs_delta1(p0, ps, T,IRScale,UVScale, Npi, mfun, lamfun)
         maxevals = 2000,
     )[1]
 end
-
-
-
 
 
 #integrate delta function in F1 , we integrate out qs, cos(θ) and k' this will be used in Im part calculation
