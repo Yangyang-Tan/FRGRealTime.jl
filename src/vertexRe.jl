@@ -1,17 +1,23 @@
 #Zero Momentum
+lam4piflow(k, m2, T, Npi, lamda4pi) =
+    lamda4pi^2 * (8 + Npi) * (dkF1TildeAll(k, m2, T) + dkF2TildeAll(k, m2, T))
+
+
 function dkVintqs_Zero(q0, k, kprim, m, T, lam4pik, Npi)
     lam4pik^2 *
     (2 + Npi) *
     (
-        k^3 * (2 + Npi) * (dkF1TildeAll(kprim, m, T)+dkF2TildeAll(kprim, m, T)) / 3 +
-         6 * PvdkF1Tildeps(q0, k, kprim, m, T) +
-         6 * PvdkF2Tildeps(q0, k, kprim, m, T)
+        k^3 *
+        (2 + Npi) *
+        (dkF1TildeAll(kprim, m, T) + dkF2TildeAll(kprim, m, T)) / 3 +
+        6 * PvdkF1Tildeps(q0, k, kprim, m, T) +
+        6 * PvdkF2Tildeps(q0, k, kprim, m, T)
     )
 end
 
 
 
-function Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun,UVScale)
+function Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun, UVScale)
     -2 * hquadrature(
         kprim -> dkVintqs_Zero(
             Epi(k, -hfun(k)[2]),
@@ -33,10 +39,10 @@ end
 
 
 
-propReZeroflow(k, T, Npi, lamdapiΛ, hfun,UVScale) =
+propReZeroflow(k, T, Npi, lamdapiΛ, hfun, UVScale) =
     2 *
     Coeffgamm2Simple(k, T, Npi, -hfun(k)[2]) *
-    Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun,UVScale)
+    Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun, UVScale)
 
 
 
@@ -69,8 +75,7 @@ function dkVReintqs(p0, ps, q0, qsmax, k, m, T, Npi, lam4pik; kwarg...)
             dkF1TildeintqsAll(p0 + q0, ps, qsmax, k, m, T; kwarg...) +
             dkF2TildeintqsAll(p0 - q0, ps, qsmax, k, m, T; kwarg...) +
             dkF2TildeintqsAll(p0 + q0, ps, qsmax, k, m, T; kwarg...)
-        )
-        +
+        ) +
         (Npi + 2) * 2 / 3 *
         qsmax^3 *
         (dkF1TildeAll(k, m, T) + dkF2TildeAll(k, m, T))
@@ -113,7 +118,7 @@ function VReintqs(p0, ps, k, T, Npi, IRScale, UVScale, mfun, lamfun; kwarg...)
         UVScale,
         rtol = 1e-3,
         atol = 1e-3,
-    )[1] + 2*(k^3 * lamfun(UVScale) * (2 + Npi)) / 3
+    )[1] + 2 * (k^3 * lamfun(UVScale) * (2 + Npi)) / 3
 end
 
 
