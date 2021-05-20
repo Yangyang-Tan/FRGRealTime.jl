@@ -141,58 +141,11 @@ end
 
 
 
-
-
-
 dkF1TildeintqsAll(p0, ps, qsmax, k, m, T; kwargs...) =
     PvdkF1Tildeps(abs(p0), ps, qsmax, k, m, T; kwargs...)
-
-
-
 
 dkF2TildeintqsAll(p0, ps, qsmax, k, m, T; kwargs...) =
     PvdkF2Tildeps(abs(p0), ps, qsmax, k, m, T; kwargs...)
 
-
-
-
-
-
-
-# test_dkF1Tilde_intcostheqs(10.0, 20.0, 60.0, 100.0, msgfun2(100.0), Tc)
-#
-#
-# deltasum_intcosthqs(p0, ps, qsmax, k, m, T)=0.0
-# deltasum(p0, ps, k, m2, T)=0.0
-#
-# plot(
-#     p0 -> test_dkF1Tilde_intcostheqs(p0, 100.0, 10.0, 100.0, msgfun2(100.0), Tc),
-#     475,
-#     550.0,
-# )
-#
-# plot(
-#     p0 -> dkF1Tilde_intcostheqs(p0, 100.0, 20.0, 300.0, msgfun2(300.0), Tc),
-#     600,
-#     800.0,
-# )
-
-
-#
-# F1TildeAll(p0, ps, k, m, T, p0UV) = F1Tilde(abs(p0), ps, k, m, T, p0UV)
-# F2TildeAll(p0, ps, k, m, T) = F2Tilde(abs(p0), ps, k, m, T)
-
-# dkF1TildeAll(p0::Float64, ps::Float64, k::Float64, m::Float64, T::Float64) = dkF1Tilde3(abs(p0), ps, k, m, T)
-# dkF2TildeAll(p0::Float64, ps::Float64, k::Float64, m::Float64, T::Float64) = dkF2Tilde3(abs(p0), ps, k, m, T)
-
-
-# dkF1TildeAll(p0, ps, k, m, T) = dkF1Tilde3(abs(p0), ps, k, m, T)
-# dkF2TildeAll(p0, ps, k, m, T) = dkF2Tilde3(abs(p0), ps, k, m, T)
-#
-#
 dkF1TildeAll(k, m, T) = dkF1Tilde3(k, m, T)
 dkF2TildeAll(k, m, T) = dkF2Tilde3(k, m, T)
-#
-#
-#
-# dkF1TildeAll(p0, ps, k, m, T,p0UV)=central_fdm(5, 1)(x -> F1TildeAll(p0, ps, x, m, T, p0UV),k)
