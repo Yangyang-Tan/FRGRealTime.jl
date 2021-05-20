@@ -1,8 +1,7 @@
 #Zero Momentum
-lam4piflow(k, m2, T, Npi, lamda4pi) =
+function lam4piflow(k, m2, T, Npi, lamda4pi)
     lamda4pi^2 * (8 + Npi) * (dkF1TildeAll(k, m2, T) + dkF2TildeAll(k, m2, T))
-
-
+end
 function dkVintqs_Zero(q0, k, kprim, m, T, lam4pik, Npi)
     lam4pik^2 *
     (2 + Npi) *
@@ -37,16 +36,15 @@ function Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun, UVScale)
 end
 
 
-Vintqs_LPA(k, Npi, lamdapik) =
+function Vintqs_LPA(k, Npi, lamdapik)
     (2 * k^3 * lamdapik * (2 + Npi)) / 3
+end
 
-
-propReZeroflow(k, T, Npi, lamdapiΛ, hfun, UVScale) =
+function propReZeroflow(k, T, Npi, lamdapiΛ, hfun, UVScale)
     2 *
     Coeffgamm2Simple(k, T, Npi, -hfun(k)[2]) *
     Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun, UVScale)
-
-
+end
 propReLPAflow(k, T, Npi, hfun) =
         2*
         Gamma2coeff(k, -hfun(k)[2],T) *
