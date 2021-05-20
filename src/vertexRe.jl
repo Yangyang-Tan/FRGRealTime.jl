@@ -37,6 +37,8 @@ function Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun, UVScale)
 end
 
 
+Vintqs_LPA(k, Npi, lamdapik) =
+    (2 * k^3 * lamdapik * (2 + Npi)) / 3
 
 
 propReZeroflow(k, T, Npi, lamdapiΛ, hfun, UVScale) =
@@ -45,6 +47,10 @@ propReZeroflow(k, T, Npi, lamdapiΛ, hfun, UVScale) =
     Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun, UVScale)
 
 
+propReLPAflow(k, T, Npi, hfun) =
+        2*
+        Gamma2coeff(k, -hfun(k)[2],T) *
+        Vintqs_LPA(k, Npi, hfun(k)[1])
 
 
 
