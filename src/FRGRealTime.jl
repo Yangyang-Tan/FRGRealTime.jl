@@ -1,6 +1,6 @@
 module FRGRealTime
 using HCubature,
-    QuadGK, DelimitedFiles, FastGaussQuadrature, Dierckx, DoubleFloats,Roots
+    QuadGK, DelimitedFiles, FastGaussQuadrature, Dierckx, DoubleFloats,Roots, DifferentialEquations
 
 export Epi
 include("artifacts/flowfun.jl")
