@@ -1,6 +1,6 @@
 
 
-
+#Zero Momentum
 
 #without a maxiter
 
@@ -24,55 +24,63 @@ end
 
 
 
+function PvdkF1Tildeps(p0, k, kprim, m, T)
+    if kprim > k / 2
+        if Epi(kprim + k, m) + Epi(kprim, m) > p0 > 2 * Epi(kprim, m)
+            quadgk_PV(
+                x -> ppfunps(x, k, kprim, m, T),
+                2 * Epi(kprim, m),
+                p0,
+                Epi(kprim + k, m) + Epi(kprim, m),
+            ) +
+            deltasumps(p0, k, kprim, m, T) +
+            ppfunps_delta(p0, k, kprim, m, T)
+        else
+            hquadrature(
+                x -> 2 * x * (-p0^2 + x^2)^-1 * ppfunps(x, k, kprim, m, T),
+                2 * Epi(kprim, m),
+                Epi(kprim + k, m) + Epi(kprim, m),
+            )[1] +
+            deltasumps(p0, k, kprim, m, T) +
+            ppfunps_delta(p0, k, kprim, m, T)
+        end
+    elseif kprim <= k / 2
+        if Epi(kprim + k, m) + Epi(kprim, m) >
+           p0 >
+           Epi(kprim, m) + Epi(k - kprim, m)
+            quadgk_PV(
+                x -> ppfunps(x, k, kprim, m, T),
+                Epi(kprim, m) + Epi(k - kprim, m),
+                p0,
+                Epi(kprim + k, m) + Epi(kprim, m),
+            )
+        else
+            hquadrature(
+                x -> 2 * x * (-p0^2 + x^2)^-1 * ppfunps(x, k, kprim, m, T),
+                Epi(kprim, m) + Epi(k - kprim, m),
+                Epi(kprim + k, m) + Epi(kprim, m),
+            )[1]
+        end
+    end
+end
 
 
-# function PvdkF1Tildeps(p0, k, kprim, m, T)
-#     if kprim > k / 2
-#         if Epi(kprim + k, m) + Epi(kprim, m) > p0 > 2 * Epi(kprim, m)
-#             quadgk_PV(
-#                 x -> ppfunps(x, k, kprim, m, T),
-#                 2 * Epi(kprim, m),
-#                 p0,
-#                 Epi(kprim + k, m) + Epi(kprim, m),
-#                 rtol = error2,
-#                 atol = error2,
-#             ) +
-#             deltasumps(p0, k, kprim, m, T) +
-#             ppfunps_delta(p0, k, kprim, m, T)
-#         else
-#             hquadrature(
-#                 x -> 2 * x * (-p0^2 + x^2)^-1 * ppfunps(x, k, kprim, m, T),
-#                 2 * Epi(kprim, m),
-#                 Epi(kprim + k, m) + Epi(kprim, m),
-#                 rtol = error2,
-#                 atol = error2,
-#             )[1] +
-#             deltasumps(p0, k, kprim, m, T) +
-#             ppfunps_delta(p0, k, kprim, m, T)
-#         end
-#     elseif kprim <= k / 2
-#         if Epi(kprim + k, m) + Epi(kprim, m) >
-#            p0 >
-#            Epi(kprim, m) + Epi(k - kprim, m)
-#             quadgk_PV(
-#                 x -> ppfunps(x, k, kprim, m, T),
-#                 Epi(kprim, m) + Epi(k - kprim, m),
-#                 p0,
-#                 Epi(kprim + k, m) + Epi(kprim, m),
-#                 rtol = error2,
-#                 atol = error2,
-#             )
-#         else
-#             hquadrature(
-#                 x -> 2 * x * (-p0^2 + x^2)^-1 * ppfunps(x, k, kprim, m, T),
-#                 Epi(kprim, m) + Epi(k - kprim, m),
-#                 Epi(kprim + k, m) + Epi(kprim, m),
-#                 rtol = error2,
-#                 atol = error2,
-#             )[1]
-#         end
-#     end
-# end
+function PvdkF2Tildeps(p0, k, kprim, m, T)
+    if 0.0 < p0 < Epi(kprim + k, m) - Epi(kprim, m)
+        return quadgk_PV(
+            x -> pmfunps(x, k, kprim, m, T),
+            0.0,
+            p0,
+            Epi(kprim + k, m) - Epi(kprim, m),
+        )[1]+pmfunps_zerofix(p0, k, kprim, m, T,9)
+    else
+        return hquadrature(
+            x -> 2 * x * (-p0^2 + x^2)^-1 * pmfunps(x, k, kprim, m, T),
+            0.0,
+            Epi(kprim + k, m) - Epi(kprim, m),
+        )[1]+pmfunps_zerofix(p0, k, kprim, m, T,9)
+    end
+end
 
 
 
@@ -130,6 +138,10 @@ function PvdkF2Tildeps(p0, ps, qsmax, k, m, T; kwargs...)
         )
     end
 end
+
+
+
+
 
 
 dkF1TildeintqsAll(p0, ps, qsmax, k, m, T; kwargs...) =

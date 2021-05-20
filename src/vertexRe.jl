@@ -1,3 +1,47 @@
+#Zero Momentum
+function dkVintqs_Zero(q0, k, kprim, m, T, lam4pik, Npi)
+    lam4pik^2 *
+    (2 + Npi) *
+    (
+        k^3 * (2 + Npi) * (dkF1TildeAll(kprim, m, T)+dkF2TildeAll(kprim, m, T)) / 3 +
+         6 * PvdkF1Tildeps(q0, k, kprim, m, T) +
+         6 * PvdkF2Tildeps(q0, k, kprim, m, T)
+    )
+end
+
+
+
+function Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun,UVScale)
+    -2 * hquadrature(
+        kprim -> dkVintqs_Zero(
+            Epi(k, -hfun(k)[2]),
+            k,
+            kprim,
+            -hfun(kprim)[2],
+            T,
+            hfun(kprim)[1],
+            Npi,
+        ),
+        k,
+        UVScale,
+        rtol = error2,
+        atol = error2,
+        # initdiv=200,
+    )[1] + (2 * k^3 * lamdapiΛ * (2 + Npi)) / 3
+end
+
+
+
+
+propReZeroflow(k, T, Npi, lamdapiΛ, hfun,UVScale) =
+    2 *
+    Coeffgamm2Simple(k, T, Npi, -hfun(k)[2]) *
+    Vintqs_Zero(k, T, Npi, lamdapiΛ, hfun,UVScale)
+
+
+
+
+
 ################################################################################
 #  The simplified computation of Im parts. we have integrated out qs & cos(θ)  #
 ################################################################################

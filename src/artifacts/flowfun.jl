@@ -288,6 +288,79 @@ function pmfunps(p0, psmax, k, m, T)
     )
 end
 
+
+function ppfunps_delta(p0, qsmax, k, m, T)
+    (
+        qsmax^3 *
+        csch(Epi(k, m) / (2 * T))^2 *
+        (
+            k *
+            (32 * k^3 - 18 * k^2 * qsmax + qsmax^3) *
+            Epi(k, m) *
+            (p0^2 - 4 * Epi(k, m)^2) +
+            k *
+            T *
+            (
+                p0^2 * (32 * k^3 - 18 * k^2 * qsmax + qsmax^3) -
+                12 *
+                (
+                    8 * k * (4 * k^2 + p0^2) - 3 * (6 * k^2 + p0^2) * qsmax +
+                    qsmax^3
+                ) *
+                Epi(k, m)^2 + 48 * (8 * k - 3 * qsmax) * Epi(k, m)^4
+            ) *
+            sinh(Epi(k, m) / T)
+        )
+    ) / (1152 * pi^2 * T * Epi(k, m)^3 * (p0^2 - 4 * Epi(k, m)^2)^2)
+end
+
+function deltasumps(p0, psmax, k, m2, T, δk = 0.02)
+    if p0 + δk > 2 * Epi(k, m2) > p0 - δk
+        return (
+            k *
+            (sqrt(k^2 + m2) + p0) *
+            (8 * k - 3 * psmax) *
+            psmax^3 *
+            coth(sqrt(k^2 + m2) / (2 * T))
+        ) / (24 * p0^2 * (2 * k^2 + 2 * m2 + sqrt(k^2 + m2) * p0) * pi^2)
+    else
+        return (
+            k * psmax^3 * (-8 * k + 3 * psmax) * coth(sqrt(k^2 + m2) / (2 * T))
+        ) / (24 * sqrt(k^2 + m2) * (4 * (k^2 + m2) - p0^2) * pi^2)
+    end
+end
+
+function pmfun_zerofix(p0, p, k, m, T, a)
+    (
+        k *
+        (2 * k - p) *
+        csch(Epi(k, m) / (2 * T))^2 *
+        (
+            2 * (2 * k - p) * (4 * k + p) * T +
+            (2 * k - p) * (4 * k + p) * coth(Epi(k, m) / (2 * T)) * Epi(k, m) -
+            24 * T * Epi(k, m)^2
+        ) *
+        (-1 + tanh(10^a * p0))
+    ) / (768 * pi^2 * T^2 * Epi(k, m)^4)
+end
+
+function pmfunps_zerofix(p0, psmax, k, m, T, a)
+    (
+        k *
+        psmax^3 *
+        (1 + coth(Epi(k, m) / (2 * T))) *
+        (
+            2 * (32 * k^3 - 18 * k^2 * psmax + psmax^3) * T +
+            (32 * k^3 - 18 * k^2 * psmax + psmax^3) *
+            coth(Epi(k, m) / (2 * T)) *
+            Epi(k, m) +
+            12 * (-8 * k + 3 * psmax) * T * Epi(k, m)^2
+        ) *
+        (-1 + tanh(10^a * p0))
+    ) / (2304 * pi^2 * T^2 * Epi(k, m)^4 * (-1 + exp(Epi(k, m) / T)))
+end
+
+
 function ppfuncosthe(p0, ps, qs, k, Ek, T)
     (
         k *
@@ -2137,18 +2210,186 @@ end
 
 
 function delta2funcosthqs1(p0, ps, qsmax, k, Ek, T)
-    (k*(2*k-ps+qsmax)^3*csch(Ek/(2*T))^2*(Ek*(4*Ek^2-p0^2)*(2*k-ps+qsmax)*(36*k^3+2*k^2*(ps-36*qsmax)-8*k*(ps-qsmax)*(ps+6*qsmax)-(ps-qsmax)^2*(ps+6*qsmax))+(-(p0^2*(2*k-ps+qsmax)*(36*k^3+2*k^2*(ps-36*qsmax)-8*k*(ps-qsmax)*(ps+6*qsmax)-(ps-qsmax)^2*(ps+6*qsmax)))-336*Ek^4*(6*k^2-(ps-qsmax)*(ps+4*qsmax)-k*(ps+9*qsmax))+12*Ek^2*(72*k^4-4*k^3*(8*ps+27*qsmax)+6*k^2*(7*p0^2-(ps-qsmax)*(3*ps+4*qsmax))+(ps-qsmax)*(-7*p0^2*(ps+4*qsmax)+(ps-qsmax)^2*(ps+6*qsmax))+k*(6*(ps-qsmax)^2*(ps+6*qsmax)-7*p0^2*(ps+9*qsmax))))*T*sinh(Ek/T)))/(40320*Ek^3*(-4*Ek^2+p0^2)^2*pi^2*ps*T)
+    (
+        k *
+        (2 * k - ps + qsmax)^3 *
+        csch(Ek / (2 * T))^2 *
+        (
+            Ek *
+            (4 * Ek^2 - p0^2) *
+            (2 * k - ps + qsmax) *
+            (
+                36 * k^3 + 2 * k^2 * (ps - 36 * qsmax) -
+                8 * k * (ps - qsmax) * (ps + 6 * qsmax) -
+                (ps - qsmax)^2 * (ps + 6 * qsmax)
+            ) +
+            (
+                -(
+                    p0^2 *
+                    (2 * k - ps + qsmax) *
+                    (
+                        36 * k^3 + 2 * k^2 * (ps - 36 * qsmax) -
+                        8 * k * (ps - qsmax) * (ps + 6 * qsmax) -
+                        (ps - qsmax)^2 * (ps + 6 * qsmax)
+                    )
+                ) -
+                336 *
+                Ek^4 *
+                (
+                    6 * k^2 - (ps - qsmax) * (ps + 4 * qsmax) -
+                    k * (ps + 9 * qsmax)
+                ) +
+                12 *
+                Ek^2 *
+                (
+                    72 * k^4 - 4 * k^3 * (8 * ps + 27 * qsmax) +
+                    6 * k^2 * (7 * p0^2 - (ps - qsmax) * (3 * ps + 4 * qsmax)) +
+                    (ps - qsmax) * (
+                        -7 * p0^2 * (ps + 4 * qsmax) +
+                        (ps - qsmax)^2 * (ps + 6 * qsmax)
+                    ) +
+                    k * (
+                        6 * (ps - qsmax)^2 * (ps + 6 * qsmax) -
+                        7 * p0^2 * (ps + 9 * qsmax)
+                    )
+                )
+            ) *
+            T *
+            sinh(Ek / T)
+        )
+    ) / (40320 * Ek^3 * (-4 * Ek^2 + p0^2)^2 * pi^2 * ps * T)
 end
 
 function delta2funcosthqs2(p0, ps, qsmax, k, Ek, T)
-    (k*(2*k-ps+qsmax)^3*csch(Ek/(2*T))^2*(Ek*(4*Ek^2-p0^2)*(2*k-ps+qsmax)*(36*k^3+2*k^2*(ps-36*qsmax)-8*k*(ps-qsmax)*(ps+6*qsmax)-(ps-qsmax)^2*(ps+6*qsmax))+(-(p0^2*(2*k-ps+qsmax)*(36*k^3+2*k^2*(ps-36*qsmax)-8*k*(ps-qsmax)*(ps+6*qsmax)-(ps-qsmax)^2*(ps+6*qsmax)))-336*Ek^4*(6*k^2-(ps-qsmax)*(ps+4*qsmax)-k*(ps+9*qsmax))+12*Ek^2*(72*k^4-4*k^3*(8*ps+27*qsmax)+6*k^2*(7*p0^2-(ps-qsmax)*(3*ps+4*qsmax))+(ps-qsmax)*(-7*p0^2*(ps+4*qsmax)+(ps-qsmax)^2*(ps+6*qsmax))+k*(6*(ps-qsmax)^2*(ps+6*qsmax)-7*p0^2*(ps+9*qsmax))))*T*sinh(Ek/T)))/(40320*Ek^3*(-4*Ek^2+p0^2)^2*pi^2*ps*T)
+    (
+        k *
+        (2 * k - ps + qsmax)^3 *
+        csch(Ek / (2 * T))^2 *
+        (
+            Ek *
+            (4 * Ek^2 - p0^2) *
+            (2 * k - ps + qsmax) *
+            (
+                36 * k^3 + 2 * k^2 * (ps - 36 * qsmax) -
+                8 * k * (ps - qsmax) * (ps + 6 * qsmax) -
+                (ps - qsmax)^2 * (ps + 6 * qsmax)
+            ) +
+            (
+                -(
+                    p0^2 *
+                    (2 * k - ps + qsmax) *
+                    (
+                        36 * k^3 + 2 * k^2 * (ps - 36 * qsmax) -
+                        8 * k * (ps - qsmax) * (ps + 6 * qsmax) -
+                        (ps - qsmax)^2 * (ps + 6 * qsmax)
+                    )
+                ) -
+                336 *
+                Ek^4 *
+                (
+                    6 * k^2 - (ps - qsmax) * (ps + 4 * qsmax) -
+                    k * (ps + 9 * qsmax)
+                ) +
+                12 *
+                Ek^2 *
+                (
+                    72 * k^4 - 4 * k^3 * (8 * ps + 27 * qsmax) +
+                    6 * k^2 * (7 * p0^2 - (ps - qsmax) * (3 * ps + 4 * qsmax)) +
+                    (ps - qsmax) * (
+                        -7 * p0^2 * (ps + 4 * qsmax) +
+                        (ps - qsmax)^2 * (ps + 6 * qsmax)
+                    ) +
+                    k * (
+                        6 * (ps - qsmax)^2 * (ps + 6 * qsmax) -
+                        7 * p0^2 * (ps + 9 * qsmax)
+                    )
+                )
+            ) *
+            T *
+            sinh(Ek / T)
+        )
+    ) / (40320 * Ek^3 * (-4 * Ek^2 + p0^2)^2 * pi^2 * ps * T)
 end
 
 function delta2funcosthqs3(p0, ps, qsmax, k, Ek, T)
-    (k*qsmax^3*csch(Ek/(2*T))^2*(Ek*(-4*Ek^2+p0^2)*(35*ps*(-2*k+ps)^2*(4*k+ps)+42*(-2*k^2+ps^2)*qsmax^2+3*qsmax^4)+(12*Ek^2*(35*(2*k-ps)*ps*(8*Ek^2-8*k^2-2*p0^2+2*k*ps+ps^2)+14*(-4*Ek^2+6*k^2+p0^2-3*ps^2)*qsmax^2-3*qsmax^4)+p0^2*(35*ps*(-2*k+ps)^2*(4*k+ps)+42*(-2*k^2+ps^2)*qsmax^2+3*qsmax^4))*T*sinh(Ek/T)))/(10080*Ek^3*(-4*Ek^2+p0^2)^2*pi^2*ps*T)
+    (
+        k *
+        qsmax^3 *
+        csch(Ek / (2 * T))^2 *
+        (
+            Ek *
+            (-4 * Ek^2 + p0^2) *
+            (
+                35 * ps * (-2 * k + ps)^2 * (4 * k + ps) +
+                42 * (-2 * k^2 + ps^2) * qsmax^2 +
+                3 * qsmax^4
+            ) +
+            (
+                12 *
+                Ek^2 *
+                (
+                    35 *
+                    (2 * k - ps) *
+                    ps *
+                    (8 * Ek^2 - 8 * k^2 - 2 * p0^2 + 2 * k * ps + ps^2) +
+                    14 * (-4 * Ek^2 + 6 * k^2 + p0^2 - 3 * ps^2) * qsmax^2 -
+                    3 * qsmax^4
+                ) +
+                p0^2 * (
+                    35 * ps * (-2 * k + ps)^2 * (4 * k + ps) +
+                    42 * (-2 * k^2 + ps^2) * qsmax^2 +
+                    3 * qsmax^4
+                )
+            ) *
+            T *
+            sinh(Ek / T)
+        )
+    ) / (10080 * Ek^3 * (-4 * Ek^2 + p0^2)^2 * pi^2 * ps * T)
 end
 
 
 function delta2funcosthqs4(p0, ps, qsmax, k, Ek, T)
-    -1/20160*(k*csch(Ek/(2*T))^2*(Ek*(4*Ek^2-p0^2)*(-ps^6+21*ps^4*qsmax^2+1120*k^3*qsmax^3+105*ps^2*qsmax^4+35*qsmax^6+42*k^2*(ps^4-10*ps^2*qsmax^2-15*qsmax^4))-(336*Ek^4*(ps^4-10*ps^2*qsmax^2+5*(8*k-3*qsmax)*qsmax^3)+12*Ek^2*(-7*(6*k^2+p0^2)*ps^4+ps^6+7*ps^2*(60*k^2+10*p0^2-3*ps^2)*qsmax^2-280*k*(4*k^2+p0^2)*qsmax^3+105*(6*k^2+p0^2-ps^2)*qsmax^4-35*qsmax^6)+p0^2*(-ps^6+21*ps^4*qsmax^2+1120*k^3*qsmax^3+105*ps^2*qsmax^4+35*qsmax^6+42*k^2*(ps^4-10*ps^2*qsmax^2-15*qsmax^4)))*T*sinh(Ek/T)))/(Ek^3*(-4*Ek^2+p0^2)^2*pi^2*T)
+    -1 / 20160 * (
+        k *
+        csch(Ek / (2 * T))^2 *
+        (
+            Ek *
+            (4 * Ek^2 - p0^2) *
+            (
+                -ps^6 +
+                21 * ps^4 * qsmax^2 +
+                1120 * k^3 * qsmax^3 +
+                105 * ps^2 * qsmax^4 +
+                35 * qsmax^6 +
+                42 * k^2 * (ps^4 - 10 * ps^2 * qsmax^2 - 15 * qsmax^4)
+            ) -
+            (
+                336 *
+                Ek^4 *
+                (
+                    ps^4 - 10 * ps^2 * qsmax^2 +
+                    5 * (8 * k - 3 * qsmax) * qsmax^3
+                ) +
+                12 *
+                Ek^2 *
+                (
+                    -7 * (6 * k^2 + p0^2) * ps^4 +
+                    ps^6 +
+                    7 * ps^2 * (60 * k^2 + 10 * p0^2 - 3 * ps^2) * qsmax^2 -
+                    280 * k * (4 * k^2 + p0^2) * qsmax^3 +
+                    105 * (6 * k^2 + p0^2 - ps^2) * qsmax^4 - 35 * qsmax^6
+                ) +
+                p0^2 * (
+                    -ps^6 +
+                    21 * ps^4 * qsmax^2 +
+                    1120 * k^3 * qsmax^3 +
+                    105 * ps^2 * qsmax^4 +
+                    35 * qsmax^6 +
+                    42 * k^2 * (ps^4 - 10 * ps^2 * qsmax^2 - 15 * qsmax^4)
+                )
+            ) *
+            T *
+            sinh(Ek / T)
+        )
+    ) / (Ek^3 * (-4 * Ek^2 + p0^2)^2 * pi^2 * T)
 end
