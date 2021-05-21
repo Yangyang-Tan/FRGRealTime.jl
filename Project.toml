@@ -17,6 +17,7 @@ Roots = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
 
 [compat]
 Dierckx = "0.5"
+DifferentialEquations = "6.16"
 DoubleFloats = "1.1"
 FastGaussQuadrature = "0.4"
 FiniteDifferences = "0.12"
