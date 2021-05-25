@@ -1,0 +1,54 @@
+load package
+```julia
+using FRGRealTime,Plots,HCubature,QuadGK
+```
+## Check $\int_0^{qsmax} dq_s\tilde{F_1}$
+
+```julia
+function flowppintp0(p0,ps,k,m,T)
+    if Epi(k + ps, m) + Epi(k, m) > p0 > 2 * Epi(k, m)
+        FRGRealTime.quadgk_PV(
+            x -> FRGRealTime.flowpp(x, ps, k, m, T),
+            2 * Epi(k, m),
+            p0,
+            Epi(k + ps, m) + Epi(k, m),
+            rtol = 1e-4,
+            atol = 1e-4,
+        )
+    else
+        quadgk(
+            x -> 2 * x * (x^2 - p0^2)^-1 * FRGRealTime.flowpp(x, ps, k, m, T),
+            2 * Epi(k, m),
+            Epi(k + ps, m) + Epi(k, m),
+            rtol = 1e-4,
+            atol = 1e-4,
+        )[1]
+    end
+end
+
+function flowppintp0qs(p0, qsmax, k, m, T)
+    2*hquadrature(
+        ps -> ps^2*flowppintp0(p0, ps, k, m, T),
+        0.0,
+        qsmax,
+        atol = 1e-4,
+        rtol = 1e-4,
+    )[1]
+end
+```
+
+```julia
+plot(p0->flowppintp0qs(p0, 10.0, 10.0, -2.0, 145.0),1.0,40.0)
+plot!(
+    p0 ->
+        FRGRealTime.PvdkF1Tildeps(p0, 0.0,10.0, 10.0, -2.0, 145.0),
+    1.0,
+    40.0,
+)
+plot!(
+    p0 ->
+        FRGRealTime.PvdkF1Tildeps(p0, 0.0,10.0, 10.0, -2.0, 145.0),
+    1.0,
+    40.0,
+)
+```
