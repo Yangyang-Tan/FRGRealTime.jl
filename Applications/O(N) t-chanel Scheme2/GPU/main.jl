@@ -18,7 +18,6 @@ config_spec.rtol = 1e-8
 
 
 
-
 @time solselfGPU_AB = tchanelSolveFourPointGPU_AB(
     # 9.4685f0,
     145.835,
