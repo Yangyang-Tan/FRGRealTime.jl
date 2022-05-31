@@ -1,0 +1,37 @@
+name = "FRGRealTime"
+uuid = "4bb1b531-7167-42ac-86b1-2ff3befa8210"
+authors = ["Yang-yang Tan", "Yong-rui Chen", "Wei-jie Fu"]
+version = "0.1.0"
+
+[deps]
+CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
+CUDAKernels = "72cfdca4-0801-4ab0-bf6a-d52aa10adc57"
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+Dierckx = "39dd38d3-220a-591b-8e3c-4c3a8c710a94"
+DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
+DoubleFloats = "497a8b3b-efae-58df-a0af-a86822472b78"
+FastGaussQuadrature = "442a2c76-b920-505d-bb47-c5924d526838"
+FiniteDifferences = "26cc04aa-876d-5657-8c51-4c34ba976000"
+HCubature = "19dc6840-f33b-545b-b366-655c7e3ffd49"
+KernelAbstractions = "63c18a36-062a-441e-b654-da1e3ab1ce7c"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+QuadGK = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
+Roots = "f2b01f46-fcfa-551c-844a-d8ac1e96c665"
+Tullio = "bc48ee85-29a4-5162-ae0b-a64e1601d4bc"
+
+[compat]
+Dierckx = "0.5"
+DoubleFloats = "1.1"
+FastGaussQuadrature = "0.4"
+FiniteDifferences = "0.12"
+HCubature = "1.5"
+LaTeXStrings = "1.2"
+QuadGK = "2.4"
+Roots = "1.0"
+julia = "1.7"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
