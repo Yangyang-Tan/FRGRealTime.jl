@@ -65,10 +65,41 @@ struct SpecSolution
     λ0::AbstractArray
     p0::AbstractArray
     q0::AbstractArray
+    Imλp0Ek::AbstractArray
+    Reλp0Ek::AbstractArray
     ImΓ2::AbstractArray
     ReΓ2::AbstractArray
     spec::AbstractArray
 end
+
+function SpecSolution(sol,
+    u0,
+    ImΓ2ini,
+    ReΓ2ini,
+    k,
+    m2,
+    λ0,
+    p0,
+    q0,
+    ImΓ2,
+    ReΓ2,
+    spec,)
+    SpecSolution(sol,
+        u0,
+        ImΓ2ini,
+        ReΓ2ini,
+        k,
+        m2,
+        λ0,
+        p0,
+        q0,
+        p0,
+        p0,
+        ImΓ2,
+        ReΓ2,
+        spec,)
+end
+
 
 
 mutable struct LambdaGrid
