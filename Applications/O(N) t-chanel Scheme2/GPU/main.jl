@@ -10,13 +10,14 @@ config_spec.rtol = 1e-8
     kmin = 20.0,
     ϵ = 5.0,
     pgridmax = 100.0,
-    dp0 = 0.125 / 0.125,
-    dq0 = 0.125 / 0.125,
+    dp0 = 0.5,
+    dq0 = 0.5,
     Nf = 4.0,
     config = config_spec,
 )
 
-
+plot(solselfGPU_log.sol.u[end][:, 102-20, 1] + solselfGPU_log.sol.u[end][:, 102+20, 1])
+1
 
 @time solselfGPU_AB = tchanelSolveFourPointGPU_AB(
     # 9.4685f0,
