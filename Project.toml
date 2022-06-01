@@ -28,6 +28,7 @@ HCubature = "1.5"
 LaTeXStrings = "1.2"
 QuadGK = "2.4"
 Roots = "1.0"
+Tullio = "0.3"
 julia = "1.7"
 
 [extras]
