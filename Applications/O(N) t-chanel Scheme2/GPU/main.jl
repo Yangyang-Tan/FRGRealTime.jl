@@ -1,8 +1,8 @@
 path = @__DIR__
 include(joinpath(path, "iniGPU.jl"))
 include(joinpath(path, "GPUsolver.jl"))
-config_spec.atol = 1e-8
-config_spec.rtol = 1e-8
+config_spec.atol = 1e-10
+config_spec.rtol = 1e-10
 
 @time solselfGPU_log = tchanelSolveFourPointGPU(
     # 9.4685f0,

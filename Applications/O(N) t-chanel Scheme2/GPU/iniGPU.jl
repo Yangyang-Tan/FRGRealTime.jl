@@ -38,14 +38,14 @@ RelambdaAUVGPU = 3 * 8.0f0
 RelambdaBUVGPU = 1.0f0
 
 
-function init_fourpoint_2d(p0grid::AbstractArray{T}, q0grid::AbstractArray{T}, m2) where {T}
+function init_fourpoint_2d(p0grid::AbstractArray{T}, q0grid::AbstractArray{T}, m2,Relambda0) where {T}
     N1 = length(p0grid)
     N2 = length(q0grid)
     u = zeros(T, N1, N2 + 1, 2)
     for I in CartesianIndices((N1, N2 + 1))
         u[I, 1] = 0.0
         # u[I,1] = -1f-7
-        u[I, 2] = RelambdaAUVGPU
+        u[I, 2] = Relambda0
     end
 
     for I in CartesianIndices((N1, 1))
