@@ -503,6 +503,13 @@ function tchanelSolveFourPointGPU(
         callback = cb,
         progress = config.progress,
     )
+    m2=saved_values.saveval[end][1]
+    Ek = Eb(kmin, m2)
+    idxEk = round(Int32, max(min((Ek - q0min) / dq0 + 1.0f0, length(q0grid)), 1))
+    idxmEk = round(Int32, max(min((-Ek - q0min) / dq0 + 1.0f0, length(q0grid)), 1))
+    println("Ek=",idxEk)
+    Imλp0Ek=Array(sol.u[end][:, 1+idxEk, 1]+sol.u[end][:, 1+idxmEk, 1])
+    Reλp0Ek=Array(sol.u[end][:, 1+idxEk, 2]+sol.u[end][:, 1+idxmEk, 2])
     img2 = Array(sol.u[end][idxzero:end, 1, 1])
     reg2 = Array(sol.u[end][idxzero:end, 1, 2])
     spec = @. img2 / (img2^2 + reg2^2)
@@ -516,6 +523,8 @@ function tchanelSolveFourPointGPU(
         hcat(saved_values.saveval...)[2, :],
         p0gridcpu[idxzero:end],
         q0gridcpu[idxzero:end],
+        Imλp0Ek,
+        Reλp0Ek,
         Array(sol.u[end][idxzero:end, 1, 1]),
         Array(sol.u[end][idxzero:end, 1, 2]),
         spec,
@@ -531,6 +540,7 @@ function tchanelSolveFourPointGPU_log(
     ϵ::T = 1.0,
     Nf::T = 4.0,
     m2ini::T = T(-0.18216546875 * lpakrang.UV^2),
+    λini::T=24.0,
     gridlength::Int = 1000,
     pgridmax::T = lpakrang.UV / 8.0,
     pgridmin::T = 1e-3,
@@ -566,7 +576,7 @@ function tchanelSolveFourPointGPU_log(
 
     p0grid = p0gridcpu |> cu
     q0grid = q0gridcpu |> cu
-    u0 = CuArray(init_fourpoint_2d(p0gridcpu, q0gridcpu, m2ini))
+    u0 = CuArray(init_fourpoint_2d(p0gridcpu, q0gridcpu, m2ini,λini))
     lengthy = 2*gridlength+1
     lambdagrid = LambdaGridini(T, lengthy)
     # u0=sol_zero[end]
@@ -574,8 +584,11 @@ function tchanelSolveFourPointGPU_log(
     threads = 1024
     blocks = cld(length(p0grid), threads)
     saved_values = SavedValues(T, Vector{T})
-    cb = SavingCallback(
-        (u, t, integrator) -> [-u[idxzero, 1, 2], u[idxzero, idxzero+1, 2]],
+    function cbfun(u, t, integrator)
+        println("k=", t)
+        [-u[idxzero, 1, 2], u[idxzero, idxzero+1, 2]]
+    end
+    cb = SavingCallback(cbfun,
         saved_values,
     )
     function flow_tgpu(du, u, p, k)
@@ -591,7 +604,7 @@ function tchanelSolveFourPointGPU_log(
         m2 = -ReGamm2[idxzero]
         Relambda0 = Relambda[idxzero, idxzero]
         Ek = Eb(k, m2)
-        println("k=", k)
+        # println("k=", k)
         CUDA.@sync reverse2!(
             lambdagrid,
             Imlambda,
@@ -647,9 +660,16 @@ function tchanelSolveFourPointGPU_log(
         callback = cb,
         progress = config.progress,
     )
+    m2=saved_values.saveval[end][1]
+    Ek = log(Eb(kmin, m2))
+    idxEk = round(Int32, max(min((Ek - q0min_log) / dq0_log + 1.0f0, length(q0grid)), 1))
+    idxmEk = round(Int32, max(min((-Ek - q0min_log) / dq0_log + 1.0f0, length(q0grid)), 1))
+    println("Ek=",idxEk)
+    Imλp0Ek=Array(sol.u[end][:, 1+idxEk, 1]+sol.u[end][:, 1+idxmEk, 1])
+    Reλp0Ek=Array(sol.u[end][:, 1+idxEk, 2]+sol.u[end][:, 1+idxmEk, 2])
     img2 = Array(sol.u[end][idxzero:end, 1, 1])
     reg2 = Array(sol.u[end][idxzero:end, 1, 2])
-    spec = @. img2 / (img2^2 + reg2^2)
+    spec = @. 2*img2 / (img2^2 + reg2^2)
     return SpecSolution(
         Array(sol.u[end]),
         Array(u0),
@@ -660,6 +680,8 @@ function tchanelSolveFourPointGPU_log(
         hcat(saved_values.saveval...)[2, :],
         p0gridcpu[idxzero:end],
         q0gridcpu[idxzero:end],
+        Imλp0Ek,
+        Reλp0Ek,
         Array(sol.u[end][idxzero:end, 1, 1]),
         Array(sol.u[end][idxzero:end, 1, 2]),
         spec,
