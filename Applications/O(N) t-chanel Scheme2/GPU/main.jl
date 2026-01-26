@@ -4,6 +4,8 @@ include(joinpath(path, "GPUsolver.jl"))
 config_spec.atol = 1e-10
 config_spec.rtol = 1e-10
 
+
+tchanelSolveFourPointGPU_log
 @time solselfGPU_log = tchanelSolveFourPointGPU(
     # 9.4685f0,
     145.835,
@@ -17,9 +19,7 @@ config_spec.rtol = 1e-10
 )
 
 plot(solselfGPU_log.sol.u[end][:, 102-20, 1] + solselfGPU_log.sol.u[end][:, 102+20, 1])
-1
-
-@time solselfGPU_AB = tchanelSolveFourPointGPU_AB(
+CUDA.@allowscalar solselfGPU_AB = tchanelSolveFourPointGPU_AB(
     # 9.4685f0,
     145.835,
     kmin = 20.0,
@@ -70,6 +70,16 @@ solselfGPU_log64 = tchanelSolveFourPointGPU_log(
     Nf = 4.0,
     config = config_spec,
 )
+
+CUDA.@allowscalar solselfGPU_log64 = tchanelSolveFourPointGPU_log(
+    # 9.4685f0,
+    135.2155,
+    kmin = 1.0,
+    ϵ = 1.0,
+    config = config_spec,
+)
+
+
 
 
 solselfGPU_log264 = tchanelSolveFourPointGPU_log2(

@@ -421,8 +421,8 @@ function tchanelSolveFourPointGPU(
     q0max = pgridmax + margin * dq0
     p0gridcpu = collect(p0min:dp0:p0max)
     q0gridcpu = collect(q0min:dq0:q0max)'
-    p0grid = p0gridcpu |> cu
-    q0grid = q0gridcpu |> cu
+    p0grid = CuArray(p0gridcpu)
+    q0grid = CuArray(q0gridcpu)
     u0 = CuArray(init_fourpoint_2d(p0gridcpu, q0gridcpu, m2ini))
     lengthy = length(p0gridcpu)
     lambdagrid = LambdaGridini(T, lengthy)

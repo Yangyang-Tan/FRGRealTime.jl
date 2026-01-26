@@ -2,5 +2,8 @@
     "cSpell.enableFiletypes": [
         "!text"
     ],
-    "julia.environmentPath": "/home/tyy/.julia/environments/v1.11"
+    "julia.environmentPath": "/home/tyy/.julia/environments/v1.11",
+    "python-envs.defaultEnvManager": "ms-python.python:conda",
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
+    "python-envs.pythonProjects": []
 }

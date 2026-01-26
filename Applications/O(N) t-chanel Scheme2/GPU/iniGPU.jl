@@ -1,7 +1,7 @@
 #load package
 # using Revise
-# using FRGRealTime
-# import FRGRealTime.ThresholdFunctions as TF
+using FRGRealTime
+import FRGRealTime.ThresholdFunctions as TF
 using CUDA
 device!(1)
 using DifferentialEquations
