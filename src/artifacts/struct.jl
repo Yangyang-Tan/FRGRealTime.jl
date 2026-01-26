@@ -20,7 +20,7 @@ mutable struct ODEConfig
     save_on::Bool
     save_start::Bool
     save_end::Bool
-    alg::OrdinaryDiffEq.OrdinaryDiffEqAdaptiveAlgorithm
+    alg
 end
 
 
